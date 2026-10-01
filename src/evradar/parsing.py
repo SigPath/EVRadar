@@ -10,6 +10,15 @@ from evradar.models import PriceBasis
 _NUMBER = re.compile(r"\d{1,3}(?:[ .,\u00a0\u202f]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?")
 _NET = re.compile(r"\bnetto\b|\bnet\b|bez\s+vat", re.IGNORECASE)
 _GROSS = re.compile(r"\bbrutto\b|\bgross\b|z\s+vat", re.IGNORECASE)
+
+VAT_RATE = 0.23
+
+
+def net_to_gross(net: int) -> int:
+    """Cena brutto z netto: +23% VAT (złotówki, zaokrąglone)."""
+    return round(net * (1 + VAT_RATE))
+
+
 _YEAR = re.compile(r"(?<!\d)(19[89]\d|20[0-4]\d)(?!\d)")
 _KWH = re.compile(r"(\d{2,3}(?:[.,]\d{1,2})?)\s*kwh", re.IGNORECASE)
 _RANGE = re.compile(r"(\d{2,3})\s*km\s*\(?\s*wltp|wltp[^0-9]{0,20}(\d{2,3})\s*km", re.IGNORECASE)

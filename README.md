@@ -41,15 +41,15 @@ Albo po prostu dwukliknij **`run_daily.bat`**.
 
 | Źródło | Stan | Skąd dane | Ceny |
 |---|---|---|---|
-| `vwfs` — VW Financial Services Store | działa | JSON z `__NEXT_DATA__` (`/oferty?rodzajPaliwa=5`) | brutto + netto, rata leasingowa netto |
+| `vwfs` — VW Financial Services Store | działa | JSON z `__NEXT_DATA__` (`/oferty?rodzajPaliwa=5`) | brutto + netto |
 | `ayvens` — Ayvens (usedcars.ayvens.com) | działa | HTML SSR + JSON w kafelkach | brutto („Zawiera 23% VAT”) |
-| `mauto` — mAuto | działa | API JSON (`Offers/AfterLease`, `Offers/NewVehicles`, filtr paliwa) | brutto + netto, rata leasingowa netto |
-| `automarket` — Automarket (PKO Leasing) | działa | `__NUXT_DATA__` (`?fuel_type=Elektryczny`, per marka) | **netto**, rata netto |
-| `stellantis` — Stellantis &You | działa | publiczny indeks Algolia używany przez stronę | brutto, rata brutto |
+| `mauto` — mAuto | działa | API JSON (`Offers/AfterLease`, `Offers/NewVehicles`, filtr paliwa) | brutto + netto |
+| `automarket` — Automarket (PKO Leasing) | działa | `__NUXT_DATA__` (`?fuel_type=Elektryczny`, per marka) | netto → brutto +23% |
+| `stellantis` — Stellantis &You | działa | publiczny indeks Algolia używany przez stronę | brutto |
 | `poleasingowe` — Poleasingowe.pl | działa | HTML (`?fueltype=216`) | cena aukcyjna **netto** (patrz uwaga) |
 
 Uwagi:
-- Cena zawsze jest zapisywana razem z informacją, czy to netto czy brutto. Nic nie jest przeliczane „na oko”. Raport pokazuje „brutto” lub „netto” obok kwoty.
+- Cena jest zawsze pokazywana w brutto. Gdy serwis podaje tylko netto (Automarket, Poleasingowe.pl), brutto = netto + 23% VAT, liczone przy każdym skanie; kwota netto jest zapisana obok. Raport pokazuje „brutto” i „netto” przy kwocie.
 - Poleasingowe.pl to aukcje — „Aktualna cena” to bieżąca oferta (bez prowizji); strona aukcji pokazuje ją z przełącznikiem netto/brutto (domyślnie netto).
 - Część serwisów aktualnie nie ma w ofercie żadnego z wybranych modeli (np. VWFS sprzedaje wyłącznie marki grupy VW) — wtedy źródło ma status OK i 0 ofert.
 - Żaden z obecnych adapterów nie wymaga przeglądarki (wszędzie udało się użyć publicznego API/JSON). Playwright jest gotowy w zależnościach na wypadek stron, które tego wymagają.
@@ -70,7 +70,7 @@ filters:
 
 Dopasowanie nazw ignoruje wielkość liter, spacje, myślniki i polskie znaki (`IONIQ5` = `Ioniq 5`), a w ostateczności używa dopasowania rozmytego (≥ 90%, nigdy dla różnych cyfr — `Ioniq 6` to nie `Ioniq 5`).
 `require_electric: true` — model występuje też jako hybryda/spalinowy (Niro, Kona), więc oferta musi mieć potwierdzony napęd elektryczny. Gdy dane są niejednoznaczne, oferta trafia do sekcji **Do weryfikacji** (nie jest po cichu odrzucana).
-Cenowe filtry (`max_price_gross_pln`) działają na cenie brutto; oferty podane tylko netto nie są przeliczane, więc przez ten filtr przechodzą.
+Cenowe filtry (`max_price_gross_pln`) działają na cenie brutto (dla ofert podanych netto — po doliczeniu 23% VAT).
 
 **`config/sources.yaml`** — adresy, opóźnienia (`delay_min_s`/`delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`).
 

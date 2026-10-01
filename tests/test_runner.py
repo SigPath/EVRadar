@@ -10,7 +10,8 @@ import pytest
 
 from evradar import runner
 from evradar.config import ModelsConfig, SourceConfig, load_models_config
-from evradar.models import RawListing, SourceStatus
+from evradar.matching import ModelMatcher
+from evradar.models import RawListing, SourceStatus, utcnow
 from evradar.robots import RobotsDisallowed
 from evradar.scrapers.base import BaseScraper
 from evradar.storage import Storage
@@ -154,3 +155,12 @@ async def test_dry_run_does_not_write(
     data, _ = await runner.run_scan([cfg("s")], models, db, dry_run=True, debug_dir=tmp_path)
     assert data.run.dry_run and len(data.new) == 1
     assert db.load_offers() == {} and db.last_run_id() is None
+
+
+def test_net_only_price_gets_gross_with_vat(models: ModelsConfig) -> None:
+    listing = make_listing("s", 0).model_copy(
+        update={"price_gross_pln": None, "price_net_pln": 100_000}
+    )
+    offers = runner.build_offers([listing], ModelMatcher(models.targets), models, utcnow())
+    assert offers[0].price_net_pln == 100_000
+    assert offers[0].price_gross_pln == 123_000

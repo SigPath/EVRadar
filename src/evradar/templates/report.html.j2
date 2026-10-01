@@ -72,7 +72,6 @@ small, .muted { color: var(--muted); }
 .old { text-decoration: line-through; color: var(--muted); font-size: .95rem; margin-right: 6px; }
 .delta { font-weight: 650; color: var(--drop); background: var(--drop-bg); padding: 1px 8px; border-radius: 99px; font-size: .82rem; }
 .delta.up { color: var(--err); background: var(--err-bg); }
-.rate { font-size: .86rem; }
 .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 8px; }
 .badge { font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--chip); color: var(--muted); }
 .badge.new { background: var(--new-bg); color: var(--new); }
@@ -130,13 +129,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   {%- else -%}<span class="muted">brak ceny</span>{%- endif -%}
 {%- endmacro %}
 
-{% macro rate(o) -%}
-  {%- if o.monthly_installment_pln is not none -%}
-    {{ o.monthly_installment_pln|pln }}/mc
-    {%- if o.installment_basis %} <small>{{ 'netto' if o.installment_basis == 'net' else 'brutto' }}</small>{% endif -%}
-  {%- endif -%}
-{%- endmacro %}
-
 {% macro basis(b) -%}{{ 'netto' if b == 'net' else 'brutto' }}{%- endmacro %}
 
 {% macro card(o, kind='', diff=none) %}
@@ -165,7 +157,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     {% else %}
       <div class="price">{{ price(o) }}</div>
     {% endif %}
-    {% set r = rate(o) %}{% if r|trim %}<div class="rate">Rata: {{ r }}</div>{% endif %}
     {% if o.uncertain_powertrain %}<div><span class="badge warn">⚠ napęd do weryfikacji</span></div>{% endif %}
     <div class="row">
       <span class="badge">{{ source_names.get(o.source, o.source) }}</span>
@@ -243,7 +234,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       <thead><tr>
         <th data-type="text">Pojazd</th><th data-type="num" class="num">Rok</th>
         <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
-        <th data-type="num" class="num">Rata</th><th data-type="text">Źródło</th>
+        <th data-type="text">Źródło</th>
         <th data-type="text">Widziana od</th><th class="nosort"></th>
       </tr></thead>
       <tbody>
@@ -259,7 +250,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
           <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
           <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
           <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}</td>
-          <td class="num" data-s="{{ o.monthly_installment_pln or 0 }}">{{ rate(o) or '—' }}</td>
           <td data-s="{{ source_names.get(o.source, o.source) }}"><span class="badge">{{ source_names.get(o.source, o.source) }}</span></td>
           <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
           <td><a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
