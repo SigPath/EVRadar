@@ -81,10 +81,10 @@ def synthetic_report_data() -> ReportData:
     ]
     stable = [
         _offer(20, "poleasingowe", "Kia", "e-Niro", 2021, 72_000, 104_500, days_ago=21),
-        _offer(21, "leasygroup", "Kia", "Niro", 2023, 30_000, 139_000, rate=2_390, days_ago=14),
+        _offer(21, "mauto", "Kia", "Niro", 2023, 30_000, 139_000, rate=2_390, days_ago=14),
         _offer(22, "stellantis", "Tesla", "Model 3", 2020, 91_000, 98_900, days_ago=30),
     ]
-    uncertain = [_offer(30, "spoticar", "Kia", "Niro", 2022, 48_000, 109_000, uncertain=True)]
+    uncertain = [_offer(30, "ayvens", "Kia", "Niro", 2022, 48_000, 109_000, uncertain=True)]
     gone = [_offer(40, "vwfs", "Hyundai", "Ioniq 5", 2022, 38_000, 149_000, days_ago=12)]
 
     drops = [
@@ -121,7 +121,11 @@ def synthetic_report_data() -> ReportData:
             source="stellantis", name="Stellantis &You", status=ok, offers_count=1, duration_s=6.4
         ),
         SourceResult(
-            source="spoticar", name="Spoticar", status=ok, offers_count=7, duration_s=12.4
+            source="spoticar",
+            name="Spoticar",
+            status=SourceStatus.SKIPPED,
+            note="403 Access Denied (Akamai)",
+            duration_s=0.2,
         ),
         SourceResult(
             source="poleasingowe",
@@ -129,13 +133,6 @@ def synthetic_report_data() -> ReportData:
             status=SourceStatus.STALE,
             duration_s=3.1,
             note="Zapisano debug/poleasingowe-demo.html",
-        ),
-        SourceResult(
-            source="leasygroup",
-            name="Leasy Group",
-            status=SourceStatus.SKIPPED,
-            note="robots.txt zabrania pobierania listingu",
-            duration_s=0.2,
         ),
     ]
     active = [*new, *[d.offer for d in drops], *stable, *uncertain]

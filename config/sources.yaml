@@ -30,12 +30,7 @@ sources:
     name: "Spoticar"
     url: "https://spoticar.pl"
     enabled: false
-    reason: "Akamai zwraca 403 Access Denied (także dla robots.txt) — nie omijamy zabezpieczeń"
+    reason: "Akamai zwraca 403 Access Denied (także dla robots.txt i linku /znajdz-uzywany-samochod?...energy=elektryczny) — nie omijamy zabezpieczeń"
   poleasingowe:
     name: "Poleasingowe.pl"
     url: "https://poleasingowe.pl"
-  leasygroup:
-    name: "Leasy Group"
-    url: "https://leasygroup.pl"
-    enabled: false
-    reason: "robots.txt aukcje.leasygroup.pl zabrania widoków listy/siatki (poza stroną 1 siatki, ~12 aukcji bez filtra paliwa); certyfikat TLS bez pośredniego"

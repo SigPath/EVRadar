@@ -33,11 +33,12 @@ def test_report_on_empty_db_fails_gracefully() -> None:
     assert result.exit_code == 1
 
 
-def test_sources_lists_all_nine() -> None:
+def test_sources_lists_configured_sources() -> None:
     result = runner.invoke(cli.app, ["sources"])
     assert result.exit_code == 0
-    for source_id in ("vwfs", "spoticar", "leasygroup", "poleasingowe"):
+    for source_id in ("vwfs", "spoticar", "poleasingowe"):
         assert source_id in result.output
+    assert "leasygroup" not in result.output
 
 
 def test_unknown_source_is_rejected() -> None:
