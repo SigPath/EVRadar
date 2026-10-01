@@ -4,9 +4,9 @@
 `<script id="__NUXT_DATA__">` (format devalue) -> `data.<klucz>.items[]` + `pagination`.
 
 Parametry URL (zweryfikowane na żywo):
-  * ścieżka `/samochody/uzywane/leasing/<marka>`  — marki z `config/models.yaml` (kia, hyundai, tesla)
+  * ścieżka `/samochody/uzywane/leasing/<marka>` — marki z `config/models.yaml`
   * `fuel_type=Elektryczny`                       — tylko elektryczne
-  * `page=N`                                      — paginacja (29 ofert/stronę; `pagination.totalCount`)
+  * `page=N` — paginacja (29 ofert/stronę; `pagination.totalCount`)
 Bez listy marek: `/samochody/uzywane/wszystkie?fuel_type=Elektryczny` (≈670 aut, ~23 stron).
 robots.txt blokuje `*mrk=`, `*mod=`, `*_page=`, `*per_page=` — używamy wyłącznie `page=`.
 

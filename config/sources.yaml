@@ -37,3 +37,5 @@ sources:
   leasygroup:
     name: "Leasy Group"
     url: "https://leasygroup.pl"
+    enabled: false
+    reason: "robots.txt aukcje.leasygroup.pl zabrania widoków listy/siatki (poza stroną 1 siatki, ~12 aukcji bez filtra paliwa); certyfikat TLS bez pośredniego"

@@ -4,7 +4,7 @@
 Algolię: `POST https://<appId>-dsn.algolia.net/1/indexes/*/queries`, indeks
 `prod_sandy_used_vehicles_pl` (auta używane/poleasingowe, filtr `available=1 AND locale:"pl_PL"`).
 Identyfikator aplikacji i klucz *search-only* są publiczne — serwuje je sama strona w
-`/content/stellantis-and-you/website/pl/pl.sandy-const.json` (`algolia.appId`, `algolia.config.keys.search`);
+`/content/stellantis-and-you/website/pl/pl.sandy-const.json` (`algolia.*`);
 trzymamy je w `config/sources.yaml` (`params`). Gdy Algolia zwróci 403 — klucz się zmienił i trzeba
 go odświeżyć z tego pliku.
 
@@ -36,7 +36,11 @@ def parse_hits(hits: list[dict[str, Any]]) -> list[RawListing]:
     for hit in hits:
         brand = str(hit.get("brand") or "").title()
         model_full = str(hit.get("model") or "").strip()
-        model = model_full[len(brand) :].strip() if model_full.lower().startswith(brand.lower()) else model_full
+        model = (
+            model_full[len(brand) :].strip()
+            if model_full.lower().startswith(brand.lower())
+            else model_full
+        )
         version = str(hit.get("version") or "").strip()
         price = hit.get("final_price") or hit.get("price")
         rate = hit.get("monthly_payment")

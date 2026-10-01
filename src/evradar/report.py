@@ -39,7 +39,9 @@ def _offer_sort_key(o: Offer) -> tuple[str, str, int]:
     return (o.brand, o.model_matched, price if price is not None else 10**9)
 
 
-def _chips(offers: list[Offer], names: dict[str, str]) -> list[tuple[str, str, list[tuple[str, int]]]]:
+def _chips(
+    offers: list[Offer], names: dict[str, str]
+) -> list[tuple[str, str, list[tuple[str, int]]]]:
     brands = Counter(o.brand for o in offers)
     models = Counter(f"{o.brand} {o.model_matched}" for o in offers)
     sources = Counter(names.get(o.source, o.source) for o in offers)

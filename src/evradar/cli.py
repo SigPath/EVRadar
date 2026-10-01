@@ -32,6 +32,7 @@ def _main() -> None:
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8")  # polskie znaki w konsoli Windows
 
+
 DB_PATH = ROOT_DIR / "data" / "evradar.db"
 OUT_DIR = ROOT_DIR / "out"
 DEBUG_DIR = ROOT_DIR / "debug"
@@ -100,10 +101,16 @@ def _select(all_sources: list[SourceConfig], wanted: str | None) -> list[SourceC
 
 @app.command()
 def run(
-    source: Annotated[str | None, typer.Option(help="Lista źródeł po przecinku, np. vwfs,ayvens")] = None,
-    headless: Annotated[bool, typer.Option("--headless/--no-headless", help="Widoczna przeglądarka do debugowania")] = True,
+    source: Annotated[
+        str | None, typer.Option(help="Lista źródeł po przecinku, np. vwfs,ayvens")
+    ] = None,
+    headless: Annotated[
+        bool, typer.Option("--headless/--no-headless", help="Widoczna przeglądarka do debugowania")
+    ] = True,
     dry_run: Annotated[bool, typer.Option(help="Bez zapisu do bazy")] = False,
-    no_open: Annotated[bool, typer.Option("--no-open", help="Nie otwieraj raportu w przeglądarce")] = False,
+    no_open: Annotated[
+        bool, typer.Option("--no-open", help="Nie otwieraj raportu w przeglądarce")
+    ] = False,
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
 ) -> None:
     """Skanuje źródła, porównuje ze stanem z bazy i generuje raport HTML."""
@@ -132,12 +139,16 @@ def run(
 
 
 def _progress(result: SourceResult) -> None:
-    console.print(f"  {_STATUS_STYLE[result.status]} {result.name or result.source} ({result.offers_count})")
+    console.print(
+        f"  {_STATUS_STYLE[result.status]} {result.name or result.source} ({result.offers_count})"
+    )
 
 
 @app.command()
 def report(
-    last: Annotated[bool, typer.Option("--last", help="Przegeneruj raport z ostatniego skanu")] = True,
+    last: Annotated[
+        bool, typer.Option("--last", help="Przegeneruj raport z ostatniego skanu")
+    ] = True,
     no_open: Annotated[bool, typer.Option("--no-open")] = False,
 ) -> None:
     """Przegenerowuje raport z bazy, bez skanowania."""
@@ -172,7 +183,8 @@ def sources() -> None:
             row["started_at"][:16].replace("T", " ") if row else "—",
             _STATUS_STYLE[SourceStatus(row["status"])] if row else "—",
             str(row["offers_count"]) if row else "—",
-            (s.reason if not s.enabled else (row["error"] or row["note"] or "") if row else "") or "",
+            (s.reason if not s.enabled else (row["error"] or row["note"] or "") if row else "")
+            or "",
         )
     console.print(table)
 

@@ -25,6 +25,7 @@ _SVG = (
     "<text x='160' y='115' font-size='64' text-anchor='middle'>🚗</text></svg>"
 )
 
+
 def _offer(
     i: int,
     source: str,
@@ -99,23 +100,42 @@ def synthetic_report_data() -> ReportData:
 
     ok = SourceStatus.OK
     sources = [
-        SourceResult(source="vwfs", name="VW Financial Services", status=ok, offers_count=5, duration_s=4.2),
+        SourceResult(
+            source="vwfs", name="VW Financial Services", status=ok, offers_count=5, duration_s=4.2
+        ),
         SourceResult(source="ayvens", name="Ayvens", status=ok, offers_count=3, duration_s=8.1),
-        SourceResult(source="carsandcare", name="Cars&Care", status=ok, offers_count=2, duration_s=3.3),
         SourceResult(
-            source="mauto", name="Mauto", status=SourceStatus.ERROR,
-            error="TimeoutError: page.goto exceeded 30000 ms", duration_s=30.0,
-        ),
-        SourceResult(source="automarket", name="Automarket", status=ok, offers_count=6, duration_s=2.8),
-        SourceResult(source="stellantis", name="Stellantis &You", status=ok, offers_count=1, duration_s=6.4),
-        SourceResult(source="spoticar", name="Spoticar", status=ok, offers_count=7, duration_s=12.4),
-        SourceResult(
-            source="poleasingowe", name="Poleasingowe.pl", status=SourceStatus.STALE,
-            duration_s=3.1, note="Zapisano debug/poleasingowe-demo.html",
+            source="carsandcare", name="Cars&Care", status=ok, offers_count=2, duration_s=3.3
         ),
         SourceResult(
-            source="leasygroup", name="Leasy Group", status=SourceStatus.SKIPPED,
-            note="robots.txt zabrania pobierania listingu", duration_s=0.2,
+            source="mauto",
+            name="Mauto",
+            status=SourceStatus.ERROR,
+            error="TimeoutError: page.goto exceeded 30000 ms",
+            duration_s=30.0,
+        ),
+        SourceResult(
+            source="automarket", name="Automarket", status=ok, offers_count=6, duration_s=2.8
+        ),
+        SourceResult(
+            source="stellantis", name="Stellantis &You", status=ok, offers_count=1, duration_s=6.4
+        ),
+        SourceResult(
+            source="spoticar", name="Spoticar", status=ok, offers_count=7, duration_s=12.4
+        ),
+        SourceResult(
+            source="poleasingowe",
+            name="Poleasingowe.pl",
+            status=SourceStatus.STALE,
+            duration_s=3.1,
+            note="Zapisano debug/poleasingowe-demo.html",
+        ),
+        SourceResult(
+            source="leasygroup",
+            name="Leasy Group",
+            status=SourceStatus.SKIPPED,
+            note="robots.txt zabrania pobierania listingu",
+            duration_s=0.2,
         ),
     ]
     active = [*new, *[d.offer for d in drops], *stable, *uncertain]

@@ -28,7 +28,9 @@ API = "https://api.carsandcare-prod.businesslease.cloud/api/v1/cars"
 PAGE_SIZE = 100
 
 
-def parse_cars(cars: list[dict[str, Any]], fuels: dict[int, str], list_url: str) -> list[RawListing]:
+def parse_cars(
+    cars: list[dict[str, Any]], fuels: dict[int, str], list_url: str
+) -> list[RawListing]:
     """Czysta funkcja: wyniki API -> ogłoszenia."""
     listings: list[RawListing] = []
     for car in cars:
@@ -37,7 +39,11 @@ def parse_cars(cars: list[dict[str, Any]], fuels: dict[int, str], list_url: str)
         if not title:
             continue
         brand = str(car.get("brand") or title.split()[0]).title()
-        model = title[len(title.split()[0]) :].strip() if title.lower().startswith(brand.lower()) else title
+        model = (
+            title[len(title.split()[0]) :].strip()
+            if title.lower().startswith(brand.lower())
+            else title
+        )
         photos = car.get("photos") or []
         photo = min(photos, key=lambda p: p.get("position", 99)) if photos else {}
         net = car.get("price")

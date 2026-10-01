@@ -39,7 +39,11 @@ def notify_new_offers(cfg: Notifications, data: ReportData) -> bool:
     try:
         resp = httpx.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
-            json={"chat_id": chat_id, "text": build_message(data), "disable_web_page_preview": True},
+            json={
+                "chat_id": chat_id,
+                "text": build_message(data),
+                "disable_web_page_preview": True,
+            },
             timeout=15,
         )
         resp.raise_for_status()

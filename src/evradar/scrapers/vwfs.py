@@ -101,7 +101,9 @@ class VwfsScraper(BaseScraper):
         results: list[RawListing] = []
         total = 0
         for page in range(1, self.config.max_pages + 1):
-            html = await self.get_text(f"{self.config.url.rstrip('/')}/oferty", {**params, "strona": page})
+            html = await self.get_text(
+                f"{self.config.url.rstrip('/')}/oferty", {**params, "strona": page}
+            )
             listings, total = parse_offers(html)
             results.extend(listings)
             if not listings or len(results) >= total:

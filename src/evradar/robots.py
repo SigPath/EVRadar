@@ -83,7 +83,7 @@ class RobotsGuard:
             log.warning("robots_unreachable", origin=origin, error=str(exc))
             return None
         if resp.status_code in (401, 403):
-            parser.disallow_all = True  # tak samo jak RobotFileParser.read()
+            parser.parse(["User-agent: *", "Disallow: /"])  # jak RobotFileParser.read()
             return parser, []
         if resp.status_code >= 400:
             return None

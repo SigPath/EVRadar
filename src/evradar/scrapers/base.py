@@ -76,7 +76,7 @@ class BaseScraper(ABC):
         async with self._sem:
             if self._requests:
                 await asyncio.sleep(
-                    random.uniform(self.config.delay_min_s, self.config.delay_max_s)  # noqa: S311
+                    random.uniform(self.config.delay_min_s, self.config.delay_max_s)
                 )
             self._requests += 1
             yield
@@ -113,7 +113,11 @@ class BaseScraper(ABC):
                 last_exc = exc
                 wait = 2**attempt
                 log.warning(
-                    "request_retry", source=self.source_id, url=url, attempt=attempt + 1, error=str(exc)
+                    "request_retry",
+                    source=self.source_id,
+                    url=url,
+                    attempt=attempt + 1,
+                    error=str(exc),
                 )
                 if attempt + 1 < self.config.retries:
                     await asyncio.sleep(wait if self.config.delay_max_s > 0 else 0)
@@ -124,9 +128,7 @@ class BaseScraper(ABC):
         text = await self.get_text(url, params)
         return json.loads(text)
 
-    async def post_json(
-        self, url: str, body: Any, headers: dict[str, str] | None = None
-    ) -> Any:
+    async def post_json(self, url: str, body: Any, headers: dict[str, str] | None = None) -> Any:
         """POST JSON (publiczne API frontu) z tymi samymi regułami co GET."""
         return json.loads(await self._request("POST", url, json_body=body, headers=headers))
 

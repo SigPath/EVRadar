@@ -1,4 +1,4 @@
-"""Poleasingowe.pl (ECR) — platforma aukcyjna aut poleasingowych, HTML renderowany po stronie serwera.
+"""Poleasingowe.pl (ECR) — aukcje aut poleasingowych, HTML renderowany po stronie serwera.
 
 Źródło danych: listing `https://poleasingowe.pl/pl/auctions/list/pub/all/vehicles` (formularz GET
 `#topsearchform`). Użyte parametry URL (zweryfikowane na żywo):
