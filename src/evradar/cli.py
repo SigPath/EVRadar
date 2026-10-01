@@ -173,7 +173,7 @@ def sources() -> None:
         storage.close()
     table = Table(title="Źródła")
     for col in ("ID", "Nazwa", "Włączone", "Ostatni skan", "Status", "Ofert", "Uwagi"):
-        table.add_column(col)
+        table.add_column(col, no_wrap=col in ("ID", "Status"), overflow="fold")
     for s in load_sources_config().sources:
         row = last.get(s.id)
         table.add_row(

@@ -1,0 +1,63 @@
+name: Daily EV Radar
+
+on:
+  schedule:
+    # GitHub Actions używa UTC — dwa wpisy pokrywają czas letni i zimowy; krok "Guard" przepuszcza tylko 07:xx w Warszawie
+    - cron: "0 5 * * *"
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: evradar-daily
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Guard (07:00 Europe/Warsaw)
+        id: guard
+        run: |
+          hour=$(TZ=Europe/Warsaw date +%H)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$hour" != "07" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.guard.outputs.run == 'true'
+
+      - uses: astral-sh/setup-uv@v5
+        if: steps.guard.outputs.run == 'true'
+
+      - name: Install
+        if: steps.guard.outputs.run == 'true'
+        run: uv sync --frozen
+
+      - name: Restore SQLite state
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: data/evradar.db
+          key: evradar-db-${{ github.run_id }}
+          restore-keys: evradar-db-
+
+      - name: Scan
+        if: steps.guard.outputs.run == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: uv run evradar run --no-open
+
+      - name: Upload report
+        if: steps.guard.outputs.run == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evradar-report
+          path: |
+            out/*.html
+            debug/*.html
+          if-no-files-found: warn
+          retention-days: 30
