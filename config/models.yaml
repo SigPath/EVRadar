@@ -1,0 +1,20 @@
+targets:
+  kia:
+    - { model: "e-Niro", aliases: ["e Niro", "eNiro", "Niro EV", "Niro Electric"] }
+    - { model: "Niro", aliases: ["Niro"], require_electric: true }   # odfiltruj HEV/PHEV
+    - { model: "EV4", aliases: ["EV 4"] }
+  hyundai:
+    - { model: "Kona Electric", aliases: ["Kona Elektryczna", "Kona EV", "Kona Electric"] }
+    - { model: "Kona Electric", aliases: ["Kona"], require_electric: true }   # odfiltruj HEV/spalinowe
+    - { model: "Ioniq 5", aliases: ["IONIQ5", "Ioniq5", "IONIQ 5"] }
+    # TODO: dopisz "Ioniq 6" jeśli chcesz
+  tesla:
+    - { model: "Model 3", aliases: ["Model3"] }
+    - { model: "Model Y", aliases: ["ModelY"] }
+filters:
+  max_price_gross_pln: null     # null = bez limitu
+  max_mileage_km: null
+  min_year: null
+notifications:
+  enabled: false                # powiadomienie, gdy liczba nowych ofert > 0
+  channel: telegram             # telegram | email (dane z zmiennych środowiskowych)
