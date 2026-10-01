@@ -70,7 +70,7 @@ def _offer(
 def synthetic_report_data() -> ReportData:
     """Zestaw ofert pokrywający wszystkie sekcje raportu."""
     new = [
-        _offer(1, "spoticar", "Kia", "e-Niro", 2022, 41_000, 119_900, rate=2_150),
+        _offer(1, "automarket", "Kia", "e-Niro", 2022, 41_000, 119_900, rate=2_150),
         _offer(2, "vwfs", "Tesla", "Model 3", 2021, 68_500, None, net=118_500),
         _offer(3, "ayvens", "Hyundai", "Ioniq 5", 2023, 22_000, 169_000, net=137_398, image=False),
         _offer(4, "mauto", "Kia", "EV4", 2024, 9_000, 189_900),
@@ -116,13 +116,6 @@ def synthetic_report_data() -> ReportData:
         ),
         SourceResult(
             source="stellantis", name="Stellantis &You", status=ok, offers_count=1, duration_s=6.4
-        ),
-        SourceResult(
-            source="spoticar",
-            name="Spoticar",
-            status=SourceStatus.SKIPPED,
-            note="403 Access Denied (Akamai)",
-            duration_s=0.2,
         ),
         SourceResult(
             source="poleasingowe",

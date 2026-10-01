@@ -23,17 +23,6 @@ sources:
       algolia_app_id: "W73X2DZZYO"
       algolia_api_key: "9dda5853ea0784de6fd5f132280f34f0"   # klucz search-only, serwowany przez stronę
       index: "prod_sandy_used_vehicles_pl"
-  spoticar:
-    name: "Spoticar"
-    url: "https://spoticar.pl"
-    enabled: false
-    reason: "Akamai: w Chrome działa ręcznie, ale przy automatycznym skanie zwraca 403 po kilku żądaniach — nie omijamy blokady (adapter i parser są gotowe, wystarczy enabled: true)"
-    params:
-      browser_channel: chrome   # zainstalowany Chrome; Akamai blokuje klientów HTTP i headless
-      headed_only: true
-      local_only: true          # pomijane w CI (brak ekranu/Chrome)
-    delay_min_s: 6
-    delay_max_s: 10
   poleasingowe:
     name: "Poleasingowe.pl"
     url: "https://poleasingowe.pl"

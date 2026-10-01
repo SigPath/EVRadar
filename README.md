@@ -47,7 +47,6 @@ Albo po prostu dwukliknij **`run_daily.bat`**.
 | `automarket` — Automarket (PKO Leasing) | działa | `__NUXT_DATA__` (`?fuel_type=Elektryczny`, per marka) | **netto**, rata netto |
 | `stellantis` — Stellantis &You | działa | publiczny indeks Algolia używany przez stronę | brutto, rata brutto |
 | `poleasingowe` — Poleasingowe.pl | działa | HTML (`?fueltype=216`) | cena aukcyjna **netto** (patrz uwaga) |
-| `spoticar` | **wyłączone** | HTML kafelków, prawdziwy Chrome z oknem (`BrowserScraper`) | brutto, rata brutto; Akamai zwraca 403 po kilku żądaniach skanu, więc nie działa niezawodnie — nie obchodzimy blokady (włączysz przez `enabled: true`) |
 
 Uwagi:
 - Cena zawsze jest zapisywana razem z informacją, czy to netto czy brutto. Nic nie jest przeliczane „na oko”. Raport pokazuje „brutto” lub „netto” obok kwoty.

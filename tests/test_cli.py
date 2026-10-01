@@ -36,8 +36,9 @@ def test_report_on_empty_db_fails_gracefully() -> None:
 def test_sources_lists_configured_sources() -> None:
     result = runner.invoke(cli.app, ["sources"])
     assert result.exit_code == 0
-    for source_id in ("vwfs", "spoticar", "poleasingowe"):
+    for source_id in ("vwfs", "stellantis", "poleasingowe"):
         assert source_id in result.output
+    assert "spoticar" not in result.output
     assert "leasygroup" not in result.output
 
 
