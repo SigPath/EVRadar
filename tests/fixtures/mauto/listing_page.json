@@ -1,0 +1,493 @@
+{
+ "_note": "Realne odpowiedzi POST /api/Offers/AfterLease i /api/Offers/NewVehicles (FuelTypes=['5']), skrócone",
+ "after_lease": {
+  "Tails": [
+   {
+    "TotalPriceBrutto": 84750,
+    "TotalPriceBruttoDiscount": 84750,
+    "FinalPriceBrutto": 84750,
+    "TotalPriceNetto": 68902,
+    "TotalPriceNettoDiscount": 68902,
+    "FinalPriceNetto": 68902,
+    "Reservation": false,
+    "EngineCapacity": 0,
+    "LeasePrice": 668,
+    "LeasePriceDiscount": 668,
+    "RentPriceNetto": 745,
+    "RentPriceNettoDiscount": 745,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsPerfect": false,
+    "IsCashAvailable": true,
+    "IsRentAvailable": true,
+    "Info": "",
+    "IsLeasingAvailable": true,
+    "IsCertified": true,
+    "Certificate": {
+     "CertPdfLocalPath": "mleasing.dekra.pl\\26900\\Crt_c4bcedb8-95a8-4f39-9f9f-c154a8dce457.pdf",
+     "WidgetUrl": "https://certificate.vc360.app/widget/m-leasing/1f13efe9-7a12-60bc-bbaf-79625fea86fb/pl",
+     "OnePageUrl": "https://certificate.vc360.app/certificate/m-leasing/1f13efe9-7a12-60bc-bbaf-79625fea86fb/pl",
+     "CertPdfUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26900/Crt_c4bcedb8-95a8-4f39-9f9f-c154a8dce457.pdf"
+    },
+    "RentInstallmentServicesIncluded": [
+     1
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     1
+    ],
+    "AuctionId": 26900,
+    "Mileage": 30192,
+    "IsWebP": true,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26900/[size]/DETAL_10_04_2026_12_15_121",
+    "MakeModel": "NISSAN Leaf",
+    "Type": "40kWh N-Connecta",
+    "Year": "2023",
+    "Status": "Poleasingowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"od ręki\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "PowerHP": 150,
+    "SpecialPromotions": []
+   },
+   {
+    "TotalPriceBrutto": 123750,
+    "TotalPriceBruttoDiscount": 0,
+    "FinalPriceBrutto": 123750,
+    "TotalPriceNetto": 100609,
+    "TotalPriceNettoDiscount": 0,
+    "FinalPriceNetto": 100609,
+    "Reservation": false,
+    "EngineCapacity": 0,
+    "LeasePrice": 975,
+    "LeasePriceDiscount": 975,
+    "RentPriceNetto": 1087,
+    "RentPriceNettoDiscount": 1087,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsPerfect": false,
+    "IsCashAvailable": true,
+    "IsRentAvailable": true,
+    "Info": "",
+    "IsLeasingAvailable": true,
+    "IsCertified": true,
+    "Certificate": {
+     "CertPdfLocalPath": "mleasing.dekra.pl\\26761\\Crt_319e96a0-e7cb-4d3d-86b7-d5d2b5196110.pdf",
+     "WidgetUrl": "https://certificate.vc360.app/widget/m-leasing/1f15cc9f-3bef-6872-a1d6-33bb9e020142/pl",
+     "OnePageUrl": "https://certificate.vc360.app/certificate/m-leasing/1f15cc9f-3bef-6872-a1d6-33bb9e020142/pl",
+     "CertPdfUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26761/Crt_319e96a0-e7cb-4d3d-86b7-d5d2b5196110.pdf"
+    },
+    "RentInstallmentServicesIncluded": [
+     1
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     1
+    ],
+    "AuctionId": 26761,
+    "Mileage": 32040,
+    "IsWebP": true,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26761/[size]/DETAL_18_05_2026_01_45_251",
+    "MakeModel": "HYUNDAI Kona",
+    "Type": "Electric 64kWh Modern",
+    "Year": "2023",
+    "Status": "Poleasingowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"od ręki\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "PowerHP": 204,
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   },
+   {
+    "TotalPriceBrutto": 186750,
+    "TotalPriceBruttoDiscount": 180800,
+    "FinalPriceBrutto": 180800,
+    "TotalPriceNetto": 151829,
+    "TotalPriceNettoDiscount": 146991,
+    "FinalPriceNetto": 146991,
+    "Reservation": false,
+    "EngineCapacity": 0,
+    "LeasePrice": 1423,
+    "LeasePriceDiscount": 1423,
+    "RentPriceNetto": 1588,
+    "RentPriceNettoDiscount": 1588,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsPerfect": false,
+    "IsCashAvailable": true,
+    "IsRentAvailable": true,
+    "Info": "",
+    "IsLeasingAvailable": true,
+    "IsCertified": true,
+    "Certificate": {
+     "CertPdfLocalPath": "mleasing.dekra.pl\\26908\\Crt_c3e6fe05-5a62-4875-84fb-13aaa7e1d4b5.pdf",
+     "WidgetUrl": "https://certificate.vc360.app/widget/m-leasing/1f13e373-d12a-69da-850b-413e5160c1ff/pl",
+     "OnePageUrl": "https://certificate.vc360.app/certificate/m-leasing/1f13e373-d12a-69da-850b-413e5160c1ff/pl",
+     "CertPdfUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26908/Crt_c3e6fe05-5a62-4875-84fb-13aaa7e1d4b5.pdf"
+    },
+    "RentInstallmentServicesIncluded": [
+     1
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     1
+    ],
+    "AuctionId": 26908,
+    "Mileage": 30333,
+    "IsWebP": true,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26908/[size]/DETAL_29_04_2026_05_15_161",
+    "MakeModel": "HYUNDAI IONIC",
+    "Type": "6 22- Ionic 6 Uniq Elektro",
+    "Year": "2023",
+    "Status": "Poleasingowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"od ręki\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "PowerHP": 228,
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   },
+   {
+    "TotalPriceBrutto": 189750,
+    "TotalPriceBruttoDiscount": 0,
+    "FinalPriceBrutto": 189750,
+    "TotalPriceNetto": 154268,
+    "TotalPriceNettoDiscount": 0,
+    "FinalPriceNetto": 154268,
+    "Reservation": false,
+    "EngineCapacity": 0,
+    "LeasePrice": 1494,
+    "LeasePriceDiscount": 1494,
+    "RentPriceNetto": 1666,
+    "RentPriceNettoDiscount": 1666,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsPerfect": false,
+    "IsCashAvailable": true,
+    "IsRentAvailable": true,
+    "Info": "",
+    "IsLeasingAvailable": true,
+    "IsCertified": true,
+    "Certificate": {
+     "CertPdfLocalPath": "mleasing.dekra.pl\\26788\\Crt_5cf0cc86-4ca9-4051-ade7-3b1f3c47d439.pdf",
+     "WidgetUrl": "https://certificate.vc360.app/widget/m-leasing/1f12c17d-0f61-6e3e-9eff-67a444b49007/pl",
+     "OnePageUrl": "https://certificate.vc360.app/certificate/m-leasing/1f12c17d-0f61-6e3e-9eff-67a444b49007/pl",
+     "CertPdfUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26788/Crt_5cf0cc86-4ca9-4051-ade7-3b1f3c47d439.pdf"
+    },
+    "RentInstallmentServicesIncluded": [
+     1
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     1
+    ],
+    "AuctionId": 26788,
+    "Mileage": 30459,
+    "IsWebP": true,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26788/[size]/DETAL_18_05_2026_10_07_261",
+    "MakeModel": "HYUNDAI Ioniq",
+    "Type": "6 77kWh Uniq 4WD",
+    "Year": "2023",
+    "Status": "Poleasingowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"od ręki\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "PowerHP": 325,
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   },
+   {
+    "TotalPriceBrutto": 99750,
+    "TotalPriceBruttoDiscount": 0,
+    "FinalPriceBrutto": 99750,
+    "TotalPriceNetto": 81097,
+    "TotalPriceNettoDiscount": 0,
+    "FinalPriceNetto": 81097,
+    "Reservation": false,
+    "EngineCapacity": 0,
+    "LeasePrice": 786,
+    "LeasePriceDiscount": 786,
+    "RentPriceNetto": 876,
+    "RentPriceNettoDiscount": 876,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsPerfect": false,
+    "IsCashAvailable": true,
+    "IsRentAvailable": true,
+    "Info": "",
+    "IsLeasingAvailable": true,
+    "IsCertified": true,
+    "Certificate": {
+     "CertPdfLocalPath": "mleasing.dekra.pl\\25758\\Crt_8afebfe2-7cb9-4718-99cd-75b5d75821f3.pdf",
+     "WidgetUrl": "https://certificate.vc360.app/widget/m-leasing/1f110300-0efe-6b64-b67a-eb45bba26123/pl",
+     "OnePageUrl": "https://certificate.vc360.app/certificate/m-leasing/1f110300-0efe-6b64-b67a-eb45bba26123/pl",
+     "CertPdfUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/25758/Crt_8afebfe2-7cb9-4718-99cd-75b5d75821f3.pdf"
+    },
+    "RentInstallmentServicesIncluded": [
+     1
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     1
+    ],
+    "AuctionId": 25758,
+    "Mileage": 18768,
+    "IsWebP": true,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/25758/[size]/DETAL_18_05_2026_09_56_001",
+    "MakeModel": "KIA e-Soul",
+    "Type": "39kWh XL",
+    "Year": "2023",
+    "Status": "Poleasingowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"od ręki\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "PowerHP": 136,
+    "SpecialPromotions": []
+   },
+   {
+    "TotalPriceBrutto": 162512,
+    "TotalPriceBruttoDiscount": 161022,
+    "FinalPriceBrutto": 161022,
+    "TotalPriceNetto": 132123,
+    "TotalPriceNettoDiscount": 130912,
+    "FinalPriceNetto": 130912,
+    "Reservation": false,
+    "EngineCapacity": 0,
+    "LeasePrice": 1268,
+    "LeasePriceDiscount": 1268,
+    "RentPriceNetto": 1414,
+    "RentPriceNettoDiscount": 1414,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsPerfect": false,
+    "IsCashAvailable": true,
+    "IsRentAvailable": true,
+    "Info": "",
+    "IsLeasingAvailable": true,
+    "IsCertified": true,
+    "Certificate": {
+     "CertPdfLocalPath": "mleasing.dekra.pl\\26865\\Crt_f367a027-1832-4204-b417-c32a09c4cf5e.pdf",
+     "WidgetUrl": "https://certificate.vc360.app/widget/m-leasing/1f12d3cf-40b9-6fd6-bfc6-f3e411309a6a/pl",
+     "OnePageUrl": "https://certificate.vc360.app/certificate/m-leasing/1f12d3cf-40b9-6fd6-bfc6-f3e411309a6a/pl",
+     "CertPdfUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26865/Crt_f367a027-1832-4204-b417-c32a09c4cf5e.pdf"
+    },
+    "RentInstallmentServicesIncluded": [
+     1
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     1
+    ],
+    "AuctionId": 26865,
+    "Mileage": 50214,
+    "IsWebP": true,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26865/[size]/DETAL_31_03_2026_06_45_251",
+    "MakeModel": "MERCEDES-BENZ EQB",
+    "Type": "300 66.5kWh 4-Matic Progressive",
+    "Year": "2023",
+    "Status": "Poleasingowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"od ręki\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "PowerHP": 228,
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   }
+  ],
+  "Count": 77
+ },
+ "new": {
+  "Tails": [
+   {
+    "TotalPriceBrutto": 199742,
+    "TotalPriceBruttoDiscount": 0,
+    "FinalPriceBrutto": 199742,
+    "TotalPriceNetto": 162391,
+    "TotalPriceNettoDiscount": 0,
+    "FinalPriceNetto": 162391,
+    "Reservation": false,
+    "EngineCapacity": 83,
+    "LeasePrice": 0,
+    "LeasePriceDiscount": 0,
+    "RentPriceNetto": 2399,
+    "RentPriceNettoDiscount": 2399,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsRentAvailable": true,
+    "IsCashAvailable": false,
+    "Info": null,
+    "IsLeasingAvailable": false,
+    "Color": "Pearl White Multi-Coat",
+    "MyElectric": false,
+    "VehicleRange": 550,
+    "PowerHP": 440,
+    "Co2Emission": "0",
+    "RentInstallmentServicesIncluded": [
+     6,
+     5,
+     8
+    ],
+    "LeasingInstallmentServicesIncluded": [],
+    "AuctionId": 25173,
+    "Mileage": 0,
+    "IsWebP": false,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/NewVehicles/Photos/TeslaY2025-ok/640/1.jpg",
+    "MakeModel": "Tesla Y",
+    "Type": "Long Range AWD",
+    "Year": "2026",
+    "Status": "Nowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"już wkrótce\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   },
+   {
+    "TotalPriceBrutto": 199742,
+    "TotalPriceBruttoDiscount": 0,
+    "FinalPriceBrutto": 199742,
+    "TotalPriceNetto": 162391,
+    "TotalPriceNettoDiscount": 0,
+    "FinalPriceNetto": 162391,
+    "Reservation": false,
+    "EngineCapacity": 83,
+    "LeasePrice": 2095,
+    "LeasePriceDiscount": 2095,
+    "RentPriceNetto": 2399,
+    "RentPriceNettoDiscount": 2399,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsRentAvailable": true,
+    "IsCashAvailable": false,
+    "Info": null,
+    "IsLeasingAvailable": false,
+    "Color": "Pearl White Multi-Coat",
+    "MyElectric": false,
+    "VehicleRange": 550,
+    "PowerHP": 440,
+    "Co2Emission": "0",
+    "RentInstallmentServicesIncluded": [
+     6,
+     5,
+     8
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     6,
+     1
+    ],
+    "AuctionId": 25172,
+    "Mileage": 0,
+    "IsWebP": false,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/NewVehicles/Photos/TeslaY2025-ok/640/1.jpg",
+    "MakeModel": "Tesla Y",
+    "Type": "Long Range AWD",
+    "Year": "2026",
+    "Status": "Nowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"green\",\"Text\":\"już wkrótce\"},{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   },
+   {
+    "TotalPriceBrutto": 199742,
+    "TotalPriceBruttoDiscount": 0,
+    "FinalPriceBrutto": 199742,
+    "TotalPriceNetto": 162391,
+    "TotalPriceNettoDiscount": 0,
+    "FinalPriceNetto": 162391,
+    "Reservation": true,
+    "EngineCapacity": 83,
+    "LeasePrice": 2095,
+    "LeasePriceDiscount": 2095,
+    "RentPriceNetto": 2399,
+    "RentPriceNettoDiscount": 2399,
+    "FuelType": "EL",
+    "GearBoxType": "automatyczna",
+    "MovePhoto": true,
+    "IsRentAvailable": true,
+    "IsCashAvailable": false,
+    "Info": null,
+    "IsLeasingAvailable": false,
+    "Color": "Pearl White Multi-Coat",
+    "MyElectric": false,
+    "VehicleRange": 550,
+    "PowerHP": 440,
+    "Co2Emission": "0",
+    "RentInstallmentServicesIncluded": [
+     6,
+     5,
+     8
+    ],
+    "LeasingInstallmentServicesIncluded": [
+     6,
+     1
+    ],
+    "AuctionId": 25162,
+    "Mileage": 0,
+    "IsWebP": false,
+    "MainPhotoUrl": "https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/NewVehicles/Photos/TeslaY2025-ok/640/1.jpg",
+    "MakeModel": "Tesla Y",
+    "Type": "Long Range AWD",
+    "Year": "2026",
+    "Status": "Nowy",
+    "SpecialOffer": false,
+    "MarketingLabels": "[{\"Color\":\"blue\",\"Text\":\"ekonomiczny\"}]",
+    "SpecialPromotions": [
+     {
+      "Id": 22,
+      "BackgroundColor": "green30",
+      "TextColor": "white30",
+      "PhotoLink": null,
+      "Text": "odbierz bonus 2000 zł",
+      "specialPromoTypeEnum": 1
+     }
+    ]
+   }
+  ],
+  "Count": 20
+ }
+}

@@ -7,6 +7,8 @@ sources:
   ayvens:
     name: "Ayvens"
     url: "https://www.ayvens.com/pl-pl/"
+    params:
+      listing_base: "https://usedcars.ayvens.com"   # sklep aut używanych linkowany z ayvens.com
   carsandcare:
     name: "Cars&Care"
     url: "https://carsandcare.pl"

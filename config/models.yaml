@@ -9,8 +9,8 @@ targets:
     - { model: "Ioniq 5", aliases: ["IONIQ5", "Ioniq5", "IONIQ 5"] }
     # TODO: dopisz "Ioniq 6" jeśli chcesz
   tesla:
-    - { model: "Model 3", aliases: ["Model3"] }
-    - { model: "Model Y", aliases: ["ModelY"] }
+    - { model: "Model 3", aliases: ["Model3", "Tesla 3"] }
+    - { model: "Model Y", aliases: ["ModelY", "Tesla Y"] }
 filters:
   max_price_gross_pln: null     # null = bez limitu
   max_mileage_km: null

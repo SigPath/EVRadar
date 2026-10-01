@@ -19,7 +19,7 @@ MAX_NGRAM = 4
 _TOKEN = re.compile(r"[a-z0-9]+")
 _FUEL_POSITIVE = re.compile(r"elektry|electric|\bbev\b|\bev\b|\bprad\b")
 _FUEL_NEGATIVE = re.compile(
-    r"hybryd|hybrid|phev|\bhev\b|mhev|plug|spalin|benzyn|diesel|\bon\b|\bpb\b|lpg|\bcng\b|gasoline"
+    r"hybryd|hybrid|phev|\bhev\b|mhev|plug|spalin|benzyn|petrol|diesel|\bon\b|\bpb\b|lpg|\bcng\b|gasoline"
 )
 _TEXT_STRONG_POSITIVE = re.compile(r"elektryczn|\belectric\b|\bbev\b|\bev\b|\be-?niro\b|zeroemisy")
 _TEXT_KWH = re.compile(r"\bkwh\b")

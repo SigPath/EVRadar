@@ -80,11 +80,25 @@ class BaseScraper(ABC):
 
     async def get_text(self, url: str, params: dict[str, Any] | None = None) -> str:
         """GET z robots.txt, opóźnieniem i retry z exponential backoff."""
+        return await self._request("GET", url, params=params)
+
+    async def _request(
+        self,
+        method: str,
+        url: str,
+        *,
+        params: dict[str, Any] | None = None,
+        json_body: Any = None,
+        headers: dict[str, str] | None = None,
+    ) -> str:
         last_exc: Exception | None = None
+        full_url = str(httpx.URL(url).copy_merge_params(params or {}))
         for attempt in range(self.config.retries):
             try:
-                async with self.polite(url):
-                    resp = await self.client.get(url, params=params)
+                async with self.polite(full_url):
+                    resp = await self.client.request(
+                        method, full_url, json=json_body, headers=headers
+                    )
                 if resp.status_code in RETRY_STATUS:
                     raise httpx.HTTPStatusError(
                         f"HTTP {resp.status_code}", request=resp.request, response=resp
@@ -106,6 +120,12 @@ class BaseScraper(ABC):
     async def get_json(self, url: str, params: dict[str, Any] | None = None) -> Any:
         text = await self.get_text(url, params)
         return json.loads(text)
+
+    async def post_json(
+        self, url: str, body: Any, headers: dict[str, str] | None = None
+    ) -> Any:
+        """POST JSON (publiczne API frontu) z tymi samymi regułami co GET."""
+        return json.loads(await self._request("POST", url, json_body=body, headers=headers))
 
     @abstractmethod
     async def fetch(self) -> list[RawListing]:
