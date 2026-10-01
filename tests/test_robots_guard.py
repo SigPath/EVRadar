@@ -23,7 +23,7 @@ async def test_http_403_is_reported_with_status() -> None:
 
 async def test_explicit_disallow_message() -> None:
     guard = await _guard(200, "User-agent: *\nDisallow: /oferty")
-    with pytest.raises(RobotsDisallowed, match="robots.txt zabrania"):
+    with pytest.raises(RobotsDisallowed, match=r"robots\.txt zabrania"):
         await guard.ensure_allowed("https://x.pl/oferty")
     await guard.ensure_allowed("https://x.pl/inne")
 

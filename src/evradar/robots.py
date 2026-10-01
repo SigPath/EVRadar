@@ -113,7 +113,7 @@ class RobotsGuard:
         if not parser.can_fetch(ROBOTS_USER_AGENT, url) or wildcard_blocked(rules, target):
             if origin in self._denied_status:
                 raise RobotsDisallowed(
-                    f"robots.txt zwrócił HTTP {self._denied_status[origin]} (serwis odmawia dostępu "
-                    f"z tego adresu IP) — traktowane jak zakaz: {url}"
+                    f"robots.txt zwrócił HTTP {self._denied_status[origin]} "
+                    f"(serwis odmawia dostępu z tego adresu IP) — traktowane jak zakaz: {url}"
                 )
             raise RobotsDisallowed(f"robots.txt zabrania: {url}")
