@@ -124,6 +124,13 @@ def synthetic_report_data() -> ReportData:
             duration_s=3.1,
             note="Zapisano debug/poleasingowe-demo.html",
         ),
+        SourceResult(
+            source="przyklad",
+            name="Źródło wyłączone (demo)",
+            status=SourceStatus.SKIPPED,
+            note="robots.txt zabrania pobierania listingu",
+            duration_s=0.2,
+        ),
     ]
     active = [*new, *[d.offer for d in drops], *stable, *uncertain]
     return ReportData(
