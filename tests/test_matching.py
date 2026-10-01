@@ -11,13 +11,37 @@ from evradar.models import RawListing
 
 @pytest.fixture(scope="module")
 def matcher() -> ModelMatcher:
-    return ModelMatcher(load_models_config().targets)
+    cfg = load_models_config()
+    return ModelMatcher(cfg.targets, cfg.brand_aliases)
 
 
 def listing(title: str, brand: str | None = None, fuel: str | None = None, **kw: str) -> RawListing:
     return RawListing(
         source="test", url="https://x.pl/1", title_raw=title, brand=brand, fuel=fuel, **kw
     )
+
+
+@pytest.mark.parametrize(
+    ("title", "brand"),
+    [
+        ("Volkswagen ID.5 Pro Performance", None),
+        ("VOLKSWAGEN ID.5 77kWh 4Mot. GTX", "Volkswagen"),
+        ("VW ID.5 GTX", None),
+        ("Vw ID5 Pro", "VW"),
+        ("ID 5 Pro", "Volkswagen"),
+    ],
+)
+def test_vw_id5_matches(matcher: ModelMatcher, title: str, brand: str | None) -> None:
+    m = matcher.match(listing(title, brand=brand, fuel="Elektryczny"))
+    assert m is not None and (m.brand, m.model) == ("Volkswagen", "ID.5")
+
+
+def test_vw_other_models_rejected(matcher: ModelMatcher) -> None:
+    assert matcher.match(listing("Volkswagen ID.4 77kWh", fuel="Elektryczny")) is None
+    assert matcher.match(listing("VW ID.3 Pro", fuel="Elektryczny")) is None
+    assert matcher.match(listing("Volkswagen Golf 1.5 TSI")) is None
+    assert matcher.match(listing("Skoda Enyaq iV 85")) is None  # ID.5 bez marki VW nie przechodzi
+    assert matcher.match(listing("Audi Q4 e-tron ID.5")) is None
 
 
 def test_normalize() -> None:

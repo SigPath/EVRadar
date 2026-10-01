@@ -11,6 +11,10 @@ targets:
   tesla:
     - { model: "Model 3", aliases: ["Model3", "Tesla 3"] }
     - { model: "Model Y", aliases: ["ModelY", "Tesla Y"] }
+  volkswagen:
+    - { model: "ID.5", aliases: ["ID5", "ID 5", "ID.5 GTX"] }
+brand_aliases:
+  volkswagen: ["VW"]
 filters:
   max_price_gross_pln: null     # null = bez limitu
   max_mileage_km: null

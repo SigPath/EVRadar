@@ -97,7 +97,9 @@ class _Alias:
 class ModelMatcher:
     """Dopasowuje ogłoszenie do modeli z `config/models.yaml`."""
 
-    def __init__(self, targets: list[ModelTarget]) -> None:
+    def __init__(
+        self, targets: list[ModelTarget], brand_aliases: dict[str, list[str]] | None = None
+    ) -> None:
         self._aliases: list[_Alias] = []
         for target in targets:
             seen: set[str] = set()
@@ -107,6 +109,12 @@ class ModelMatcher:
                     seen.add(norm)
                     self._aliases.append(_Alias(target, norm))
         self._brands = {normalize(t.brand): t.brand for t in targets}
+        # nazwa lub skrót marki (np. "vw") -> kanoniczna marka z configu
+        self._brand_names: dict[str, str] = {b: b for b in self._brands}
+        for brand, names in (brand_aliases or {}).items():
+            canon = normalize(brand)
+            if canon in self._brands:
+                self._brand_names.update({normalize(n): canon for n in names if normalize(n)})
 
     @staticmethod
     def _ngrams(toks: list[str]) -> set[str]:
@@ -144,9 +152,10 @@ class ModelMatcher:
         haystack = " ".join(p for p in (listing.brand, listing.model, listing.title_raw) if p)
         toks = tokens(haystack)
         grams = self._ngrams(toks)
-        candidates = [b for b in self._brands if b in toks or b in grams]
-        if listing.brand and normalize(listing.brand) in self._brands:
-            candidates.insert(0, normalize(listing.brand))
+        candidates = [canon for name, canon in self._brand_names.items() if name in grams]
+        listing_brand = self._brand_names.get(normalize(listing.brand)) if listing.brand else None
+        if listing_brand:
+            candidates.insert(0, listing_brand)
 
         for brand_norm in dict.fromkeys(candidates):
             found = self._find(brand_norm, grams)

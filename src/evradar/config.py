@@ -32,6 +32,7 @@ class Notifications(BaseModel):
 
 class ModelsConfig(BaseModel):
     targets: list[ModelTarget]
+    brand_aliases: dict[str, list[str]] = Field(default_factory=dict)
     filters: Filters = Field(default_factory=Filters)
     notifications: Notifications = Field(default_factory=Notifications)
 
@@ -64,6 +65,7 @@ def load_models_config(path: Path | None = None) -> ModelsConfig:
             targets.append(ModelTarget(brand=brand, **entry))
     return ModelsConfig(
         targets=targets,
+        brand_aliases={b: list(a) for b, a in (raw.get("brand_aliases") or {}).items()},
         filters=Filters(**(raw.get("filters") or {})),
         notifications=Notifications(**(raw.get("notifications") or {})),
     )

@@ -198,7 +198,7 @@ async def run_scan(
     """Pełny przebieg. Zwraca (dane raportu, czy to pierwszy skan w bazie)."""
     started_at = utcnow()
     t0 = time.monotonic()
-    matcher = ModelMatcher(models.targets)
+    matcher = ModelMatcher(models.targets, models.brand_aliases)
 
     async def one(cfg: SourceConfig) -> SourceResult:
         res = await scan_source(
