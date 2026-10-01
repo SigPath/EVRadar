@@ -20,7 +20,7 @@ Codziennie przeszukuje polskie serwisy z autami leasingowymi/poleasingowymi, wy�
    uv run evradar run
    ```
    Po kilkunastu sekundach w terminalu pojawi się tabelka z wynikami, a raport otworzy się sam w przeglądarce.
-   Pliki raportów leżą w folderze `out\` (`report-RRRR-MM-DD.html`), baza ofert w `data\evradar.db`.
+   Pliki raportów leżą w folderze `out\` (`index.html`), baza ofert w `data\evradar.db`.
 
 Albo po prostu dwukliknij **`run_daily.bat`**.
 

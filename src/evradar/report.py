@@ -96,9 +96,8 @@ def render_report(data: ReportData, *, first_run: bool = False) -> str:
 
 
 def write_report(data: ReportData, out_dir: Path, *, first_run: bool = False) -> Path:
-    """Zapisuje raport jako out/report-YYYY-MM-DD.html."""
+    """Zapisuje raport jako out/index.html (nadpisywany przy każdym skanie)."""
     out_dir.mkdir(parents=True, exist_ok=True)
-    local = data.run.started_at.astimezone(LOCAL_TZ)
-    path = out_dir / f"report-{local:%Y-%m-%d}.html"
+    path = out_dir / "index.html"
     path.write_text(render_report(data, first_run=first_run), encoding="utf-8")
     return path

@@ -25,7 +25,7 @@ def isolated_paths(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Iterator[
 def test_demo_report(tmp_path: Path) -> None:
     result = runner.invoke(cli.app, ["demo-report", "--no-open"])
     assert result.exit_code == 0
-    assert list((tmp_path / "out" / "demo").glob("report-*.html"))
+    assert (tmp_path / "out" / "demo" / "index.html").exists()
 
 
 def test_report_on_empty_db_fails_gracefully() -> None:

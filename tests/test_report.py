@@ -48,5 +48,5 @@ def test_uncertain_not_in_main_table() -> None:
 
 def test_write_report(tmp_path: Path) -> None:
     path = write_report(synthetic_report_data(), tmp_path)
-    assert path.name.startswith("report-") and path.suffix == ".html"
+    assert path.name == "index.html"
     assert path.read_text(encoding="utf-8").startswith("<!DOCTYPE html>")
