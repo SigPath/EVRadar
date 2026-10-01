@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from urllib.parse import urlsplit
 from urllib.robotparser import RobotFileParser
@@ -13,6 +14,8 @@ import structlog
 log = structlog.get_logger()
 
 ROBOTS_USER_AGENT = "*"
+
+RobotsFetch = Callable[[str], Awaitable[tuple[int, str]]]
 
 
 class RobotsDisallowed(Exception):
@@ -70,25 +73,30 @@ def wildcard_blocked(rules: list[_Rule], path_and_query: str) -> bool:
 class RobotsGuard:
     """Pobiera i interpretuje robots.txt; nie próbuje niczego obchodzić."""
 
-    def __init__(self, client: httpx.AsyncClient) -> None:
+    def __init__(self, client: httpx.AsyncClient, fetch: RobotsFetch | None = None) -> None:
         self._client = client
+        self._fetch = fetch or self._fetch_httpx
         self._parsers: dict[str, tuple[RobotFileParser, list[_Rule]] | None] = {}
+
+    async def _fetch_httpx(self, url: str) -> tuple[int, str]:
+        resp = await self._client.get(url)
+        return resp.status_code, resp.text
 
     async def _load(self, origin: str) -> tuple[RobotFileParser, list[_Rule]] | None:
         """None = brak robots.txt (404 itp.) lub błąd sieci — wtedy brak ograniczeń."""
         parser = RobotFileParser()
         try:
-            resp = await self._client.get(f"{origin}/robots.txt")
-        except httpx.HTTPError as exc:
+            status, text = await self._fetch(f"{origin}/robots.txt")
+        except Exception as exc:
             log.warning("robots_unreachable", origin=origin, error=str(exc))
             return None
-        if resp.status_code in (401, 403):
+        if status in (401, 403):
             parser.parse(["User-agent: *", "Disallow: /"])  # jak RobotFileParser.read()
             return parser, []
-        if resp.status_code >= 400:
+        if status >= 400:
             return None
-        parser.parse(resp.text.splitlines())
-        return parser, parse_wildcard_rules(resp.text)
+        parser.parse(text.splitlines())
+        return parser, parse_wildcard_rules(text)
 
     async def ensure_allowed(self, url: str) -> None:
         parts = urlsplit(url)

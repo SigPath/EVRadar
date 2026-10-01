@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import time
 from collections.abc import Callable
 from datetime import datetime
@@ -102,6 +103,10 @@ async def scan_source(
     if not cfg.enabled:
         result.status = SourceStatus.SKIPPED
         result.note = cfg.reason or "źródło wyłączone w config/sources.yaml"
+        return result
+    if cfg.params.get("local_only") and os.environ.get("CI"):
+        result.status = SourceStatus.SKIPPED
+        result.note = "wymaga lokalnego Chrome z oknem — pomijane w CI"
         return result
     try:
         scraper_cls = get_scraper_class(cfg.id)

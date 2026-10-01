@@ -30,7 +30,13 @@ sources:
     name: "Spoticar"
     url: "https://spoticar.pl"
     enabled: false
-    reason: "Akamai zwraca 403 Access Denied (także dla robots.txt i linku /znajdz-uzywany-samochod?...energy=elektryczny) — nie omijamy zabezpieczeń"
+    reason: "Akamai: w Chrome działa ręcznie, ale przy automatycznym skanie zwraca 403 po kilku żądaniach — nie omijamy blokady (adapter i parser są gotowe, wystarczy enabled: true)"
+    params:
+      browser_channel: chrome   # zainstalowany Chrome; Akamai blokuje klientów HTTP i headless
+      headed_only: true
+      local_only: true          # pomijane w CI (brak ekranu/Chrome)
+    delay_min_s: 6
+    delay_max_s: 10
   poleasingowe:
     name: "Poleasingowe.pl"
     url: "https://poleasingowe.pl"
