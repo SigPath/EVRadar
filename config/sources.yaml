@@ -21,6 +21,11 @@ sources:
   stellantis:
     name: "Stellantis &You"
     url: "https://www.stellantisandyou.com/pl"
+    params:
+      # publiczne dane z /content/stellantis-and-you/website/pl/pl.sandy-const.json (algolia.*)
+      algolia_app_id: "W73X2DZZYO"
+      algolia_api_key: "9dda5853ea0784de6fd5f132280f34f0"   # klucz search-only, serwowany przez stronę
+      index: "prod_sandy_used_vehicles_pl"
   spoticar:
     name: "Spoticar"
     url: "https://spoticar.pl"
