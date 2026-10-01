@@ -77,6 +77,7 @@ class RobotsGuard:
         self._client = client
         self._fetch = fetch or self._fetch_httpx
         self._parsers: dict[str, tuple[RobotFileParser, list[_Rule]] | None] = {}
+        self._denied_status: dict[str, int] = {}
 
     async def _fetch_httpx(self, url: str) -> tuple[int, str]:
         resp = await self._client.get(url)
@@ -91,6 +92,7 @@ class RobotsGuard:
             log.warning("robots_unreachable", origin=origin, error=str(exc))
             return None
         if status in (401, 403):
+            self._denied_status[origin] = status
             parser.parse(["User-agent: *", "Disallow: /"])  # jak RobotFileParser.read()
             return parser, []
         if status >= 400:
@@ -109,4 +111,9 @@ class RobotsGuard:
         parser, rules = loaded
         target = parts.path + (f"?{parts.query}" if parts.query else "")
         if not parser.can_fetch(ROBOTS_USER_AGENT, url) or wildcard_blocked(rules, target):
+            if origin in self._denied_status:
+                raise RobotsDisallowed(
+                    f"robots.txt zwrócił HTTP {self._denied_status[origin]} (serwis odmawia dostępu "
+                    f"z tego adresu IP) — traktowane jak zakaz: {url}"
+                )
             raise RobotsDisallowed(f"robots.txt zabrania: {url}")
