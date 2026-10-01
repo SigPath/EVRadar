@@ -77,7 +77,7 @@ Cenowe filtry (`max_price_gross_pln`) działają na cenie brutto; oferty podane 
 ## Automatyczny codzienny skan
 
 - **Harmonogram zadań Windows:** utwórz zadanie uruchamiające `run_daily.bat` raz dziennie (np. 07:00). Raport zapisze się w `out\` i otworzy w przeglądarce (możesz dodać argument `--no-open`).
-- **GitHub Actions:** `.github/workflows/daily.yml` uruchamia skan o 07:00 czasu warszawskiego, cache'uje bazę SQLite między uruchomieniami i publikuje raport jako artefakt (`evradar-report`). `.github/workflows/ci.yml` uruchamia testy i linter.
+- **GitHub Actions:** `.github/workflows/daily.yml` uruchamia skan o 07:00 czasu warszawskiego, cache'uje bazę SQLite między uruchomieniami i publikuje raport jako artefakt (`evradar-report`) oraz na **GitHub Pages** (`index.html`). Jednorazowo włącz w repozytorium: *Settings → Pages → Source: GitHub Actions*. `.github/workflows/ci.yml` uruchamia testy i linter.
 - **Powiadomienia (opcjonalne):** w `config/models.yaml` ustaw `notifications.enabled: true`, a w środowisku `TELEGRAM_BOT_TOKEN` i `TELEGRAM_CHAT_ID` (w GitHubie: *Secrets*). Wiadomość wyjdzie tylko gdy są nowe oferty.
 
 ## Jak dodać nowe źródło

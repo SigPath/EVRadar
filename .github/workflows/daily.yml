@@ -11,10 +11,15 @@ concurrency:
   group: evradar-daily
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   scan:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      publish: ${{ steps.guard.outputs.run }}
     steps:
       - name: Guard (07:00 Europe/Warsaw)
         id: guard
@@ -51,6 +56,18 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: uv run evradar run --no-open
 
+      - name: Prepare Pages site
+        if: steps.guard.outputs.run == 'true'
+        run: |
+          mkdir -p site
+          cp out/index.html site/index.html
+
+      - name: Upload Pages artifact
+        if: steps.guard.outputs.run == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
       - name: Upload report
         if: steps.guard.outputs.run == 'true' && always()
         uses: actions/upload-artifact@v4
@@ -61,3 +78,17 @@ jobs:
             debug/*.html
           if-no-files-found: warn
           retention-days: 30
+
+  deploy:
+    needs: scan
+    if: needs.scan.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
