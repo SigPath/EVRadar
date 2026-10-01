@@ -12,6 +12,7 @@ targets:
     - { model: "Model 3", aliases: ["Model3", "Tesla 3"] }
     - { model: "Model Y", aliases: ["ModelY", "Tesla Y"] }
   volkswagen:
+    - { model: "ID.4", aliases: ["ID4", "ID 4", "ID.4 GTX"] }
     - { model: "ID.5", aliases: ["ID5", "ID 5", "ID.5 GTX"] }
 brand_aliases:
   volkswagen: ["VW"]

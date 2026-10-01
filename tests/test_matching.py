@@ -36,8 +36,21 @@ def test_vw_id5_matches(matcher: ModelMatcher, title: str, brand: str | None) ->
     assert m is not None and (m.brand, m.model) == ("Volkswagen", "ID.5")
 
 
+@pytest.mark.parametrize(
+    ("title", "brand"),
+    [
+        ("Volkswagen ID.4 77kWh", None),
+        ("VW ID.4 GTX", None),
+        ("Vw ID4 Pro", "VW"),
+        ("ID 4 Pure", "Volkswagen"),
+    ],
+)
+def test_vw_id4_matches(matcher: ModelMatcher, title: str, brand: str | None) -> None:
+    m = matcher.match(listing(title, brand=brand, fuel="Elektryczny"))
+    assert m is not None and (m.brand, m.model) == ("Volkswagen", "ID.4")
+
+
 def test_vw_other_models_rejected(matcher: ModelMatcher) -> None:
-    assert matcher.match(listing("Volkswagen ID.4 77kWh", fuel="Elektryczny")) is None
     assert matcher.match(listing("VW ID.3 Pro", fuel="Elektryczny")) is None
     assert matcher.match(listing("Volkswagen Golf 1.5 TSI")) is None
     assert matcher.match(listing("Skoda Enyaq iV 85")) is None  # ID.5 bez marki VW nie przechodzi
