@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Radar — {{ run_date }}</title>
+<style>
+:root {
+  --bg: #f4f6f8; --card: #ffffff; --text: #1c2430; --muted: #66727f; --line: #e2e7ec;
+  --accent: #2563eb; --new: #16a34a; --new-bg: #e7f7ed; --drop: #d97706; --drop-bg: #fff3dc;
+  --err: #dc2626; --err-bg: #fde8e8; --warn-bg: #fff3dc; --chip: #eef1f5;
+  --shadow: 0 1px 2px rgba(16,24,40,.06), 0 2px 8px rgba(16,24,40,.05);
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f141a; --card: #171e27; --text: #e6ebf0; --muted: #93a0ae; --line: #263140;
+    --accent: #6ea0ff; --new: #4ade80; --new-bg: #12301f; --drop: #fbbf24; --drop-bg: #3a2c0b;
+    --err: #f87171; --err-bg: #3b1717; --warn-bg: #3a2c0b; --chip: #1f2833;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.3);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: var(--accent); text-decoration: none; }
+main { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
+h1 { font-size: 1.6rem; margin: 0; letter-spacing: -.02em; }
+h2 { font-size: 1.15rem; margin: 34px 0 12px; display: flex; align-items: center; gap: 8px; }
+h2 .count { font-size: .8rem; color: var(--muted); font-weight: 500; background: var(--chip);
+  padding: 2px 9px; border-radius: 99px; }
+small, .muted { color: var(--muted); }
+.sub { color: var(--muted); margin-top: 4px; }
+.banner { background: var(--warn-bg); border-radius: var(--radius); padding: 10px 14px; margin-top: 12px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 16px; }
+.stat { background: var(--card); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); }
+.stat b { display: block; font-size: 1.6rem; line-height: 1.1; letter-spacing: -.02em; }
+.stat span { color: var(--muted); font-size: .82rem; }
+.stat.new b { color: var(--new); } .stat.drop b { color: var(--drop); }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.tile { background: var(--card); border-radius: var(--radius); padding: 10px 12px; box-shadow: var(--shadow);
+  border-left: 4px solid var(--new); }
+.tile.ERROR { border-color: var(--err); } .tile.SKIPPED { border-color: var(--muted); }
+.tile.STALE { border-color: var(--drop); }
+.tile .name { font-weight: 600; display: flex; justify-content: space-between; gap: 6px; }
+.tile .meta { color: var(--muted); font-size: .82rem; margin-top: 2px; }
+.tile .msg { font-size: .78rem; margin-top: 4px; color: var(--muted); word-break: break-word; }
+.st { font-size: .68rem; font-weight: 700; padding: 2px 7px; border-radius: 99px; background: var(--new-bg); color: var(--new);
+  white-space: nowrap; align-self: flex-start; }
+.ERROR .st { background: var(--err-bg); color: var(--err); }
+.STALE .st { background: var(--drop-bg); color: var(--drop); }
+.SKIPPED .st { background: var(--chip); color: var(--muted); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: 14px; }
+.card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  display: flex; flex-direction: column; break-inside: avoid; }
+.card.is-new { box-shadow: var(--shadow), inset 0 3px 0 var(--new); }
+.card.is-drop { box-shadow: var(--shadow), inset 0 3px 0 var(--drop); }
+.thumb { aspect-ratio: 16 / 10; background: var(--chip); display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: .8rem; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.ttl { font-weight: 650; font-size: 1.02rem; letter-spacing: -.01em; }
+.raw { color: var(--muted); font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.facts { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--muted); font-size: .86rem; }
+.price { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; }
+.price small { font-size: .72rem; font-weight: 500; }
+.old { text-decoration: line-through; color: var(--muted); font-size: .95rem; margin-right: 6px; }
+.delta { font-weight: 650; color: var(--drop); background: var(--drop-bg); padding: 1px 8px; border-radius: 99px; font-size: .82rem; }
+.delta.up { color: var(--err); background: var(--err-bg); }
+.rate { font-size: .86rem; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 8px; }
+.badge { font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--chip); color: var(--muted); }
+.badge.new { background: var(--new-bg); color: var(--new); }
+.badge.drop { background: var(--drop-bg); color: var(--drop); }
+.badge.warn { background: var(--warn-bg); color: var(--drop); }
+.btn { display: inline-block; padding: 6px 12px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 600; font-size: .85rem; }
+.btn:hover { filter: brightness(1.1); }
+.empty { color: var(--muted); padding: 14px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+.toolbar { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.toolbar input[type=search] { width: 100%; max-width: 420px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--card); color: var(--text); font: inherit; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chips .lbl { font-size: .78rem; color: var(--muted); min-width: 52px; }
+.chip { border: 1px solid var(--line); background: var(--chip); color: var(--text); padding: 3px 11px; border-radius: 99px;
+  font: inherit; font-size: .82rem; cursor: pointer; }
+.chip[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip i { font-style: normal; opacity: .65; margin-left: 4px; }
+.tbl-wrap { overflow-x: auto; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td.wrap { white-space: normal; min-width: 220px; }
+th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
+th.nosort { cursor: default; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; }
+tr.hidden { display: none; }
+details { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 4px 14px; }
+details summary { cursor: pointer; padding: 10px 0; font-weight: 600; }
+footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: center; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.3rem; } .stat b { font-size: 1.3rem; }
+  .cards { grid-template-columns: 1fr; }
+}
+@media print {
+  :root { --bg: #fff; --card: #fff; --text: #000; --shadow: none; --line: #ccc; }
+  body { font-size: 11px; } .toolbar, .btn { display: none; }
+  .card { border: 1px solid #ccc; } .cards { grid-template-columns: repeat(3, 1fr); }
+  details { box-shadow: none; } details > * { display: block; }
+  .tbl-wrap { overflow: visible; } th { position: static; } tr.hidden { display: table-row; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+{% macro price(o) -%}
+  {%- if o.price_gross_pln is not none -%}
+    {{ o.price_gross_pln|pln }} <small>brutto</small>
+    {%- if o.price_net_pln is not none %} <small>· {{ o.price_net_pln|pln }} netto</small>{% endif -%}
+  {%- elif o.price_net_pln is not none -%}
+    {{ o.price_net_pln|pln }} <small>netto</small>
+  {%- else -%}<span class="muted">brak ceny</span>{%- endif -%}
+{%- endmacro %}
+
+{% macro rate(o) -%}
+  {%- if o.monthly_installment_pln is not none -%}
+    {{ o.monthly_installment_pln|pln }}/mc
+    {%- if o.installment_basis %} <small>{{ 'netto' if o.installment_basis == 'net' else 'brutto' }}</small>{% endif -%}
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro basis(b) -%}{{ 'netto' if b == 'net' else 'brutto' }}{%- endmacro %}
+
+{% macro card(o, kind='', diff=none) %}
+<article class="card {{ kind }}">
+  <div class="thumb">
+    {% if o.image_url %}<img src="{{ o.image_url }}" alt="{{ o.brand }} {{ o.model_matched }}" loading="lazy" referrerpolicy="no-referrer">
+    {% else %}brak zdjęcia{% endif %}
+  </div>
+  <div class="body">
+    <div class="ttl">{{ o.brand }} {{ o.model_matched }}</div>
+    <div class="raw" title="{{ o.title_raw }}">{{ o.title_raw }}</div>
+    <div class="facts">
+      {% if o.year %}<span>{{ o.year }}</span>{% endif %}
+      {% if o.mileage_km is not none %}<span>{{ o.mileage_km|km }}</span>{% endif %}
+      {% if o.battery_kwh %}<span>{{ o.battery_kwh|round(1) }} kWh</span>{% endif %}
+      {% if o.range_km_wltp %}<span>{{ o.range_km_wltp }} km WLTP</span>{% endif %}
+      {% if o.location %}<span>{{ o.location }}</span>{% endif %}
+    </div>
+    {% if diff and diff.old_price is not none and diff.new_price is not none %}
+      <div>
+        <span class="old">{{ diff.old_price|pln }}</span><span class="price">{{ diff.new_price|pln }}</span>
+        <small>{{ basis(diff.price_basis) }}</small>
+      </div>
+      <div><span class="delta {{ 'up' if diff.delta > 0 else '' }}">{{ '%+d'|format(diff.delta)|replace('-', '−') }} zł
+        {% if diff.delta_pct is not none %}({{ '%+.1f'|format(diff.delta_pct)|replace('-', '−') }}%){% endif %}</span></div>
+    {% else %}
+      <div class="price">{{ price(o) }}</div>
+    {% endif %}
+    {% set r = rate(o) %}{% if r|trim %}<div class="rate">Rata: {{ r }}</div>{% endif %}
+    {% if o.uncertain_powertrain %}<div><span class="badge warn">⚠ napęd do weryfikacji</span></div>{% endif %}
+    <div class="row">
+      <span class="badge">{{ source_names.get(o.source, o.source) }}</span>
+      <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Zobacz ofertę ↗</a>
+    </div>
+  </div>
+</article>
+{% endmacro %}
+
+<main>
+  <header>
+    <h1>⚡ EV Radar</h1>
+    <div class="sub">Skan: {{ run_date }}, {{ run_time }} · czas trwania {{ d.run.duration_s|round(1) }} s
+      {% if d.run.run_id %}· przebieg #{{ d.run.run_id }}{% endif %}</div>
+    {% if d.run.dry_run %}<div class="banner">Tryb <b>dry-run</b>: wyniki nie zostały zapisane w bazie.</div>{% endif %}
+    {% if first_run %}<div class="banner">To pierwszy skan — wszystkie oferty są oznaczone jako nowe.</div>{% endif %}
+    <div class="stats">
+      <div class="stat"><b>{{ d.active|length }}</b><span>aktywnych ofert</span></div>
+      <div class="stat new"><b>{{ d.new|length }}</b><span>nowych</span></div>
+      <div class="stat drop"><b>{{ d.price_drops|length }}</b><span>obniżek cen</span></div>
+      <div class="stat"><b>{{ d.gone|length }}</b><span>zniknęło</span></div>
+      <div class="stat"><b>{{ ok_count }}/{{ d.sources|length }}</b><span>źródeł OK</span></div>
+    </div>
+  </header>
+
+  <h2>Status źródeł</h2>
+  <section class="tiles">
+    {% for s in d.sources %}
+    <div class="tile {{ s.status.value }}">
+      <div class="name"><span>{{ s.name or s.source }}</span>
+        <span class="st">{{ {'OK': 'OK', 'ERROR': 'BŁĄD', 'SKIPPED': 'POMINIĘTE', 'STALE': 'DO AKTUALIZACJI'}[s.status.value] }}</span></div>
+      <div class="meta">{{ s.offers_count }} ofert · {{ s.duration_s|round(1) }} s</div>
+      {% if s.status.value == 'STALE' %}<div class="msg">Źródło wymaga aktualizacji — parser nie zwrócił ofert (zmiana struktury strony?).</div>{% endif %}
+      {% if s.note %}<div class="msg">{{ s.note }}</div>{% endif %}
+      {% if s.error %}<div class="msg">{{ s.error[:200] }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </section>
+
+  <h2>🆕 Nowe oferty <span class="count">{{ d.new|length }}</span></h2>
+  {% if d.new %}
+  <section class="cards">
+    {% for x in d.new %}{{ card(x.offer, 'is-new') }}{% endfor %}
+  </section>
+  {% else %}<div class="empty">Brak nowych ofert od ostatniego skanu.</div>{% endif %}
+
+  <h2>📉 Obniżki cen <span class="count">{{ d.price_drops|length }}</span></h2>
+  {% if d.price_drops %}
+  <section class="cards">
+    {% for x in d.price_drops %}{{ card(x.offer, 'is-drop', x) }}{% endfor %}
+  </section>
+  {% else %}<div class="empty">Brak obniżek cen.</div>{% endif %}
+
+  {% if d.back %}
+  <h2>↩️ Wróciły do oferty <span class="count">{{ d.back|length }}</span></h2>
+  <section class="cards">{% for x in d.back %}{{ card(x.offer) }}{% endfor %}</section>
+  {% endif %}
+
+  {% if d.price_ups %}
+  <h2>📈 Podwyżki cen <span class="count">{{ d.price_ups|length }}</span></h2>
+  <section class="cards">{% for x in d.price_ups %}{{ card(x.offer, '', x) }}{% endfor %}</section>
+  {% endif %}
+
+  <h2>Wszystkie aktywne oferty <span class="count" id="visible-count">{{ confirmed|length }}</span></h2>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Szukaj: marka, model, miasto, tytuł…" aria-label="Szukaj">
+    {% for group, label, items in chip_groups %}
+    <div class="chips" data-group="{{ group }}"><span class="lbl">{{ label }}</span>
+      {% for value, n in items %}<button type="button" class="chip" aria-pressed="false" data-value="{{ value }}">{{ value }}<i>{{ n }}</i></button>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="tbl-wrap">
+    <table id="offers">
+      <thead><tr>
+        <th data-type="text">Pojazd</th><th data-type="num" class="num">Rok</th>
+        <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
+        <th data-type="num" class="num">Rata</th><th data-type="text">Źródło</th>
+        <th data-type="text">Widziana od</th><th class="nosort"></th>
+      </tr></thead>
+      <tbody>
+      {% for o in confirmed %}
+        <tr data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}"
+            data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ source_names.get(o.source, o.source))|lower }}">
+          <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
+            <b>{{ o.brand }} {{ o.model_matched }}</b>
+            {% if o.offer_id in new_ids %}<span class="badge new">NOWA</span>{% endif %}
+            {% if o.offer_id in drop_ids %}<span class="badge drop">OBNIŻKA</span>{% endif %}
+            <br><small>{{ o.title_raw }}{% if o.location %} · {{ o.location }}{% endif %}</small>
+          </td>
+          <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
+          <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
+          <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}</td>
+          <td class="num" data-s="{{ o.monthly_installment_pln or 0 }}">{{ rate(o) or '—' }}</td>
+          <td data-s="{{ source_names.get(o.source, o.source) }}"><span class="badge">{{ source_names.get(o.source, o.source) }}</span></td>
+          <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
+          <td><a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="empty" id="no-match" hidden style="margin-top:10px">Brak ofert spełniających kryteria.</div>
+
+  <h2>⚠️ Do weryfikacji <span class="count">{{ d.uncertain|length }}</span></h2>
+  {% if d.uncertain %}
+  <p class="sub" style="margin:-6px 0 12px">Nie udało się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego rodzaju paliwa).</p>
+  <section class="cards">{% for o in d.uncertain %}{{ card(o) }}{% endfor %}</section>
+  {% else %}<div class="empty">Brak ofert wymagających weryfikacji.</div>{% endif %}
+
+  <h2>Zniknęły od ostatniego skanu <span class="count">{{ d.gone|length }}</span></h2>
+  <details>
+    <summary>Pokaż listę ({{ d.gone|length }})</summary>
+    {% if d.gone %}
+    <div class="tbl-wrap" style="box-shadow:none"><table>
+      <thead><tr><th class="nosort">Pojazd</th><th class="nosort num">Rok</th><th class="nosort num">Ostatnia cena</th><th class="nosort">Źródło</th><th class="nosort"></th></tr></thead>
+      <tbody>
+      {% for x in d.gone %}{% set o = x.offer %}
+        <tr><td class="wrap"><b>{{ o.brand }} {{ o.model_matched }}</b><br><small>{{ o.title_raw }}</small></td>
+          <td class="num">{{ o.year or '—' }}</td><td class="num">{{ price(o) }}</td>
+          <td>{{ source_names.get(o.source, o.source) }}</td>
+          <td><a href="{{ o.url }}" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+    {% else %}<p class="muted">Nic nie zniknęło.</p>{% endif %}
+  </details>
+
+  <footer>Wygenerowano przez EV Radar · {{ run_date }} {{ run_time }}</footer>
+</main>
+
+<script>
+(function () {
+  var table = document.getElementById('offers');
+  var rows = Array.prototype.slice.call(table.tBodies[0].rows);
+  var q = document.getElementById('q');
+  var counter = document.getElementById('visible-count');
+  var noMatch = document.getElementById('no-match');
+  var active = {};
+
+  function apply() {
+    var needle = q.value.trim().toLowerCase(), shown = 0;
+    rows.forEach(function (tr) {
+      var ok = !needle || tr.dataset.search.indexOf(needle) !== -1;
+      Object.keys(active).forEach(function (g) {
+        var set = active[g];
+        if (ok && set.length && set.indexOf(tr.dataset[g]) === -1) ok = false;
+      });
+      tr.classList.toggle('hidden', !ok);
+      if (ok) shown++;
+    });
+    counter.textContent = shown;
+    noMatch.hidden = shown !== 0;
+  }
+
+  q.addEventListener('input', apply);
+  Array.prototype.forEach.call(document.querySelectorAll('.chips'), function (box) {
+    var group = box.dataset.group;
+    active[group] = [];
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.chip');
+      if (!b) return;
+      var on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', on);
+      var v = b.dataset.value, list = active[group], i = list.indexOf(v);
+      if (on && i === -1) list.push(v); else if (!on && i !== -1) list.splice(i, 1);
+      apply();
+    });
+  });
+
+  Array.prototype.forEach.call(table.tHead.rows[0].cells, function (th, idx) {
+    if (th.classList.contains('nosort')) return;
+    th.addEventListener('click', function () {
+      var dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+      Array.prototype.forEach.call(th.parentNode.cells, function (c) { c.removeAttribute('aria-sort'); });
+      th.setAttribute('aria-sort', dir);
+      var num = th.dataset.type === 'num', mul = dir === 'ascending' ? 1 : -1;
+      rows.sort(function (a, b) {
+        var x = a.cells[idx].dataset.s, y = b.cells[idx].dataset.s;
+        if (num) return (parseFloat(x) - parseFloat(y)) * mul;
+        return x.localeCompare(y, 'pl') * mul;
+      });
+      rows.forEach(function (tr) { table.tBodies[0].appendChild(tr); });
+    });
+  });
+
+  document.addEventListener('error', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG') { t.parentNode.textContent = 'brak zdjęcia'; }
+  }, true);
+
+  apply();
+})();
+</script>
+</body>
+</html>

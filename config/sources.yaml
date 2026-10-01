@@ -1,0 +1,32 @@
+sources:
+  vwfs:
+    name: "VW Financial Services"
+    url: "https://store.vwfs.pl"
+    delay_min_s: 1
+    delay_max_s: 3
+  ayvens:
+    name: "Ayvens"
+    url: "https://www.ayvens.com/pl-pl/"
+  carsandcare:
+    name: "Cars&Care"
+    url: "https://carsandcare.pl"
+  mauto:
+    name: "Mauto"
+    url: "https://mauto.pl"
+  automarket:
+    name: "Automarket"
+    url: "https://automarket.pl"
+  stellantis:
+    name: "Stellantis &You"
+    url: "https://www.stellantisandyou.com/pl"
+  spoticar:
+    name: "Spoticar"
+    url: "https://spoticar.pl"
+    enabled: false
+    reason: "Akamai zwraca 403 Access Denied (także dla robots.txt) — nie omijamy zabezpieczeń"
+  poleasingowe:
+    name: "Poleasingowe.pl"
+    url: "https://poleasingowe.pl"
+  leasygroup:
+    name: "Leasy Group"
+    url: "https://leasygroup.pl"

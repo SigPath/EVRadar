@@ -1,0 +1,3838 @@
+{
+ "cars": {
+  "count": 214,
+  "next": "https://api.carsandcare-prod.businesslease.cloud/api/v1/cars/car/?limit=12&market=3&offset=12&ordering=-created&public=true",
+  "previous": null,
+  "results": [
+   {
+    "id": 29663,
+    "slug": "skoda-superb-combi",
+    "market": 3,
+    "title": "Skoda Superb Combi",
+    "comment": "Combi 2.0 TDI SCR 110 kW Ambition",
+    "description": "",
+    "VIN_code": "TMBJH7NP0N7055686",
+    "model": 1713,
+    "color": 286,
+    "fuel": 48,
+    "equipments": [
+     4647,
+     4686,
+     11419,
+     11420,
+     6883,
+     6884,
+     6886,
+     4353,
+     4355,
+     4356,
+     4357,
+     4358,
+     2827,
+     2834,
+     10529,
+     10531,
+     6457,
+     6519,
+     6520,
+     6522,
+     2436,
+     2437,
+     2438,
+     2441,
+     2443,
+     2445,
+     2447,
+     2449,
+     2452,
+     2453,
+     2454,
+     2455,
+     2458,
+     2459,
+     2460,
+     2461,
+     2462,
+     2463,
+     2464,
+     2466,
+     2467,
+     2468,
+     2469,
+     2470,
+     2473,
+     2474,
+     2478,
+     2482,
+     2483,
+     2485,
+     2486,
+     2488,
+     2489,
+     2492,
+     2493,
+     2497,
+     2498,
+     2499,
+     2500,
+     2501,
+     2502,
+     2503,
+     2504,
+     2505,
+     2506,
+     2514,
+     2518,
+     2519,
+     2520,
+     2521,
+     2522,
+     2523,
+     2524,
+     2525,
+     2526,
+     2531,
+     2532,
+     2533
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 11,
+    "driver_type": 14,
+    "body_type": 78,
+    "mileage": 171113,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1968,
+    "power": 110,
+    "MOT_to_date": null,
+    "first_registration_date": "2022-08-31",
+    "year_of_manufacture": 2022,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 60081,
+    "sales_price": 73900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242884,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242884/skoda-superb-combi_242884.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242884/skoda-superb-combi_242884_thumbnail.jpg"
+     },
+     {
+      "id": 242885,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242885/skoda-superb-combi_242885.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242885/skoda-superb-combi_242885_thumbnail.jpg"
+     },
+     {
+      "id": 242886,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242886/skoda-superb-combi_242886.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242886/skoda-superb-combi_242886_thumbnail.jpg"
+     },
+     {
+      "id": 242887,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242887/skoda-superb-combi_242887.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242887/skoda-superb-combi_242887_thumbnail.jpg"
+     },
+     {
+      "id": 242888,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242888/skoda-superb-combi_242888.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242888/skoda-superb-combi_242888_thumbnail.jpg"
+     },
+     {
+      "id": 242889,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242889/skoda-superb-combi_242889.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242889/skoda-superb-combi_242889_thumbnail.jpg"
+     },
+     {
+      "id": 242890,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242890/skoda-superb-combi_242890.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242890/skoda-superb-combi_242890_thumbnail.jpg"
+     },
+     {
+      "id": 242891,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242891/skoda-superb-combi_242891.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242891/skoda-superb-combi_242891_thumbnail.jpg"
+     },
+     {
+      "id": 242892,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242892/skoda-superb-combi_242892.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242892/skoda-superb-combi_242892_thumbnail.jpg"
+     },
+     {
+      "id": 242893,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242893/skoda-superb-combi_242893.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242893/skoda-superb-combi_242893_thumbnail.jpg"
+     },
+     {
+      "id": 242894,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242894/skoda-superb-combi_242894.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242894/skoda-superb-combi_242894_thumbnail.jpg"
+     },
+     {
+      "id": 242895,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242895/skoda-superb-combi_242895.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242895/skoda-superb-combi_242895_thumbnail.jpg"
+     },
+     {
+      "id": 242896,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242896/skoda-superb-combi_242896.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242896/skoda-superb-combi_242896_thumbnail.jpg"
+     },
+     {
+      "id": 242897,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242897/skoda-superb-combi_242897.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242897/skoda-superb-combi_242897_thumbnail.jpg"
+     },
+     {
+      "id": 242898,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242898/skoda-superb-combi_242898.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242898/skoda-superb-combi_242898_thumbnail.jpg"
+     },
+     {
+      "id": 242899,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242899/skoda-superb-combi_242899.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242899/skoda-superb-combi_242899_thumbnail.jpg"
+     },
+     {
+      "id": 242900,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242900/skoda-superb-combi_242900.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242900/skoda-superb-combi_242900_thumbnail.jpg"
+     },
+     {
+      "id": 242901,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242901/skoda-superb-combi_242901.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242901/skoda-superb-combi_242901_thumbnail.jpg"
+     },
+     {
+      "id": 242902,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242902/skoda-superb-combi_242902.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242902/skoda-superb-combi_242902_thumbnail.jpg"
+     },
+     {
+      "id": 242903,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242903/skoda-superb-combi_242903.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242903/skoda-superb-combi_242903_thumbnail.jpg"
+     },
+     {
+      "id": 242904,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242904/skoda-superb-combi_242904.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242904/skoda-superb-combi_242904_thumbnail.jpg"
+     },
+     {
+      "id": 242905,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242905/skoda-superb-combi_242905.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242905/skoda-superb-combi_242905_thumbnail.jpg"
+     },
+     {
+      "id": 242906,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242906/skoda-superb-combi_242906.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242906/skoda-superb-combi_242906_thumbnail.jpg"
+     },
+     {
+      "id": 242907,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242907/skoda-superb-combi_242907.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242907/skoda-superb-combi_242907_thumbnail.jpg"
+     },
+     {
+      "id": 242908,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242908/skoda-superb-combi_242908.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242908/skoda-superb-combi_242908_thumbnail.jpg"
+     },
+     {
+      "id": 242909,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242909/skoda-superb-combi_242909.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242909/skoda-superb-combi_242909_thumbnail.jpg"
+     },
+     {
+      "id": 242910,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242910/skoda-superb-combi_242910.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242910/skoda-superb-combi_242910_thumbnail.jpg"
+     },
+     {
+      "id": 242911,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242911/skoda-superb-combi_242911.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242911/skoda-superb-combi_242911_thumbnail.jpg"
+     },
+     {
+      "id": 242912,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242912/skoda-superb-combi_242912.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242912/skoda-superb-combi_242912_thumbnail.jpg"
+     },
+     {
+      "id": 242913,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242913/skoda-superb-combi_242913.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242913/skoda-superb-combi_242913_thumbnail.jpg"
+     },
+     {
+      "id": 242914,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242914/skoda-superb-combi_242914.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242914/skoda-superb-combi_242914_thumbnail.jpg"
+     },
+     {
+      "id": 242915,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242915/skoda-superb-combi_242915.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242915/skoda-superb-combi_242915_thumbnail.jpg"
+     },
+     {
+      "id": 242916,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242916/skoda-superb-combi_242916.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242916/skoda-superb-combi_242916_thumbnail.jpg"
+     },
+     {
+      "id": 242917,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242917/skoda-superb-combi_242917.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242917/skoda-superb-combi_242917_thumbnail.jpg"
+     },
+     {
+      "id": 242918,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242918/skoda-superb-combi_242918.jpg",
+      "position": 35,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242918/skoda-superb-combi_242918_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE6U691",
+    "public": true,
+    "created": "2026-09-30T19:06:15.903877+02:00",
+    "updated": "2026-10-01T04:06:16.130403+02:00",
+    "brand": "skoda",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29662,
+    "slug": "audi-q5-sportback",
+    "market": 3,
+    "title": "Audi Q5 Sportback",
+    "comment": "40 TDI 40 TDI quattro S tronic Advanced",
+    "description": "",
+    "VIN_code": "WAUZZZFY6R2046980",
+    "model": 1360,
+    "color": 259,
+    "fuel": 80,
+    "equipments": [
+     4647,
+     9791,
+     9792,
+     9793,
+     6739,
+     6761,
+     6777,
+     2683,
+     6781,
+     11910,
+     665,
+     8346,
+     8347,
+     7335,
+     9388,
+     9392,
+     7352,
+     3282,
+     3310,
+     4346,
+     7418,
+     4347,
+     8958,
+     4351,
+     7424,
+     7425,
+     13080,
+     7448,
+     7449,
+     7454,
+     7461,
+     7462,
+     7467,
+     7469,
+     3375,
+     7472,
+     6457,
+     12100,
+     12101,
+     12102,
+     12105,
+     2900,
+     1387,
+     3447,
+     11137,
+     2468,
+     7082,
+     3505,
+     7610,
+     8125,
+     8126,
+     8127,
+     8128,
+     8132,
+     8133,
+     8134,
+     8135,
+     8136,
+     8137,
+     8138,
+     8139,
+     8143,
+     8145,
+     8147,
+     8148,
+     8149,
+     8150,
+     8152,
+     8153,
+     8154,
+     8155,
+     8156,
+     8157,
+     8158,
+     8159,
+     6624,
+     8161,
+     8162,
+     8163,
+     2532,
+     2533,
+     8164,
+     8165,
+     8167,
+     8168,
+     8170,
+     8172,
+     8175,
+     8176,
+     8177,
+     8178,
+     8179,
+     8180,
+     8182,
+     2552
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 13,
+    "body_type": 153,
+    "mileage": 38967,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1968,
+    "power": 150,
+    "MOT_to_date": null,
+    "first_registration_date": "2024-01-24",
+    "year_of_manufacture": 2023,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 117882,
+    "sales_price": 144995.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242848,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242848/audi-q5-sportback_242848.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242848/audi-q5-sportback_242848_thumbnail.jpg"
+     },
+     {
+      "id": 242849,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242849/audi-q5-sportback_242849.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242849/audi-q5-sportback_242849_thumbnail.jpg"
+     },
+     {
+      "id": 242850,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242850/audi-q5-sportback_242850.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242850/audi-q5-sportback_242850_thumbnail.jpg"
+     },
+     {
+      "id": 242851,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242851/audi-q5-sportback_242851.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242851/audi-q5-sportback_242851_thumbnail.jpg"
+     },
+     {
+      "id": 242852,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242852/audi-q5-sportback_242852.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242852/audi-q5-sportback_242852_thumbnail.jpg"
+     },
+     {
+      "id": 242853,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242853/audi-q5-sportback_242853.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242853/audi-q5-sportback_242853_thumbnail.jpg"
+     },
+     {
+      "id": 242854,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242854/audi-q5-sportback_242854.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242854/audi-q5-sportback_242854_thumbnail.jpg"
+     },
+     {
+      "id": 242855,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242855/audi-q5-sportback_242855.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242855/audi-q5-sportback_242855_thumbnail.jpg"
+     },
+     {
+      "id": 242856,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242856/audi-q5-sportback_242856.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242856/audi-q5-sportback_242856_thumbnail.jpg"
+     },
+     {
+      "id": 242857,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242857/audi-q5-sportback_242857.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242857/audi-q5-sportback_242857_thumbnail.jpg"
+     },
+     {
+      "id": 242858,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242858/audi-q5-sportback_242858.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242858/audi-q5-sportback_242858_thumbnail.jpg"
+     },
+     {
+      "id": 242859,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242859/audi-q5-sportback_242859.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242859/audi-q5-sportback_242859_thumbnail.jpg"
+     },
+     {
+      "id": 242860,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242860/audi-q5-sportback_242860.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242860/audi-q5-sportback_242860_thumbnail.jpg"
+     },
+     {
+      "id": 242861,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242861/audi-q5-sportback_242861.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242861/audi-q5-sportback_242861_thumbnail.jpg"
+     },
+     {
+      "id": 242862,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242862/audi-q5-sportback_242862.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242862/audi-q5-sportback_242862_thumbnail.jpg"
+     },
+     {
+      "id": 242863,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242863/audi-q5-sportback_242863.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242863/audi-q5-sportback_242863_thumbnail.jpg"
+     },
+     {
+      "id": 242864,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242864/audi-q5-sportback_242864.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242864/audi-q5-sportback_242864_thumbnail.jpg"
+     },
+     {
+      "id": 242865,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242865/audi-q5-sportback_242865.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242865/audi-q5-sportback_242865_thumbnail.jpg"
+     },
+     {
+      "id": 242866,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242866/audi-q5-sportback_242866.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242866/audi-q5-sportback_242866_thumbnail.jpg"
+     },
+     {
+      "id": 242867,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242867/audi-q5-sportback_242867.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242867/audi-q5-sportback_242867_thumbnail.jpg"
+     },
+     {
+      "id": 242868,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242868/audi-q5-sportback_242868.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242868/audi-q5-sportback_242868_thumbnail.jpg"
+     },
+     {
+      "id": 242869,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242869/audi-q5-sportback_242869.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242869/audi-q5-sportback_242869_thumbnail.jpg"
+     },
+     {
+      "id": 242870,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242870/audi-q5-sportback_242870.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242870/audi-q5-sportback_242870_thumbnail.jpg"
+     },
+     {
+      "id": 242871,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242871/audi-q5-sportback_242871.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242871/audi-q5-sportback_242871_thumbnail.jpg"
+     },
+     {
+      "id": 242872,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242872/audi-q5-sportback_242872.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242872/audi-q5-sportback_242872_thumbnail.jpg"
+     },
+     {
+      "id": 242873,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242873/audi-q5-sportback_242873.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242873/audi-q5-sportback_242873_thumbnail.jpg"
+     },
+     {
+      "id": 242874,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242874/audi-q5-sportback_242874.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242874/audi-q5-sportback_242874_thumbnail.jpg"
+     },
+     {
+      "id": 242875,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242875/audi-q5-sportback_242875.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242875/audi-q5-sportback_242875_thumbnail.jpg"
+     },
+     {
+      "id": 242876,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242876/audi-q5-sportback_242876.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242876/audi-q5-sportback_242876_thumbnail.jpg"
+     },
+     {
+      "id": 242877,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242877/audi-q5-sportback_242877.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242877/audi-q5-sportback_242877_thumbnail.jpg"
+     },
+     {
+      "id": 242878,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242878/audi-q5-sportback_242878.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242878/audi-q5-sportback_242878_thumbnail.jpg"
+     },
+     {
+      "id": 242879,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242879/audi-q5-sportback_242879.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242879/audi-q5-sportback_242879_thumbnail.jpg"
+     },
+     {
+      "id": 242880,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242880/audi-q5-sportback_242880.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242880/audi-q5-sportback_242880_thumbnail.jpg"
+     },
+     {
+      "id": 242881,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242881/audi-q5-sportback_242881.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242881/audi-q5-sportback_242881_thumbnail.jpg"
+     },
+     {
+      "id": 242882,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242882/audi-q5-sportback_242882.jpg",
+      "position": 35,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242882/audi-q5-sportback_242882_thumbnail.jpg"
+     },
+     {
+      "id": 242883,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242883/audi-q5-sportback_242883.jpg",
+      "position": 36,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242883/audi-q5-sportback_242883_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "DW5XU70",
+    "public": true,
+    "created": "2026-09-30T18:32:01.407671+02:00",
+    "updated": "2026-10-01T03:32:21.398627+02:00",
+    "brand": "audi",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29661,
+    "slug": "toyota-corolla",
+    "market": 3,
+    "title": "Toyota Corolla",
+    "comment": "2.0 Hybrid DF 196KM Style e-CVT",
+    "description": "",
+    "VIN_code": "SB1ZC3CE20E012827",
+    "model": 697,
+    "color": 244,
+    "fuel": 97,
+    "equipments": [
+     2562,
+     2575,
+     4647,
+     13359,
+     3122,
+     8777,
+     2648,
+     7259,
+     7265,
+     3176,
+     7273,
+     7286,
+     2694,
+     7304,
+     8332,
+     8333,
+     8338,
+     6309,
+     4777,
+     12480,
+     12482,
+     12484,
+     6344,
+     2783,
+     3307,
+     3315,
+     3325,
+     3339,
+     9996,
+     9997,
+     9998,
+     3347,
+     3350,
+     3351,
+     3352,
+     3356,
+     3358,
+     3360,
+     3362,
+     4402,
+     6457,
+     7494,
+     7495,
+     7496,
+     15175,
+     15176,
+     15177,
+     7501,
+     7506,
+     7509,
+     7510,
+     7511,
+     7514,
+     8027,
+     8029,
+     8030,
+     8031,
+     8032,
+     7522,
+     7523,
+     7524,
+     1387,
+     8047,
+     2937,
+     7556,
+     7558,
+     7559,
+     7561,
+     7562,
+     7564,
+     7569,
+     7571,
+     7574,
+     7575,
+     7576,
+     7578,
+     7579,
+     7580,
+     7581,
+     7582,
+     7583,
+     7587,
+     7588,
+     7589,
+     7590,
+     7592,
+     7593,
+     4554,
+     2532,
+     2533,
+     2544,
+     9215
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 14,
+    "body_type": 78,
+    "mileage": 37759,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1987,
+    "power": 144,
+    "MOT_to_date": null,
+    "first_registration_date": "2024-01-25",
+    "year_of_manufacture": 2023,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 87724,
+    "sales_price": 107900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242813,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242813/toyota-corolla_242813.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242813/toyota-corolla_242813_thumbnail.jpg"
+     },
+     {
+      "id": 242814,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242814/toyota-corolla_242814.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242814/toyota-corolla_242814_thumbnail.jpg"
+     },
+     {
+      "id": 242815,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242815/toyota-corolla_242815.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242815/toyota-corolla_242815_thumbnail.jpg"
+     },
+     {
+      "id": 242816,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242816/toyota-corolla_242816.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242816/toyota-corolla_242816_thumbnail.jpg"
+     },
+     {
+      "id": 242817,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242817/toyota-corolla_242817.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242817/toyota-corolla_242817_thumbnail.jpg"
+     },
+     {
+      "id": 242818,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242818/toyota-corolla_242818.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242818/toyota-corolla_242818_thumbnail.jpg"
+     },
+     {
+      "id": 242819,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242819/toyota-corolla_242819.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242819/toyota-corolla_242819_thumbnail.jpg"
+     },
+     {
+      "id": 242820,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242820/toyota-corolla_242820.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242820/toyota-corolla_242820_thumbnail.jpg"
+     },
+     {
+      "id": 242821,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242821/toyota-corolla_242821.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242821/toyota-corolla_242821_thumbnail.jpg"
+     },
+     {
+      "id": 242822,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242822/toyota-corolla_242822.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242822/toyota-corolla_242822_thumbnail.jpg"
+     },
+     {
+      "id": 242823,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242823/toyota-corolla_242823.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242823/toyota-corolla_242823_thumbnail.jpg"
+     },
+     {
+      "id": 242824,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242824/toyota-corolla_242824.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242824/toyota-corolla_242824_thumbnail.jpg"
+     },
+     {
+      "id": 242825,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242825/toyota-corolla_242825.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242825/toyota-corolla_242825_thumbnail.jpg"
+     },
+     {
+      "id": 242826,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242826/toyota-corolla_242826.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242826/toyota-corolla_242826_thumbnail.jpg"
+     },
+     {
+      "id": 242827,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242827/toyota-corolla_242827.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242827/toyota-corolla_242827_thumbnail.jpg"
+     },
+     {
+      "id": 242828,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242828/toyota-corolla_242828.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242828/toyota-corolla_242828_thumbnail.jpg"
+     },
+     {
+      "id": 242829,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242829/toyota-corolla_242829.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242829/toyota-corolla_242829_thumbnail.jpg"
+     },
+     {
+      "id": 242830,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242830/toyota-corolla_242830.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242830/toyota-corolla_242830_thumbnail.jpg"
+     },
+     {
+      "id": 242831,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242831/toyota-corolla_242831.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242831/toyota-corolla_242831_thumbnail.jpg"
+     },
+     {
+      "id": 242832,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242832/toyota-corolla_242832.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242832/toyota-corolla_242832_thumbnail.jpg"
+     },
+     {
+      "id": 242833,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242833/toyota-corolla_242833.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242833/toyota-corolla_242833_thumbnail.jpg"
+     },
+     {
+      "id": 242834,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242834/toyota-corolla_242834.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242834/toyota-corolla_242834_thumbnail.jpg"
+     },
+     {
+      "id": 242835,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242835/toyota-corolla_242835.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242835/toyota-corolla_242835_thumbnail.jpg"
+     },
+     {
+      "id": 242836,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242836/toyota-corolla_242836.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242836/toyota-corolla_242836_thumbnail.jpg"
+     },
+     {
+      "id": 242837,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242837/toyota-corolla_242837.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242837/toyota-corolla_242837_thumbnail.jpg"
+     },
+     {
+      "id": 242838,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242838/toyota-corolla_242838.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242838/toyota-corolla_242838_thumbnail.jpg"
+     },
+     {
+      "id": 242839,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242839/toyota-corolla_242839.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242839/toyota-corolla_242839_thumbnail.jpg"
+     },
+     {
+      "id": 242840,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242840/toyota-corolla_242840.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242840/toyota-corolla_242840_thumbnail.jpg"
+     },
+     {
+      "id": 242841,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242841/toyota-corolla_242841.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242841/toyota-corolla_242841_thumbnail.jpg"
+     },
+     {
+      "id": 242842,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242842/toyota-corolla_242842.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242842/toyota-corolla_242842_thumbnail.jpg"
+     },
+     {
+      "id": 242843,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242843/toyota-corolla_242843.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242843/toyota-corolla_242843_thumbnail.jpg"
+     },
+     {
+      "id": 242844,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242844/toyota-corolla_242844.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242844/toyota-corolla_242844_thumbnail.jpg"
+     },
+     {
+      "id": 242845,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242845/toyota-corolla_242845.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242845/toyota-corolla_242845_thumbnail.jpg"
+     },
+     {
+      "id": 242846,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242846/toyota-corolla_242846.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242846/toyota-corolla_242846_thumbnail.jpg"
+     },
+     {
+      "id": 242847,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242847/toyota-corolla_242847.jpg",
+      "position": 35,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242847/toyota-corolla_242847_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE8AG56",
+    "public": true,
+    "created": "2026-09-30T18:31:31.490732+02:00",
+    "updated": "2026-10-01T03:31:53.125386+02:00",
+    "brand": "toyota",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29660,
+    "slug": "peugeot-partner",
+    "market": 3,
+    "title": "Peugeot Partner",
+    "comment": "1.5 BlueHDi 100 Long 950",
+    "description": "",
+    "VIN_code": "VR3EFYHT2PJ679574",
+    "model": 1796,
+    "color": 259,
+    "fuel": 48,
+    "equipments": [
+     4608,
+     4610,
+     4611,
+     4612,
+     4614,
+     4616,
+     4618,
+     4619,
+     4622,
+     4623,
+     4624,
+     4625,
+     4626,
+     9376,
+     4647,
+     2478,
+     6457,
+     14407,
+     14408,
+     14409,
+     14410,
+     14411,
+     14412,
+     14413,
+     14414,
+     14415,
+     2516,
+     2532,
+     2533,
+     2542,
+     4598,
+     4601,
+     4602,
+     4603,
+     4604,
+     4606
+    ],
+    "nr_of_places": 2,
+    "doors_number": 4,
+    "speeds_number": 0,
+    "transmission": 11,
+    "driver_type": 14,
+    "body_type": 158,
+    "mileage": 172480,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1499,
+    "power": 75,
+    "MOT_to_date": null,
+    "first_registration_date": "2023-06-27",
+    "year_of_manufacture": 2023,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 60894,
+    "sales_price": 74900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242785,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242785/peugeot-partner_242785.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242785/peugeot-partner_242785_thumbnail.jpg"
+     },
+     {
+      "id": 242786,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242786/peugeot-partner_242786.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242786/peugeot-partner_242786_thumbnail.jpg"
+     },
+     {
+      "id": 242787,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242787/peugeot-partner_242787.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242787/peugeot-partner_242787_thumbnail.jpg"
+     },
+     {
+      "id": 242788,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242788/peugeot-partner_242788.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242788/peugeot-partner_242788_thumbnail.jpg"
+     },
+     {
+      "id": 242789,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242789/peugeot-partner_242789.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242789/peugeot-partner_242789_thumbnail.jpg"
+     },
+     {
+      "id": 242790,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242790/peugeot-partner_242790.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242790/peugeot-partner_242790_thumbnail.jpg"
+     },
+     {
+      "id": 242791,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242791/peugeot-partner_242791.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242791/peugeot-partner_242791_thumbnail.jpg"
+     },
+     {
+      "id": 242792,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242792/peugeot-partner_242792.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242792/peugeot-partner_242792_thumbnail.jpg"
+     },
+     {
+      "id": 242793,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242793/peugeot-partner_242793.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242793/peugeot-partner_242793_thumbnail.jpg"
+     },
+     {
+      "id": 242794,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242794/peugeot-partner_242794.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242794/peugeot-partner_242794_thumbnail.jpg"
+     },
+     {
+      "id": 242795,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242795/peugeot-partner_242795.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242795/peugeot-partner_242795_thumbnail.jpg"
+     },
+     {
+      "id": 242796,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242796/peugeot-partner_242796.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242796/peugeot-partner_242796_thumbnail.jpg"
+     },
+     {
+      "id": 242797,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242797/peugeot-partner_242797.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242797/peugeot-partner_242797_thumbnail.jpg"
+     },
+     {
+      "id": 242798,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242798/peugeot-partner_242798.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242798/peugeot-partner_242798_thumbnail.jpg"
+     },
+     {
+      "id": 242799,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242799/peugeot-partner_242799.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242799/peugeot-partner_242799_thumbnail.jpg"
+     },
+     {
+      "id": 242800,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242800/peugeot-partner_242800.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242800/peugeot-partner_242800_thumbnail.jpg"
+     },
+     {
+      "id": 242801,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242801/peugeot-partner_242801.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242801/peugeot-partner_242801_thumbnail.jpg"
+     },
+     {
+      "id": 242802,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242802/peugeot-partner_242802.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242802/peugeot-partner_242802_thumbnail.jpg"
+     },
+     {
+      "id": 242803,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242803/peugeot-partner_242803.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242803/peugeot-partner_242803_thumbnail.jpg"
+     },
+     {
+      "id": 242804,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242804/peugeot-partner_242804.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242804/peugeot-partner_242804_thumbnail.jpg"
+     },
+     {
+      "id": 242805,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242805/peugeot-partner_242805.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242805/peugeot-partner_242805_thumbnail.jpg"
+     },
+     {
+      "id": 242806,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242806/peugeot-partner_242806.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242806/peugeot-partner_242806_thumbnail.jpg"
+     },
+     {
+      "id": 242807,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242807/peugeot-partner_242807.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242807/peugeot-partner_242807_thumbnail.jpg"
+     },
+     {
+      "id": 242808,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242808/peugeot-partner_242808.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242808/peugeot-partner_242808_thumbnail.jpg"
+     },
+     {
+      "id": 242809,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242809/peugeot-partner_242809.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242809/peugeot-partner_242809_thumbnail.jpg"
+     },
+     {
+      "id": 242810,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242810/peugeot-partner_242810.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242810/peugeot-partner_242810_thumbnail.jpg"
+     },
+     {
+      "id": 242811,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242811/peugeot-partner_242811.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242811/peugeot-partner_242811_thumbnail.jpg"
+     },
+     {
+      "id": 242812,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242812/peugeot-partner_242812.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242812/peugeot-partner_242812_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE9A375",
+    "public": true,
+    "created": "2026-09-30T18:18:59.373499+02:00",
+    "updated": "2026-10-01T10:21:30.739487+02:00",
+    "brand": "peugeot",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29659,
+    "slug": "skoda-octavia",
+    "market": 3,
+    "title": "Skoda Octavia",
+    "comment": "Combi 2.0 TDI 85kW Ambition",
+    "description": "",
+    "VIN_code": "TMBJG8NXXPY157969",
+    "model": 1151,
+    "color": 244,
+    "fuel": 48,
+    "equipments": [
+     6528,
+     2817,
+     6529,
+     2819,
+     6530,
+     2821,
+     2822,
+     2823,
+     6531,
+     2825,
+     6532,
+     2827,
+     2828,
+     2829,
+     2830,
+     2831,
+     6535,
+     2449,
+     2833,
+     2834,
+     2835,
+     2836,
+     2838,
+     2839,
+     2843,
+     2460,
+     2844,
+     2846,
+     2463,
+     2847,
+     2849,
+     2467,
+     2468,
+     2851,
+     2470,
+     4647,
+     2852,
+     2854,
+     2856,
+     7855,
+     8624,
+     7856,
+     6457,
+     6717,
+     6526,
+     2626,
+     14405,
+     14406,
+     6527,
+     2506,
+     1229,
+     2509,
+     2516,
+     2523,
+     2528,
+     2529,
+     2532,
+     2533,
+     2789,
+     6533,
+     6534,
+     6517,
+     6518,
+     6519,
+     6520,
+     6521,
+     6522,
+     6523,
+     6524,
+     6525,
+     2814,
+     2815
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 11,
+    "driver_type": 14,
+    "body_type": 78,
+    "mileage": 116961,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1968,
+    "power": 85,
+    "MOT_to_date": null,
+    "first_registration_date": "2023-06-28",
+    "year_of_manufacture": 2023,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 59268,
+    "sales_price": 72900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242751,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242751/skoda-octavia_242751.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242751/skoda-octavia_242751_thumbnail.jpg"
+     },
+     {
+      "id": 242752,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242752/skoda-octavia_242752.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242752/skoda-octavia_242752_thumbnail.jpg"
+     },
+     {
+      "id": 242753,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242753/skoda-octavia_242753.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242753/skoda-octavia_242753_thumbnail.jpg"
+     },
+     {
+      "id": 242754,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242754/skoda-octavia_242754.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242754/skoda-octavia_242754_thumbnail.jpg"
+     },
+     {
+      "id": 242755,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242755/skoda-octavia_242755.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242755/skoda-octavia_242755_thumbnail.jpg"
+     },
+     {
+      "id": 242756,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242756/skoda-octavia_242756.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242756/skoda-octavia_242756_thumbnail.jpg"
+     },
+     {
+      "id": 242757,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242757/skoda-octavia_242757.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242757/skoda-octavia_242757_thumbnail.jpg"
+     },
+     {
+      "id": 242758,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242758/skoda-octavia_242758.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242758/skoda-octavia_242758_thumbnail.jpg"
+     },
+     {
+      "id": 242759,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242759/skoda-octavia_242759.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242759/skoda-octavia_242759_thumbnail.jpg"
+     },
+     {
+      "id": 242760,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242760/skoda-octavia_242760.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242760/skoda-octavia_242760_thumbnail.jpg"
+     },
+     {
+      "id": 242761,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242761/skoda-octavia_242761.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242761/skoda-octavia_242761_thumbnail.jpg"
+     },
+     {
+      "id": 242762,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242762/skoda-octavia_242762.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242762/skoda-octavia_242762_thumbnail.jpg"
+     },
+     {
+      "id": 242763,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242763/skoda-octavia_242763.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242763/skoda-octavia_242763_thumbnail.jpg"
+     },
+     {
+      "id": 242764,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242764/skoda-octavia_242764.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242764/skoda-octavia_242764_thumbnail.jpg"
+     },
+     {
+      "id": 242765,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242765/skoda-octavia_242765.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242765/skoda-octavia_242765_thumbnail.jpg"
+     },
+     {
+      "id": 242766,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242766/skoda-octavia_242766.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242766/skoda-octavia_242766_thumbnail.jpg"
+     },
+     {
+      "id": 242767,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242767/skoda-octavia_242767.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242767/skoda-octavia_242767_thumbnail.jpg"
+     },
+     {
+      "id": 242768,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242768/skoda-octavia_242768.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242768/skoda-octavia_242768_thumbnail.jpg"
+     },
+     {
+      "id": 242769,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242769/skoda-octavia_242769.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242769/skoda-octavia_242769_thumbnail.jpg"
+     },
+     {
+      "id": 242770,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242770/skoda-octavia_242770.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242770/skoda-octavia_242770_thumbnail.jpg"
+     },
+     {
+      "id": 242771,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242771/skoda-octavia_242771.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242771/skoda-octavia_242771_thumbnail.jpg"
+     },
+     {
+      "id": 242772,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242772/skoda-octavia_242772.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242772/skoda-octavia_242772_thumbnail.jpg"
+     },
+     {
+      "id": 242773,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242773/skoda-octavia_242773.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242773/skoda-octavia_242773_thumbnail.jpg"
+     },
+     {
+      "id": 242774,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242774/skoda-octavia_242774.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242774/skoda-octavia_242774_thumbnail.jpg"
+     },
+     {
+      "id": 242775,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242775/skoda-octavia_242775.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242775/skoda-octavia_242775_thumbnail.jpg"
+     },
+     {
+      "id": 242776,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242776/skoda-octavia_242776.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242776/skoda-octavia_242776_thumbnail.jpg"
+     },
+     {
+      "id": 242777,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242777/skoda-octavia_242777.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242777/skoda-octavia_242777_thumbnail.jpg"
+     },
+     {
+      "id": 242778,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242778/skoda-octavia_242778.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242778/skoda-octavia_242778_thumbnail.jpg"
+     },
+     {
+      "id": 242779,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242779/skoda-octavia_242779.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242779/skoda-octavia_242779_thumbnail.jpg"
+     },
+     {
+      "id": 242780,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242780/skoda-octavia_242780.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242780/skoda-octavia_242780_thumbnail.jpg"
+     },
+     {
+      "id": 242781,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242781/skoda-octavia_242781.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242781/skoda-octavia_242781_thumbnail.jpg"
+     },
+     {
+      "id": 242782,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242782/skoda-octavia_242782.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242782/skoda-octavia_242782_thumbnail.jpg"
+     },
+     {
+      "id": 242783,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242783/skoda-octavia_242783.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242783/skoda-octavia_242783_thumbnail.jpg"
+     },
+     {
+      "id": 242784,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242784/skoda-octavia_242784.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242784/skoda-octavia_242784_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE8X993",
+    "public": true,
+    "created": "2026-09-30T18:17:40.168376+02:00",
+    "updated": "2026-10-01T10:20:13.047240+02:00",
+    "brand": "skoda",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29658,
+    "slug": "volkswagen-arteon",
+    "market": 3,
+    "title": "Volkswagen Arteon",
+    "comment": "2.0 TSI 190KM DSG 7 Elegance",
+    "description": "",
+    "VIN_code": "WVWZZZ3H4PE018744",
+    "model": 1038,
+    "color": 259,
+    "fuel": 43,
+    "equipments": [
+     2689,
+     4865,
+     6914,
+     6916,
+     6917,
+     7691,
+     2445,
+     2703,
+     7702,
+     2967,
+     7705,
+     7706,
+     7707,
+     7708,
+     7709,
+     7710,
+     7711,
+     7712,
+     7713,
+     7714,
+     7715,
+     7716,
+     2469,
+     7717,
+     4647,
+     7718,
+     7719,
+     7720,
+     7721,
+     7722,
+     7723,
+     5031,
+     7724,
+     7725,
+     7726,
+     7727,
+     4525,
+     7728,
+     6582,
+     6710,
+     6586,
+     6587,
+     2623,
+     3018,
+     6605,
+     3024,
+     3026,
+     6611,
+     3028,
+     2517,
+     3034,
+     3037,
+     4574,
+     3039,
+     2532,
+     2533,
+     3044,
+     3047,
+     14442,
+     14443,
+     3050,
+     3053,
+     3056,
+     3574,
+     4860
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 14,
+    "body_type": 165,
+    "mileage": 29760,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1984,
+    "power": 140,
+    "MOT_to_date": null,
+    "first_registration_date": "2024-02-06",
+    "year_of_manufacture": 2024,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 110488,
+    "sales_price": 135900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242717,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242717/volkswagen-arteon_242717.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242717/volkswagen-arteon_242717_thumbnail.jpg"
+     },
+     {
+      "id": 242718,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242718/volkswagen-arteon_242718.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242718/volkswagen-arteon_242718_thumbnail.jpg"
+     },
+     {
+      "id": 242719,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242719/volkswagen-arteon_242719.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242719/volkswagen-arteon_242719_thumbnail.jpg"
+     },
+     {
+      "id": 242720,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242720/volkswagen-arteon_242720.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242720/volkswagen-arteon_242720_thumbnail.jpg"
+     },
+     {
+      "id": 242721,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242721/volkswagen-arteon_242721.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242721/volkswagen-arteon_242721_thumbnail.jpg"
+     },
+     {
+      "id": 242722,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242722/volkswagen-arteon_242722.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242722/volkswagen-arteon_242722_thumbnail.jpg"
+     },
+     {
+      "id": 242723,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242723/volkswagen-arteon_242723.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242723/volkswagen-arteon_242723_thumbnail.jpg"
+     },
+     {
+      "id": 242724,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242724/volkswagen-arteon_242724.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242724/volkswagen-arteon_242724_thumbnail.jpg"
+     },
+     {
+      "id": 242725,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242725/volkswagen-arteon_242725.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242725/volkswagen-arteon_242725_thumbnail.jpg"
+     },
+     {
+      "id": 242726,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242726/volkswagen-arteon_242726.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242726/volkswagen-arteon_242726_thumbnail.jpg"
+     },
+     {
+      "id": 242727,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242727/volkswagen-arteon_242727.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242727/volkswagen-arteon_242727_thumbnail.jpg"
+     },
+     {
+      "id": 242728,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242728/volkswagen-arteon_242728.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242728/volkswagen-arteon_242728_thumbnail.jpg"
+     },
+     {
+      "id": 242729,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242729/volkswagen-arteon_242729.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242729/volkswagen-arteon_242729_thumbnail.jpg"
+     },
+     {
+      "id": 242730,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242730/volkswagen-arteon_242730.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242730/volkswagen-arteon_242730_thumbnail.jpg"
+     },
+     {
+      "id": 242731,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242731/volkswagen-arteon_242731.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242731/volkswagen-arteon_242731_thumbnail.jpg"
+     },
+     {
+      "id": 242732,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242732/volkswagen-arteon_242732.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242732/volkswagen-arteon_242732_thumbnail.jpg"
+     },
+     {
+      "id": 242733,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242733/volkswagen-arteon_242733.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242733/volkswagen-arteon_242733_thumbnail.jpg"
+     },
+     {
+      "id": 242734,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242734/volkswagen-arteon_242734.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242734/volkswagen-arteon_242734_thumbnail.jpg"
+     },
+     {
+      "id": 242735,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242735/volkswagen-arteon_242735.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242735/volkswagen-arteon_242735_thumbnail.jpg"
+     },
+     {
+      "id": 242736,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242736/volkswagen-arteon_242736.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242736/volkswagen-arteon_242736_thumbnail.jpg"
+     },
+     {
+      "id": 242737,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242737/volkswagen-arteon_242737.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242737/volkswagen-arteon_242737_thumbnail.jpg"
+     },
+     {
+      "id": 242738,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242738/volkswagen-arteon_242738.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242738/volkswagen-arteon_242738_thumbnail.jpg"
+     },
+     {
+      "id": 242739,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242739/volkswagen-arteon_242739.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242739/volkswagen-arteon_242739_thumbnail.jpg"
+     },
+     {
+      "id": 242740,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242740/volkswagen-arteon_242740.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242740/volkswagen-arteon_242740_thumbnail.jpg"
+     },
+     {
+      "id": 242741,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242741/volkswagen-arteon_242741.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242741/volkswagen-arteon_242741_thumbnail.jpg"
+     },
+     {
+      "id": 242742,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242742/volkswagen-arteon_242742.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242742/volkswagen-arteon_242742_thumbnail.jpg"
+     },
+     {
+      "id": 242743,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242743/volkswagen-arteon_242743.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242743/volkswagen-arteon_242743_thumbnail.jpg"
+     },
+     {
+      "id": 242744,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242744/volkswagen-arteon_242744.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242744/volkswagen-arteon_242744_thumbnail.jpg"
+     },
+     {
+      "id": 242745,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242745/volkswagen-arteon_242745.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242745/volkswagen-arteon_242745_thumbnail.jpg"
+     },
+     {
+      "id": 242746,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242746/volkswagen-arteon_242746.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242746/volkswagen-arteon_242746_thumbnail.jpg"
+     },
+     {
+      "id": 242747,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242747/volkswagen-arteon_242747.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242747/volkswagen-arteon_242747_thumbnail.jpg"
+     },
+     {
+      "id": 242748,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242748/volkswagen-arteon_242748.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242748/volkswagen-arteon_242748_thumbnail.jpg"
+     },
+     {
+      "id": 242749,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242749/volkswagen-arteon_242749.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242749/volkswagen-arteon_242749_thumbnail.jpg"
+     },
+     {
+      "id": 242750,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242750/volkswagen-arteon_242750.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242750/volkswagen-arteon_242750_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE8AY60",
+    "public": true,
+    "created": "2026-09-30T10:28:19.410616+02:00",
+    "updated": "2026-10-01T03:27:42.986817+02:00",
+    "brand": "volkswagen",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29653,
+    "slug": "toyota-proace-verso",
+    "market": 3,
+    "title": "Toyota Proace Verso",
+    "comment": "VERSO 2.0 D-4D 177 A/T Business Long A8 130kW I2 (mini van 4dr.) - Samochód osobowy",
+    "description": "",
+    "VIN_code": "YARVKEHZ7RZ118749",
+    "model": 1822,
+    "color": 259,
+    "fuel": 48,
+    "equipments": [
+     2469,
+     8331,
+     8332,
+     3343,
+     10918,
+     7582,
+     7841,
+     11684,
+     6309,
+     6310,
+     4647,
+     15144,
+     15145,
+     15146,
+     15147,
+     15148,
+     15149,
+     15150,
+     15151,
+     15152,
+     15153,
+     15154,
+     2478,
+     15155,
+     15156,
+     15157,
+     15158,
+     15159,
+     15160,
+     15161,
+     15162,
+     15163,
+     15164,
+     15165,
+     15166,
+     15167,
+     15168,
+     15169,
+     15170,
+     15171,
+     15172,
+     15173,
+     15174,
+     2641,
+     9681,
+     2516,
+     8155,
+     3164,
+     2653,
+     6954,
+     2532,
+     2533,
+     4965,
+     2551,
+     4984
+    ],
+    "nr_of_places": 9,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 14,
+    "body_type": 128,
+    "mileage": 15322,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1997,
+    "power": 130,
+    "MOT_to_date": null,
+    "first_registration_date": "2026-01-09",
+    "year_of_manufacture": 2025,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 178780,
+    "sales_price": 219900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242647,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242647/toyota-proace-verso_242647.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242647/toyota-proace-verso_242647_thumbnail.jpg"
+     },
+     {
+      "id": 242648,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242648/toyota-proace-verso_242648.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242648/toyota-proace-verso_242648_thumbnail.jpg"
+     },
+     {
+      "id": 242649,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242649/toyota-proace-verso_242649.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242649/toyota-proace-verso_242649_thumbnail.jpg"
+     },
+     {
+      "id": 242650,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242650/toyota-proace-verso_242650.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242650/toyota-proace-verso_242650_thumbnail.jpg"
+     },
+     {
+      "id": 242651,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242651/toyota-proace-verso_242651.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242651/toyota-proace-verso_242651_thumbnail.jpg"
+     },
+     {
+      "id": 242652,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242652/toyota-proace-verso_242652.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242652/toyota-proace-verso_242652_thumbnail.jpg"
+     },
+     {
+      "id": 242653,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242653/toyota-proace-verso_242653.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242653/toyota-proace-verso_242653_thumbnail.jpg"
+     },
+     {
+      "id": 242654,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242654/toyota-proace-verso_242654.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242654/toyota-proace-verso_242654_thumbnail.jpg"
+     },
+     {
+      "id": 242655,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242655/toyota-proace-verso_242655.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242655/toyota-proace-verso_242655_thumbnail.jpg"
+     },
+     {
+      "id": 242656,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242656/toyota-proace-verso_242656.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242656/toyota-proace-verso_242656_thumbnail.jpg"
+     },
+     {
+      "id": 242657,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242657/toyota-proace-verso_242657.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242657/toyota-proace-verso_242657_thumbnail.jpg"
+     },
+     {
+      "id": 242658,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242658/toyota-proace-verso_242658.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242658/toyota-proace-verso_242658_thumbnail.jpg"
+     },
+     {
+      "id": 242659,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242659/toyota-proace-verso_242659.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242659/toyota-proace-verso_242659_thumbnail.jpg"
+     },
+     {
+      "id": 242660,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242660/toyota-proace-verso_242660.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242660/toyota-proace-verso_242660_thumbnail.jpg"
+     },
+     {
+      "id": 242661,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242661/toyota-proace-verso_242661.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242661/toyota-proace-verso_242661_thumbnail.jpg"
+     },
+     {
+      "id": 242662,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242662/toyota-proace-verso_242662.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242662/toyota-proace-verso_242662_thumbnail.jpg"
+     },
+     {
+      "id": 242663,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242663/toyota-proace-verso_242663.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242663/toyota-proace-verso_242663_thumbnail.jpg"
+     },
+     {
+      "id": 242664,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242664/toyota-proace-verso_242664.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242664/toyota-proace-verso_242664_thumbnail.jpg"
+     },
+     {
+      "id": 242665,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242665/toyota-proace-verso_242665.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242665/toyota-proace-verso_242665_thumbnail.jpg"
+     },
+     {
+      "id": 242666,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242666/toyota-proace-verso_242666.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242666/toyota-proace-verso_242666_thumbnail.jpg"
+     },
+     {
+      "id": 242667,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242667/toyota-proace-verso_242667.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242667/toyota-proace-verso_242667_thumbnail.jpg"
+     },
+     {
+      "id": 242668,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242668/toyota-proace-verso_242668.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242668/toyota-proace-verso_242668_thumbnail.jpg"
+     },
+     {
+      "id": 242669,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242669/toyota-proace-verso_242669.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242669/toyota-proace-verso_242669_thumbnail.jpg"
+     },
+     {
+      "id": 242670,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242670/toyota-proace-verso_242670.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242670/toyota-proace-verso_242670_thumbnail.jpg"
+     },
+     {
+      "id": 242671,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242671/toyota-proace-verso_242671.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242671/toyota-proace-verso_242671_thumbnail.jpg"
+     },
+     {
+      "id": 242672,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242672/toyota-proace-verso_242672.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242672/toyota-proace-verso_242672_thumbnail.jpg"
+     },
+     {
+      "id": 242673,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242673/toyota-proace-verso_242673.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242673/toyota-proace-verso_242673_thumbnail.jpg"
+     },
+     {
+      "id": 242674,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242674/toyota-proace-verso_242674.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242674/toyota-proace-verso_242674_thumbnail.jpg"
+     },
+     {
+      "id": 242675,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242675/toyota-proace-verso_242675.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242675/toyota-proace-verso_242675_thumbnail.jpg"
+     },
+     {
+      "id": 242676,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242676/toyota-proace-verso_242676.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242676/toyota-proace-verso_242676_thumbnail.jpg"
+     },
+     {
+      "id": 242677,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242677/toyota-proace-verso_242677.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242677/toyota-proace-verso_242677_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE5KH59",
+    "public": true,
+    "created": "2026-09-28T19:50:13.609179+02:00",
+    "updated": "2026-10-01T04:47:09.445334+02:00",
+    "brand": "toyota",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29652,
+    "slug": "mercedes-benz-glb-200",
+    "market": 3,
+    "title": "Mercedes-Benz GLB 200",
+    "comment": "GLB 200 d",
+    "description": "",
+    "VIN_code": "W1N2476121W234205",
+    "model": 1821,
+    "color": 259,
+    "fuel": 48,
+    "equipments": [
+     7073,
+     7049,
+     2445,
+     7059,
+     7060,
+     665,
+     13978,
+     1305,
+     15132,
+     15133,
+     15134,
+     15135,
+     15136,
+     15137,
+     15138,
+     2463,
+     15139,
+     15140,
+     15141,
+     4647,
+     15142,
+     6697,
+     15143,
+     14251,
+     2478,
+     8752,
+     8754,
+     8756,
+     8757,
+     8758,
+     8760,
+     9913,
+     6457,
+     8763,
+     9917,
+     2497,
+     12874,
+     4554,
+     2506,
+     3149,
+     9952,
+     2532,
+     2533,
+     7015,
+     7016,
+     7068,
+     7020,
+     10359,
+     3065,
+     2810
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 14,
+    "body_type": 153,
+    "mileage": 114747,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1950,
+    "power": 110,
+    "MOT_to_date": null,
+    "first_registration_date": "2022-08-16",
+    "year_of_manufacture": 2022,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 91789,
+    "sales_price": 112900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242613,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242613/mercedes-benz-glb-200_242613.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242613/mercedes-benz-glb-200_242613_thumbnail.jpg"
+     },
+     {
+      "id": 242614,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242614/mercedes-benz-glb-200_242614.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242614/mercedes-benz-glb-200_242614_thumbnail.jpg"
+     },
+     {
+      "id": 242615,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242615/mercedes-benz-glb-200_242615.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242615/mercedes-benz-glb-200_242615_thumbnail.jpg"
+     },
+     {
+      "id": 242616,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242616/mercedes-benz-glb-200_242616.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242616/mercedes-benz-glb-200_242616_thumbnail.jpg"
+     },
+     {
+      "id": 242617,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242617/mercedes-benz-glb-200_242617.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242617/mercedes-benz-glb-200_242617_thumbnail.jpg"
+     },
+     {
+      "id": 242618,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242618/mercedes-benz-glb-200_242618.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242618/mercedes-benz-glb-200_242618_thumbnail.jpg"
+     },
+     {
+      "id": 242619,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242619/mercedes-benz-glb-200_242619.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242619/mercedes-benz-glb-200_242619_thumbnail.jpg"
+     },
+     {
+      "id": 242620,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242620/mercedes-benz-glb-200_242620.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242620/mercedes-benz-glb-200_242620_thumbnail.jpg"
+     },
+     {
+      "id": 242621,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242621/mercedes-benz-glb-200_242621.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242621/mercedes-benz-glb-200_242621_thumbnail.jpg"
+     },
+     {
+      "id": 242622,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242622/mercedes-benz-glb-200_242622.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242622/mercedes-benz-glb-200_242622_thumbnail.jpg"
+     },
+     {
+      "id": 242623,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242623/mercedes-benz-glb-200_242623.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242623/mercedes-benz-glb-200_242623_thumbnail.jpg"
+     },
+     {
+      "id": 242624,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242624/mercedes-benz-glb-200_242624.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242624/mercedes-benz-glb-200_242624_thumbnail.jpg"
+     },
+     {
+      "id": 242625,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242625/mercedes-benz-glb-200_242625.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242625/mercedes-benz-glb-200_242625_thumbnail.jpg"
+     },
+     {
+      "id": 242626,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242626/mercedes-benz-glb-200_242626.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242626/mercedes-benz-glb-200_242626_thumbnail.jpg"
+     },
+     {
+      "id": 242627,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242627/mercedes-benz-glb-200_242627.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242627/mercedes-benz-glb-200_242627_thumbnail.jpg"
+     },
+     {
+      "id": 242628,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242628/mercedes-benz-glb-200_242628.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242628/mercedes-benz-glb-200_242628_thumbnail.jpg"
+     },
+     {
+      "id": 242629,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242629/mercedes-benz-glb-200_242629.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242629/mercedes-benz-glb-200_242629_thumbnail.jpg"
+     },
+     {
+      "id": 242630,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242630/mercedes-benz-glb-200_242630.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242630/mercedes-benz-glb-200_242630_thumbnail.jpg"
+     },
+     {
+      "id": 242631,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242631/mercedes-benz-glb-200_242631.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242631/mercedes-benz-glb-200_242631_thumbnail.jpg"
+     },
+     {
+      "id": 242632,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242632/mercedes-benz-glb-200_242632.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242632/mercedes-benz-glb-200_242632_thumbnail.jpg"
+     },
+     {
+      "id": 242633,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242633/mercedes-benz-glb-200_242633.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242633/mercedes-benz-glb-200_242633_thumbnail.jpg"
+     },
+     {
+      "id": 242634,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242634/mercedes-benz-glb-200_242634.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242634/mercedes-benz-glb-200_242634_thumbnail.jpg"
+     },
+     {
+      "id": 242635,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242635/mercedes-benz-glb-200_242635.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242635/mercedes-benz-glb-200_242635_thumbnail.jpg"
+     },
+     {
+      "id": 242636,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242636/mercedes-benz-glb-200_242636.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242636/mercedes-benz-glb-200_242636_thumbnail.jpg"
+     },
+     {
+      "id": 242637,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242637/mercedes-benz-glb-200_242637.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242637/mercedes-benz-glb-200_242637_thumbnail.jpg"
+     },
+     {
+      "id": 242638,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242638/mercedes-benz-glb-200_242638.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242638/mercedes-benz-glb-200_242638_thumbnail.jpg"
+     },
+     {
+      "id": 242639,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242639/mercedes-benz-glb-200_242639.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242639/mercedes-benz-glb-200_242639_thumbnail.jpg"
+     },
+     {
+      "id": 242640,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242640/mercedes-benz-glb-200_242640.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242640/mercedes-benz-glb-200_242640_thumbnail.jpg"
+     },
+     {
+      "id": 242641,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242641/mercedes-benz-glb-200_242641.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242641/mercedes-benz-glb-200_242641_thumbnail.jpg"
+     },
+     {
+      "id": 242642,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242642/mercedes-benz-glb-200_242642.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242642/mercedes-benz-glb-200_242642_thumbnail.jpg"
+     },
+     {
+      "id": 242643,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242643/mercedes-benz-glb-200_242643.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242643/mercedes-benz-glb-200_242643_thumbnail.jpg"
+     },
+     {
+      "id": 242644,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242644/mercedes-benz-glb-200_242644.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242644/mercedes-benz-glb-200_242644_thumbnail.jpg"
+     },
+     {
+      "id": 242645,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242645/mercedes-benz-glb-200_242645.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242645/mercedes-benz-glb-200_242645_thumbnail.jpg"
+     },
+     {
+      "id": 242646,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242646/mercedes-benz-glb-200_242646.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242646/mercedes-benz-glb-200_242646_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "DW8TL96",
+    "public": true,
+    "created": "2026-09-28T18:54:38.491190+02:00",
+    "updated": "2026-10-01T03:56:36.357845+02:00",
+    "brand": "mercedes-benz",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29651,
+    "slug": "bmw-x3",
+    "market": 3,
+    "title": "BMW X3",
+    "comment": "XDrive20d",
+    "description": "",
+    "VIN_code": "WBA15BZ020N175502",
+    "model": 73,
+    "color": 244,
+    "fuel": 80,
+    "equipments": [
+     3072,
+     6656,
+     3077,
+     3079,
+     2570,
+     6667,
+     3085,
+     3089,
+     6677,
+     6678,
+     3093,
+     3095,
+     3096,
+     6683,
+     6687,
+     3103,
+     4647,
+     11314,
+     8291,
+     10868,
+     8309,
+     8313,
+     8318,
+     8321,
+     8325,
+     13454,
+     13455,
+     13456,
+     13461,
+     7320,
+     4814,
+     4815,
+     4819,
+     2783,
+     15126,
+     15127,
+     15128,
+     15129,
+     15130,
+     15131,
+     13086,
+     13087,
+     13088,
+     13089,
+     14632,
+     2900,
+     10581,
+     10586,
+     3432,
+     10603,
+     14189,
+     8582,
+     8584,
+     8589,
+     8591,
+     8593,
+     8598,
+     8600,
+     6554,
+     8608,
+     8610,
+     8611,
+     8614,
+     8619,
+     4533,
+     11206,
+     11209,
+     11211,
+     11212,
+     11213,
+     11214,
+     11215,
+     11216,
+     11217,
+     11218,
+     11219,
+     11220,
+     11221,
+     11222,
+     11223,
+     11224,
+     11226,
+     2532,
+     2533,
+     6633,
+     8684,
+     6636,
+     3057,
+     3060,
+     3062,
+     3064,
+     6649,
+     3071
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 13,
+    "body_type": 153,
+    "mileage": 46662,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1995,
+    "power": 140,
+    "MOT_to_date": null,
+    "first_registration_date": "2022-08-24",
+    "year_of_manufacture": 2022,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 135691,
+    "sales_price": 166900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242578,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242578/bmw-x3_242578.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242578/bmw-x3_242578_thumbnail.jpg"
+     },
+     {
+      "id": 242579,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242579/bmw-x3_242579.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242579/bmw-x3_242579_thumbnail.jpg"
+     },
+     {
+      "id": 242580,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242580/bmw-x3_242580.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242580/bmw-x3_242580_thumbnail.jpg"
+     },
+     {
+      "id": 242581,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242581/bmw-x3_242581.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242581/bmw-x3_242581_thumbnail.jpg"
+     },
+     {
+      "id": 242582,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242582/bmw-x3_242582.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242582/bmw-x3_242582_thumbnail.jpg"
+     },
+     {
+      "id": 242583,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242583/bmw-x3_242583.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242583/bmw-x3_242583_thumbnail.jpg"
+     },
+     {
+      "id": 242584,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242584/bmw-x3_242584.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242584/bmw-x3_242584_thumbnail.jpg"
+     },
+     {
+      "id": 242585,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242585/bmw-x3_242585.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242585/bmw-x3_242585_thumbnail.jpg"
+     },
+     {
+      "id": 242586,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242586/bmw-x3_242586.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242586/bmw-x3_242586_thumbnail.jpg"
+     },
+     {
+      "id": 242587,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242587/bmw-x3_242587.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242587/bmw-x3_242587_thumbnail.jpg"
+     },
+     {
+      "id": 242588,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242588/bmw-x3_242588.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242588/bmw-x3_242588_thumbnail.jpg"
+     },
+     {
+      "id": 242589,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242589/bmw-x3_242589.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242589/bmw-x3_242589_thumbnail.jpg"
+     },
+     {
+      "id": 242590,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242590/bmw-x3_242590.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242590/bmw-x3_242590_thumbnail.jpg"
+     },
+     {
+      "id": 242591,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242591/bmw-x3_242591.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242591/bmw-x3_242591_thumbnail.jpg"
+     },
+     {
+      "id": 242592,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242592/bmw-x3_242592.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242592/bmw-x3_242592_thumbnail.jpg"
+     },
+     {
+      "id": 242593,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242593/bmw-x3_242593.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242593/bmw-x3_242593_thumbnail.jpg"
+     },
+     {
+      "id": 242594,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242594/bmw-x3_242594.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242594/bmw-x3_242594_thumbnail.jpg"
+     },
+     {
+      "id": 242595,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242595/bmw-x3_242595.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242595/bmw-x3_242595_thumbnail.jpg"
+     },
+     {
+      "id": 242596,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242596/bmw-x3_242596.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242596/bmw-x3_242596_thumbnail.jpg"
+     },
+     {
+      "id": 242597,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242597/bmw-x3_242597.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242597/bmw-x3_242597_thumbnail.jpg"
+     },
+     {
+      "id": 242598,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242598/bmw-x3_242598.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242598/bmw-x3_242598_thumbnail.jpg"
+     },
+     {
+      "id": 242599,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242599/bmw-x3_242599.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242599/bmw-x3_242599_thumbnail.jpg"
+     },
+     {
+      "id": 242600,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242600/bmw-x3_242600.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242600/bmw-x3_242600_thumbnail.jpg"
+     },
+     {
+      "id": 242601,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242601/bmw-x3_242601.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242601/bmw-x3_242601_thumbnail.jpg"
+     },
+     {
+      "id": 242602,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242602/bmw-x3_242602.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242602/bmw-x3_242602_thumbnail.jpg"
+     },
+     {
+      "id": 242603,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242603/bmw-x3_242603.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242603/bmw-x3_242603_thumbnail.jpg"
+     },
+     {
+      "id": 242604,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242604/bmw-x3_242604.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242604/bmw-x3_242604_thumbnail.jpg"
+     },
+     {
+      "id": 242605,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242605/bmw-x3_242605.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242605/bmw-x3_242605_thumbnail.jpg"
+     },
+     {
+      "id": 242606,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242606/bmw-x3_242606.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242606/bmw-x3_242606_thumbnail.jpg"
+     },
+     {
+      "id": 242607,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242607/bmw-x3_242607.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242607/bmw-x3_242607_thumbnail.jpg"
+     },
+     {
+      "id": 242608,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242608/bmw-x3_242608.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242608/bmw-x3_242608_thumbnail.jpg"
+     },
+     {
+      "id": 242609,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242609/bmw-x3_242609.jpg",
+      "position": 32,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242609/bmw-x3_242609_thumbnail.jpg"
+     },
+     {
+      "id": 242610,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242610/bmw-x3_242610.jpg",
+      "position": 33,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242610/bmw-x3_242610_thumbnail.jpg"
+     },
+     {
+      "id": 242611,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242611/bmw-x3_242611.jpg",
+      "position": 34,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242611/bmw-x3_242611_thumbnail.jpg"
+     },
+     {
+      "id": 242612,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242612/bmw-x3_242612.jpg",
+      "position": 35,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242612/bmw-x3_242612_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE6S369",
+    "public": true,
+    "created": "2026-09-28T18:52:20.916084+02:00",
+    "updated": "2026-10-01T03:54:21.256540+02:00",
+    "brand": "bmw",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29647,
+    "slug": "opel-combo",
+    "market": 3,
+    "title": "Opel Combo",
+    "comment": "1.5 DT Edition 102KM",
+    "description": "",
+    "VIN_code": "W0VEFYHT2PN518750",
+    "model": 523,
+    "color": 224,
+    "fuel": 48,
+    "equipments": [
+     7302,
+     2953,
+     14072,
+     2965,
+     2967,
+     1305,
+     2469,
+     2626,
+     12487,
+     12502,
+     4963,
+     2532,
+     2533,
+     14061,
+     14062,
+     14063,
+     14064,
+     14065,
+     14066,
+     14067,
+     14068,
+     14069,
+     14070,
+     14071,
+     2673,
+     14073,
+     14075,
+     14076,
+     14077,
+     14078,
+     14079
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 11,
+    "driver_type": 14,
+    "body_type": 158,
+    "mileage": 136281,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1499,
+    "power": 75,
+    "MOT_to_date": null,
+    "first_registration_date": "2023-05-16",
+    "year_of_manufacture": 2023,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 54390,
+    "sales_price": 66900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242511,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242511/opel-combo_242511.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242511/opel-combo_242511_thumbnail.jpg"
+     },
+     {
+      "id": 242512,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242512/opel-combo_242512.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242512/opel-combo_242512_thumbnail.jpg"
+     },
+     {
+      "id": 242513,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242513/opel-combo_242513.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242513/opel-combo_242513_thumbnail.jpg"
+     },
+     {
+      "id": 242514,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242514/opel-combo_242514.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242514/opel-combo_242514_thumbnail.jpg"
+     },
+     {
+      "id": 242515,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242515/opel-combo_242515.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242515/opel-combo_242515_thumbnail.jpg"
+     },
+     {
+      "id": 242516,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242516/opel-combo_242516.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242516/opel-combo_242516_thumbnail.jpg"
+     },
+     {
+      "id": 242517,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242517/opel-combo_242517.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242517/opel-combo_242517_thumbnail.jpg"
+     },
+     {
+      "id": 242518,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242518/opel-combo_242518.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242518/opel-combo_242518_thumbnail.jpg"
+     },
+     {
+      "id": 242519,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242519/opel-combo_242519.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242519/opel-combo_242519_thumbnail.jpg"
+     },
+     {
+      "id": 242520,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242520/opel-combo_242520.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242520/opel-combo_242520_thumbnail.jpg"
+     },
+     {
+      "id": 242521,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242521/opel-combo_242521.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242521/opel-combo_242521_thumbnail.jpg"
+     },
+     {
+      "id": 242522,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242522/opel-combo_242522.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242522/opel-combo_242522_thumbnail.jpg"
+     },
+     {
+      "id": 242523,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242523/opel-combo_242523.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242523/opel-combo_242523_thumbnail.jpg"
+     },
+     {
+      "id": 242524,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242524/opel-combo_242524.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242524/opel-combo_242524_thumbnail.jpg"
+     },
+     {
+      "id": 242525,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242525/opel-combo_242525.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242525/opel-combo_242525_thumbnail.jpg"
+     },
+     {
+      "id": 242526,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242526/opel-combo_242526.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242526/opel-combo_242526_thumbnail.jpg"
+     },
+     {
+      "id": 242527,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242527/opel-combo_242527.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242527/opel-combo_242527_thumbnail.jpg"
+     },
+     {
+      "id": 242528,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242528/opel-combo_242528.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242528/opel-combo_242528_thumbnail.jpg"
+     },
+     {
+      "id": 242529,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242529/opel-combo_242529.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242529/opel-combo_242529_thumbnail.jpg"
+     },
+     {
+      "id": 242530,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242530/opel-combo_242530.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242530/opel-combo_242530_thumbnail.jpg"
+     },
+     {
+      "id": 242531,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242531/opel-combo_242531.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242531/opel-combo_242531_thumbnail.jpg"
+     },
+     {
+      "id": 242532,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242532/opel-combo_242532.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242532/opel-combo_242532_thumbnail.jpg"
+     },
+     {
+      "id": 242533,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242533/opel-combo_242533.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242533/opel-combo_242533_thumbnail.jpg"
+     },
+     {
+      "id": 242534,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242534/opel-combo_242534.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242534/opel-combo_242534_thumbnail.jpg"
+     },
+     {
+      "id": 242535,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242535/opel-combo_242535.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242535/opel-combo_242535_thumbnail.jpg"
+     },
+     {
+      "id": 242536,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242536/opel-combo_242536.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242536/opel-combo_242536_thumbnail.jpg"
+     },
+     {
+      "id": 242537,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242537/opel-combo_242537.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242537/opel-combo_242537_thumbnail.jpg"
+     },
+     {
+      "id": 242538,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242538/opel-combo_242538.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242538/opel-combo_242538_thumbnail.jpg"
+     },
+     {
+      "id": 242539,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242539/opel-combo_242539.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242539/opel-combo_242539_thumbnail.jpg"
+     },
+     {
+      "id": 242540,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242540/opel-combo_242540.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242540/opel-combo_242540_thumbnail.jpg"
+     },
+     {
+      "id": 242541,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242541/opel-combo_242541.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242541/opel-combo_242541_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE8S558",
+    "public": true,
+    "created": "2026-09-25T19:34:16.883536+02:00",
+    "updated": "2026-10-01T04:29:58.247453+02:00",
+    "brand": "opel",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29646,
+    "slug": "opel-combo",
+    "market": 3,
+    "title": "Opel Combo",
+    "comment": "1.5 DT Edition 102KM",
+    "description": "",
+    "VIN_code": "W0VEFYHT2PN518749",
+    "model": 523,
+    "color": 224,
+    "fuel": 48,
+    "equipments": [
+     7302,
+     2953,
+     14072,
+     2965,
+     2967,
+     1305,
+     2469,
+     2626,
+     12487,
+     12502,
+     4963,
+     2532,
+     2533,
+     14061,
+     14062,
+     14063,
+     14064,
+     14065,
+     14066,
+     14067,
+     14068,
+     14069,
+     14070,
+     14071,
+     2673,
+     14073,
+     14075,
+     14076,
+     14077,
+     14078,
+     14079
+    ],
+    "nr_of_places": 5,
+    "doors_number": 5,
+    "speeds_number": 0,
+    "transmission": 11,
+    "driver_type": 14,
+    "body_type": 158,
+    "mileage": 159559,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1499,
+    "power": 75,
+    "MOT_to_date": null,
+    "first_registration_date": "2023-05-16",
+    "year_of_manufacture": 2023,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 51138,
+    "sales_price": 62900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242480,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242480/opel-combo_242480.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242480/opel-combo_242480_thumbnail.jpg"
+     },
+     {
+      "id": 242481,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242481/opel-combo_242481.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242481/opel-combo_242481_thumbnail.jpg"
+     },
+     {
+      "id": 242482,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242482/opel-combo_242482.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242482/opel-combo_242482_thumbnail.jpg"
+     },
+     {
+      "id": 242483,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242483/opel-combo_242483.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242483/opel-combo_242483_thumbnail.jpg"
+     },
+     {
+      "id": 242484,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242484/opel-combo_242484.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242484/opel-combo_242484_thumbnail.jpg"
+     },
+     {
+      "id": 242485,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242485/opel-combo_242485.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242485/opel-combo_242485_thumbnail.jpg"
+     },
+     {
+      "id": 242486,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242486/opel-combo_242486.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242486/opel-combo_242486_thumbnail.jpg"
+     },
+     {
+      "id": 242487,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242487/opel-combo_242487.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242487/opel-combo_242487_thumbnail.jpg"
+     },
+     {
+      "id": 242488,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242488/opel-combo_242488.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242488/opel-combo_242488_thumbnail.jpg"
+     },
+     {
+      "id": 242489,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242489/opel-combo_242489.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242489/opel-combo_242489_thumbnail.jpg"
+     },
+     {
+      "id": 242490,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242490/opel-combo_242490.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242490/opel-combo_242490_thumbnail.jpg"
+     },
+     {
+      "id": 242491,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242491/opel-combo_242491.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242491/opel-combo_242491_thumbnail.jpg"
+     },
+     {
+      "id": 242492,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242492/opel-combo_242492.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242492/opel-combo_242492_thumbnail.jpg"
+     },
+     {
+      "id": 242493,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242493/opel-combo_242493.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242493/opel-combo_242493_thumbnail.jpg"
+     },
+     {
+      "id": 242494,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242494/opel-combo_242494.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242494/opel-combo_242494_thumbnail.jpg"
+     },
+     {
+      "id": 242495,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242495/opel-combo_242495.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242495/opel-combo_242495_thumbnail.jpg"
+     },
+     {
+      "id": 242496,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242496/opel-combo_242496.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242496/opel-combo_242496_thumbnail.jpg"
+     },
+     {
+      "id": 242497,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242497/opel-combo_242497.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242497/opel-combo_242497_thumbnail.jpg"
+     },
+     {
+      "id": 242498,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242498/opel-combo_242498.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242498/opel-combo_242498_thumbnail.jpg"
+     },
+     {
+      "id": 242499,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242499/opel-combo_242499.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242499/opel-combo_242499_thumbnail.jpg"
+     },
+     {
+      "id": 242500,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242500/opel-combo_242500.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242500/opel-combo_242500_thumbnail.jpg"
+     },
+     {
+      "id": 242501,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242501/opel-combo_242501.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242501/opel-combo_242501_thumbnail.jpg"
+     },
+     {
+      "id": 242502,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242502/opel-combo_242502.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242502/opel-combo_242502_thumbnail.jpg"
+     },
+     {
+      "id": 242503,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242503/opel-combo_242503.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242503/opel-combo_242503_thumbnail.jpg"
+     },
+     {
+      "id": 242504,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242504/opel-combo_242504.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242504/opel-combo_242504_thumbnail.jpg"
+     },
+     {
+      "id": 242505,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242505/opel-combo_242505.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242505/opel-combo_242505_thumbnail.jpg"
+     },
+     {
+      "id": 242506,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242506/opel-combo_242506.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242506/opel-combo_242506_thumbnail.jpg"
+     },
+     {
+      "id": 242507,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242507/opel-combo_242507.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242507/opel-combo_242507_thumbnail.jpg"
+     },
+     {
+      "id": 242508,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242508/opel-combo_242508.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242508/opel-combo_242508_thumbnail.jpg"
+     },
+     {
+      "id": 242509,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242509/opel-combo_242509.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242509/opel-combo_242509_thumbnail.jpg"
+     },
+     {
+      "id": 242510,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242510/opel-combo_242510.jpg",
+      "position": 31,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242510/opel-combo_242510_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE8S560",
+    "public": true,
+    "created": "2026-09-25T19:33:00.977185+02:00",
+    "updated": "2026-10-01T04:28:42.998754+02:00",
+    "brand": "opel",
+    "reserved": false,
+    "leasings": []
+   },
+   {
+    "id": 29645,
+    "slug": "ford-ranger",
+    "market": 3,
+    "title": "Ford Ranger",
+    "comment": "2.0 EBlue Wildtrak 213KM A/T Podw. kabin",
+    "description": "",
+    "VIN_code": "6FPPXXMJ2PNU27351",
+    "model": 815,
+    "color": 259,
+    "fuel": 48,
+    "equipments": [
+     4613,
+     15110,
+     15111,
+     15112,
+     15113,
+     15114,
+     15115,
+     15116,
+     15117,
+     15118,
+     2828,
+     15119,
+     15120,
+     15121,
+     15122,
+     15123,
+     15124,
+     5011,
+     15125,
+     15008,
+     7841,
+     6822,
+     4647,
+     3369,
+     7212,
+     7213,
+     7214,
+     7215,
+     7216,
+     2478,
+     4402,
+     7219,
+     7220,
+     7221,
+     7222,
+     7223,
+     7224,
+     7225,
+     7226,
+     7230,
+     7231,
+     7232,
+     2753,
+     7233,
+     7235,
+     7236,
+     3141,
+     7240,
+     7241,
+     2890,
+     7243,
+     7244,
+     3530,
+     7246,
+     2639,
+     7247,
+     7248,
+     7249,
+     7250,
+     7251,
+     2784,
+     3043,
+     2532,
+     2533,
+     3505,
+     3176,
+     10505,
+     2552
+    ],
+    "nr_of_places": 5,
+    "doors_number": 4,
+    "speeds_number": 0,
+    "transmission": 6,
+    "driver_type": 13,
+    "body_type": 185,
+    "mileage": 150680,
+    "speedometer": 10,
+    "specification": "",
+    "supplement": "",
+    "sport_car": false,
+    "engine_stroke": 1995,
+    "power": 157,
+    "MOT_to_date": null,
+    "first_registration_date": "2022-09-30",
+    "year_of_manufacture": 2022,
+    "service_book": true,
+    "no_crash": true,
+    "is_new": false,
+    "first_owner": false,
+    "nr_of_owners": 1,
+    "price": 103984,
+    "sales_price": 127900.0,
+    "bourse_price": null,
+    "vat_expel_flag": false,
+    "vat_expel_text": "",
+    "leasing_flag": true,
+    "credit_flag": false,
+    "payment": null,
+    "payment_count": null,
+    "repayment": null,
+    "monthly_payment": 0,
+    "photos": [
+     {
+      "id": 242450,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242450/ford-ranger_242450.jpg",
+      "position": 1,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242450/ford-ranger_242450_thumbnail.jpg"
+     },
+     {
+      "id": 242451,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242451/ford-ranger_242451.jpg",
+      "position": 2,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242451/ford-ranger_242451_thumbnail.jpg"
+     },
+     {
+      "id": 242452,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242452/ford-ranger_242452.jpg",
+      "position": 3,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242452/ford-ranger_242452_thumbnail.jpg"
+     },
+     {
+      "id": 242453,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242453/ford-ranger_242453.jpg",
+      "position": 4,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242453/ford-ranger_242453_thumbnail.jpg"
+     },
+     {
+      "id": 242454,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242454/ford-ranger_242454.jpg",
+      "position": 5,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242454/ford-ranger_242454_thumbnail.jpg"
+     },
+     {
+      "id": 242455,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242455/ford-ranger_242455.jpg",
+      "position": 6,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242455/ford-ranger_242455_thumbnail.jpg"
+     },
+     {
+      "id": 242456,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242456/ford-ranger_242456.jpg",
+      "position": 7,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242456/ford-ranger_242456_thumbnail.jpg"
+     },
+     {
+      "id": 242457,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242457/ford-ranger_242457.jpg",
+      "position": 8,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242457/ford-ranger_242457_thumbnail.jpg"
+     },
+     {
+      "id": 242458,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242458/ford-ranger_242458.jpg",
+      "position": 9,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242458/ford-ranger_242458_thumbnail.jpg"
+     },
+     {
+      "id": 242459,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242459/ford-ranger_242459.jpg",
+      "position": 10,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242459/ford-ranger_242459_thumbnail.jpg"
+     },
+     {
+      "id": 242460,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242460/ford-ranger_242460.jpg",
+      "position": 11,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242460/ford-ranger_242460_thumbnail.jpg"
+     },
+     {
+      "id": 242461,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242461/ford-ranger_242461.jpg",
+      "position": 12,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242461/ford-ranger_242461_thumbnail.jpg"
+     },
+     {
+      "id": 242462,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242462/ford-ranger_242462.jpg",
+      "position": 13,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242462/ford-ranger_242462_thumbnail.jpg"
+     },
+     {
+      "id": 242463,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242463/ford-ranger_242463.jpg",
+      "position": 14,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242463/ford-ranger_242463_thumbnail.jpg"
+     },
+     {
+      "id": 242464,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242464/ford-ranger_242464.jpg",
+      "position": 15,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242464/ford-ranger_242464_thumbnail.jpg"
+     },
+     {
+      "id": 242465,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242465/ford-ranger_242465.jpg",
+      "position": 16,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242465/ford-ranger_242465_thumbnail.jpg"
+     },
+     {
+      "id": 242466,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242466/ford-ranger_242466.jpg",
+      "position": 17,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242466/ford-ranger_242466_thumbnail.jpg"
+     },
+     {
+      "id": 242467,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242467/ford-ranger_242467.jpg",
+      "position": 18,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242467/ford-ranger_242467_thumbnail.jpg"
+     },
+     {
+      "id": 242468,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242468/ford-ranger_242468.jpg",
+      "position": 19,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242468/ford-ranger_242468_thumbnail.jpg"
+     },
+     {
+      "id": 242469,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242469/ford-ranger_242469.jpg",
+      "position": 20,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242469/ford-ranger_242469_thumbnail.jpg"
+     },
+     {
+      "id": 242470,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242470/ford-ranger_242470.jpg",
+      "position": 21,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242470/ford-ranger_242470_thumbnail.jpg"
+     },
+     {
+      "id": 242471,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242471/ford-ranger_242471.jpg",
+      "position": 22,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242471/ford-ranger_242471_thumbnail.jpg"
+     },
+     {
+      "id": 242472,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242472/ford-ranger_242472.jpg",
+      "position": 23,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242472/ford-ranger_242472_thumbnail.jpg"
+     },
+     {
+      "id": 242473,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242473/ford-ranger_242473.jpg",
+      "position": 24,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242473/ford-ranger_242473_thumbnail.jpg"
+     },
+     {
+      "id": 242474,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242474/ford-ranger_242474.jpg",
+      "position": 25,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242474/ford-ranger_242474_thumbnail.jpg"
+     },
+     {
+      "id": 242475,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242475/ford-ranger_242475.jpg",
+      "position": 26,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242475/ford-ranger_242475_thumbnail.jpg"
+     },
+     {
+      "id": 242476,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242476/ford-ranger_242476.jpg",
+      "position": 27,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242476/ford-ranger_242476_thumbnail.jpg"
+     },
+     {
+      "id": 242477,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242477/ford-ranger_242477.jpg",
+      "position": 28,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242477/ford-ranger_242477_thumbnail.jpg"
+     },
+     {
+      "id": 242478,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242478/ford-ranger_242478.jpg",
+      "position": 29,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242478/ford-ranger_242478_thumbnail.jpg"
+     },
+     {
+      "id": 242479,
+      "image": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242479/ford-ranger_242479.jpg",
+      "position": 30,
+      "thumbnail": "https://api.carsandcare-prod.businesslease.cloud/media/cars/242479/ford-ranger_242479_thumbnail.jpg"
+     }
+    ],
+    "ab_id": "WE6Y616",
+    "public": true,
+    "created": "2026-09-25T19:08:01.794048+02:00",
+    "updated": "2026-10-01T04:07:05.900575+02:00",
+    "brand": "ford",
+    "reserved": false,
+    "leasings": []
+   }
+  ]
+ },
+ "fuels": {
+  "count": 8,
+  "next": null,
+  "previous": null,
+  "results": [
+   {
+    "id": 43,
+    "name": "benzyna"
+   },
+   {
+    "id": 48,
+    "name": "diesel"
+   },
+   {
+    "id": 97,
+    "name": "hybryda"
+   },
+   {
+    "id": 54,
+    "name": "hybryda (hev pełna)"
+   },
+   {
+    "id": 72,
+    "name": "hybryda (mhev benzyna)"
+   },
+   {
+    "id": 80,
+    "name": "hybryda (mhev diesel)"
+   },
+   {
+    "id": 89,
+    "name": "hybryda (mhev mild)"
+   },
+   {
+    "id": 95,
+    "name": "hybryda plug-in"
+   }
+  ]
+ }
+}
