@@ -43,7 +43,6 @@ Albo po prostu dwukliknij **`run_daily.bat`**.
 |---|---|---|---|
 | `vwfs` — VW Financial Services Store | działa | JSON z `__NEXT_DATA__` (`/oferty?rodzajPaliwa=5`) | brutto + netto, rata leasingowa netto |
 | `ayvens` — Ayvens (usedcars.ayvens.com) | działa | HTML SSR + JSON w kafelkach | brutto („Zawiera 23% VAT”) |
-| `carsandcare` — Cars&Care | działa | publiczne API JSON | netto + brutto |
 | `mauto` — mAuto | działa | API JSON (`Offers/AfterLease`, `Offers/NewVehicles`, filtr paliwa) | brutto + netto, rata leasingowa netto |
 | `automarket` — Automarket (PKO Leasing) | działa | `__NUXT_DATA__` (`?fuel_type=Elektryczny`, per marka) | **netto**, rata netto |
 | `stellantis` — Stellantis &You | działa | publiczny indeks Algolia używany przez stronę | brutto, rata brutto |

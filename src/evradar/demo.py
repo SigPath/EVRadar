@@ -77,7 +77,7 @@ def synthetic_report_data() -> ReportData:
     ]
     drops_base = [
         _offer(10, "automarket", "Hyundai", "Kona Electric", 2022, 35_000, 99_000, days_ago=9),
-        _offer(11, "carsandcare", "Tesla", "Model Y", 2022, 54_000, 172_000, days_ago=4),
+        _offer(11, "vwfs", "Tesla", "Model Y", 2022, 54_000, 172_000, days_ago=4),
     ]
     stable = [
         _offer(20, "poleasingowe", "Kia", "e-Niro", 2021, 72_000, 104_500, days_ago=21),
@@ -104,9 +104,6 @@ def synthetic_report_data() -> ReportData:
             source="vwfs", name="VW Financial Services", status=ok, offers_count=5, duration_s=4.2
         ),
         SourceResult(source="ayvens", name="Ayvens", status=ok, offers_count=3, duration_s=8.1),
-        SourceResult(
-            source="carsandcare", name="Cars&Care", status=ok, offers_count=2, duration_s=3.3
-        ),
         SourceResult(
             source="mauto",
             name="Mauto",
