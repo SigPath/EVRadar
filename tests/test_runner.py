@@ -67,7 +67,9 @@ def cfg(source_id: str, **kw: object) -> SourceConfig:
 
 @pytest.fixture
 def models() -> ModelsConfig:
-    return load_models_config()
+    cfg = load_models_config()
+    cfg.filters.max_price_gross_pln = None  # testy nie zależą od limitu ceny z configu
+    return cfg
 
 
 async def test_failure_is_isolated(
@@ -171,3 +173,11 @@ def test_gross_only_price_gets_net_without_vat(models: ModelsConfig) -> None:
     offers = runner.build_offers([listing], ModelMatcher(models.targets), models, utcnow())
     assert offers[0].price_gross_pln == 123_000
     assert offers[0].price_net_pln == 100_000
+
+
+def test_max_price_filter_drops_expensive(models: ModelsConfig) -> None:
+    models.filters.max_price_gross_pln = 130_000
+    listings = [make_listing('s', 130_000, '1'), make_listing('s', 130_001, '2')]
+    offers = runner.build_offers(listings, ModelMatcher(models.targets), models, utcnow())
+    assert [o.price_gross_pln for o in offers] == [130_000]
+

@@ -17,7 +17,7 @@ targets:
 brand_aliases:
   volkswagen: ["VW"]
 filters:
-  max_price_gross_pln: null     # null = bez limitu
+  max_price_gross_pln: 130000   # null = bez limitu
   max_mileage_km: null
   min_year: null
 notifications:
