@@ -17,12 +17,12 @@
 
 ## Co robi
 
-EV Radar codziennie odpytuje **6 polskich serwisów** z autami leasingowymi/poleasingowymi, wyłuskuje wyłącznie **wybrane modele elektryczne** i porównuje wynik z poprzednim skanem. Efektem jest jeden plik `index.html` (bez serwera i zależności), który otwierasz dwuklikiem albo publikujesz na GitHub Pages.
+EV Radar codziennie odpytuje **7 polskich serwisów** z autami leasingowymi/poleasingowymi i ogłoszeniami (w tym Otomoto), wyłuskuje wyłącznie **wybrane modele elektryczne** i porównuje wynik z poprzednim skanem. Efektem jest jeden plik `index.html` (bez serwera i zależności), który otwierasz dwuklikiem albo publikujesz na GitHub Pages.
 
 - 🆕 **Nowe oferty**, 📉 **obniżki cen**, ↩️ **wróciły**, ❌ **zniknęły** — od ostatniego skanu,
 - ⚠️ **Do weryfikacji** — oferty, przy których nie da się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego paliwa); nic nie jest po cichu odrzucane,
 - tabela wszystkich ofert z wyszukiwarką, filtrami (marka, model, źródło) i sortowaniem,
-- sekcja **Alternatywnie** — gotowe linki do wyszukiwań na Otomoto i OLX (portale nie są skanowane), z filtrem „elektryczne” i limitem ceny,
+- sekcja **Alternatywnie** — gotowe linki do wyszukiwań na OLX (nie jest skanowany), z filtrem „elektryczne” i limitem ceny,
 - status każdego źródła (`OK` / `BŁĄD` / `POMINIĘTE` / `DO AKTUALIZACJI`),
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),
 - opcjonalne powiadomienia Telegram, gdy pojawią się nowe oferty.
@@ -39,6 +39,9 @@ EV Radar codziennie odpytuje **6 polskich serwisów** z autami leasingowymi/pole
 | **Automarket / PKO Leasing** (`automarket`) | `__NUXT_DATA__` | netto (oferty dla firm) lub brutto |
 | **Stellantis &You** (`stellantis`) | publiczny indeks Algolia używany przez stronę | brutto |
 | **Poleasingowe.pl** (`poleasingowe`) | HTML (aukcje) | netto |
+| **Otomoto** (`otomoto`) | SSR: `__NEXT_DATA__` → `advertSearch` (per model, paginacja) | brutto lub netto (flaga `isGross`) |
+
+**Nieskanowane:** OLX zwraca 403 już na `robots.txt`, a Allegro blokuje boty (403 na kategoriach) — traktujemy to jak zakaz i niczego nie omijamy. OLX mamy jako linki w sekcji **Alternatywnie**; część ogłoszeń z OLX jest i tak widoczna na Otomoto.
 
 Gdzie się da, używamy publicznych API JSON zamiast parsowania HTML. Źródła, których nie da się pobrać zgodnie z `robots.txt` i bez omijania zabezpieczeń, są wyłączane w [`config/sources.yaml`](config/sources.yaml) (`enabled: false` z podaniem powodu).
 
@@ -114,7 +117,7 @@ notifications:
 
 **[`config/sources.yaml`](config/sources.yaml)** — adresy, opóźnienia (`delay_min_s` / `delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`).
 
-Sekcja `alternatives` w `models.yaml` opisuje linki z sekcji **Alternatywnie** w raporcie: szablony adresów portali (`sites`) i wyszukiwania per model (`searches`, np. `{ label: "Volkswagen ID.4", otomoto: "volkswagen/id4", olx: "volkswagen/q-id4" }`). Limit ceny jest dołączany z `filters.max_price_gross_pln`.
+Sekcja `alternatives` w `models.yaml` opisuje linki z sekcji **Alternatywnie** w raporcie: szablony adresów portali (`sites`) i wyszukiwania per model (`searches`, np. `{ label: "Volkswagen ID.4", olx: "volkswagen/q-id4" }`). Limit ceny jest dołączany z `filters.max_price_gross_pln`. Ścieżki modeli dla Otomoto (`params.paths`) są w `sources.yaml`.
 
 ## Publikacja raportu (GitHub Pages)
 

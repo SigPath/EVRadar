@@ -33,11 +33,17 @@ class BaseScraper(ABC):
     source_id: ClassVar[str]
 
     def __init__(
-        self, config: SourceConfig, *, headless: bool = True, brands: list[str] | None = None
+        self,
+        config: SourceConfig,
+        *,
+        headless: bool = True,
+        brands: list[str] | None = None,
+        max_price_gross_pln: int | None = None,
     ) -> None:
         self.config = config
         self.headless = headless
         self.brands = brands or []  # marki z config/models.yaml — do zawężania zapytań
+        self.max_price_gross_pln = max_price_gross_pln  # filters.max_price_gross_pln z models.yaml
         self.last_html: str | None = None  # ostatnia pobrana treść — do katalogu debug/
         self._client: httpx.AsyncClient | None = None
         self._robots: RobotsGuard | None = None

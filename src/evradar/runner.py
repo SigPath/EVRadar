@@ -118,7 +118,12 @@ async def scan_source(
         result.note = "brak adaptera dla tego źródła"
         return result
 
-    scraper = scraper_cls(cfg, headless=headless, brands=sorted({t.brand for t in models.targets}))
+    scraper = scraper_cls(
+        cfg,
+        headless=headless,
+        brands=sorted({t.brand for t in models.targets}),
+        max_price_gross_pln=models.filters.max_price_gross_pln,
+    )
     try:
         async with scraper, asyncio.timeout(SOURCE_TIMEOUT_S):
             raw = await scraper.fetch()

@@ -14,16 +14,14 @@ def test_alt_links_use_config_and_price_limit() -> None:
     alt = load_models_config().alternatives
     rows = dict(build_alt_links(alt, 130_000))
     links = dict(rows["Volkswagen ID.4"])
-    assert links["Otomoto"].startswith("https://www.otomoto.pl/osobowe/volkswagen/id4?")
-    assert "fuel_type%5D=electric" in links["Otomoto"]
-    assert links["Otomoto"].endswith("%5D=130000")
+    assert "Otomoto" not in links  # Otomoto jest skanowane, nie linkowane
     assert links["OLX"] == (
         "https://www.olx.pl/motoryzacja/samochody/volkswagen/q-id4/"
         "?search%5Bfilter_enum_petrol%5D%5B0%5D=electric"
         "&search%5Bfilter_float_price%3Ato%5D=130000"
     )
     no_limit = dict(dict(build_alt_links(alt, None))["Volkswagen ID.4"])
-    assert "price" not in no_limit["Otomoto"] and "price" not in no_limit["OLX"]
+    assert "price" not in no_limit["OLX"]
 
 
 def test_render_alternatives_section() -> None:
@@ -31,8 +29,8 @@ def test_render_alternatives_section() -> None:
     html = render_report(
         synthetic_report_data(), alt_links=build_alt_links(alt, 130_000), alt_max_price=130_000
     )
-    assert "Alternatywnie: Otomoto i OLX" in html
-    assert "https://www.otomoto.pl/osobowe/tesla/y?" in html
+    assert "Alternatywnie: szukaj sam" in html
+    assert "https://www.olx.pl/motoryzacja/samochody/tesla/q-model-y/" in html
     assert "Alternatywnie" not in render_report(synthetic_report_data())
 
 

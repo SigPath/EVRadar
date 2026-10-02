@@ -25,22 +25,19 @@ notifications:
   channel: telegram             # telegram | email (dane z zmiennych środowiskowych)
 
 # Sekcja "Alternatywnie" w raporcie: gotowe wyszukiwania na portalach, których NIE skanujemy (tylko linki).
+# Otomoto jest skanowane (config/sources.yaml); OLX zwraca 403 na robots.txt, więc tylko linki.
 alternatives:
   sites:
-    otomoto:
-      name: "Otomoto"
-      url: "https://www.otomoto.pl/osobowe/{path}?search%5Bfilter_enum_fuel_type%5D=electric"
-      price_param: "search%5Bfilter_float_price%3Ato%5D"   # dodawane, gdy filters.max_price_gross_pln != null
     olx:
       name: "OLX"
       url: "https://www.olx.pl/motoryzacja/samochody/{path}/?search%5Bfilter_enum_petrol%5D%5B0%5D=electric"
-      price_param: "search%5Bfilter_float_price%3Ato%5D"
+      price_param: "search%5Bfilter_float_price%3Ato%5D"   # dodawane, gdy filters.max_price_gross_pln != null
   searches:
-    - { label: "Kia Niro EV / e-Niro", otomoto: "kia/niro", olx: "kia/q-niro-ev" }
-    - { label: "Kia EV4", otomoto: "kia/ev4", olx: "kia/q-ev4" }
-    - { label: "Hyundai Kona Electric", otomoto: "hyundai/kona", olx: "hyundai/q-kona-electric" }
-    - { label: "Hyundai Ioniq 5", otomoto: "hyundai/ioniq-5", olx: "hyundai/q-ioniq-5" }
-    - { label: "Tesla Model 3", otomoto: "tesla/model-3", olx: "tesla/q-model-3" }
-    - { label: "Tesla Model Y", otomoto: "tesla/y", olx: "tesla/q-model-y" }
-    - { label: "Volkswagen ID.4", otomoto: "volkswagen/id4", olx: "volkswagen/q-id4" }
-    - { label: "Volkswagen ID.5", otomoto: "volkswagen/id5", olx: "volkswagen/q-id5" }
+    - { label: "Kia Niro EV / e-Niro", olx: "kia/q-niro-ev" }
+    - { label: "Kia EV4", olx: "kia/q-ev4" }
+    - { label: "Hyundai Kona Electric", olx: "hyundai/q-kona-electric" }
+    - { label: "Hyundai Ioniq 5", olx: "hyundai/q-ioniq-5" }
+    - { label: "Tesla Model 3", olx: "tesla/q-model-3" }
+    - { label: "Tesla Model Y", olx: "tesla/q-model-y" }
+    - { label: "Volkswagen ID.4", olx: "volkswagen/q-id4" }
+    - { label: "Volkswagen ID.5", olx: "volkswagen/q-id5" }

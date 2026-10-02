@@ -26,3 +26,18 @@ sources:
   poleasingowe:
     name: "Poleasingowe.pl"
     url: "https://poleasingowe.pl"
+  otomoto:
+    name: "Otomoto"
+    url: "https://www.otomoto.pl"
+    max_pages: 6                      # 32 oferty na stronę, limit na jedną ścieżkę modelu
+    params:
+      # ścieżki <marka>/<model> z Otomoto (nieznany slug zwraca całą markę, np. Tesla Model Y = tesla/y)
+      paths:
+        - kia/niro
+        - kia/ev4
+        - hyundai/kona
+        - hyundai/ioniq-5
+        - tesla/model-3
+        - tesla/y
+        - volkswagen/id4
+        - volkswagen/id5
