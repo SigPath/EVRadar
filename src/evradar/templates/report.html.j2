@@ -284,7 +284,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       <button type="button" class="chip" id="only-fav" aria-pressed="false">★ Tylko obserwowane<i id="fav-count">0</i></button>
       <button type="button" class="chip" id="show-dismissed" aria-pressed="false">Pokaż ukryte<i id="dismissed-count">0</i></button>
       <button type="button" class="chip" id="compare-btn" disabled>⇄ Porównaj<i id="cmp-count">0</i></button>
-      <button type="button" class="chip" id="export-csv">⬇ Eksport CSV (widoczne)</button>
     </div>
   </div>
   <div class="tbl-wrap">
@@ -455,28 +454,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
   [onlyFav, showDismissed].forEach(function (b) {
     b.addEventListener('click', function () { b.setAttribute('aria-pressed', !pressed(b)); apply(); });
-  });
-  document.getElementById('export-csv').addEventListener('click', function () {
-    var head = ['Marka i model', 'Tytu\u0142', 'Rok', 'Przebieg km', 'Cena brutto', 'Cena netto', 'Vs rynek %', '\u0179r\u00f3d\u0142o', 'Miasto', 'URL'];
-    var lines = [head.join(';')];
-    rows.forEach(function (tr) {
-      if (tr.classList.contains('hidden')) return;
-      var d = tr.dataset;
-      var cells = [d.model, d.title, d.year, d.km, d.gross, d.net, d.mkt, d.source, d.loc, d.url];
-      lines.push(cells.map(function (c, i) {
-        var s = String(c || '');
-        if ([0, 1, 7, 8].indexOf(i) !== -1 && /^[=+\-@\t\r]/.test(s)) s = "'" + s;  // ochrona przed formu\u0142ami Excela
-        return '"' + s.replace(/"/g, '""') + '"';
-      }).join(';'));
-    });
-    var blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'evradar-' + '{{ run_date }}'.split('.').reverse().join('-') + '.csv';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
   });
   table.tBodies[0].addEventListener('click', function (e) {
     var b = e.target.closest('button[data-act]');

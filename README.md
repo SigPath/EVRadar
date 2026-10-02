@@ -29,7 +29,6 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),
 - opcjonalne powiadomienia Telegram: o nowych ofertach oraz o awarii źródła,
 - **baner awarii** na górze raportu, gdy źródło zwróciło błąd lub 0 ofert, oraz ostrzeżenie, gdy raport jest starszy niż 36 h (zadanie dzienne nie działa),
-- przycisk **Eksport CSV** (widoczne wiersze, separator `;`, UTF-8 z BOM, otwiera się w Excelu),
 - **suwaki** ceny, przebiegu i rocznika nad tabelą (filtrowanie w przeglądarce, bez edycji YAML i ponownego skanu),
 - **porównanie** 2–3 ofert obok siebie (przycisk ⇄ przy ofercie, potem „Porównaj”; najlepsze wartości wyróżnione),
 - sekcja **Trend cen modeli**: mediana ceny brutto modelu w kolejnych dniach skanu (zapisywana od pierwszego skanu po wdrożeniu),
