@@ -67,6 +67,7 @@ class SourceConfig(BaseModel):
     timeout_s: float = 30.0
     retries: int = 3
     max_pages: int = 5
+    priority: int = 100  # przy duplikacie oferty zostaje źródło o mniejszej wartości
     params: dict[str, Any] = Field(default_factory=dict)
 
 

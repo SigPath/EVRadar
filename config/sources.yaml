@@ -30,6 +30,7 @@ sources:
     name: "Otomoto"
     url: "https://www.otomoto.pl"
     max_pages: 6                      # 32 oferty na stronę, limit na jedną ścieżkę modelu
+    priority: 200                     # agregator: przy duplikacie wygrywa źródło bezpośrednie
     params:
       # ścieżki <marka>/<model> z Otomoto (nieznany slug zwraca całą markę, np. Tesla Model Y = tesla/y)
       paths:

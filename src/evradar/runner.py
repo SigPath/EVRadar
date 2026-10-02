@@ -193,6 +193,49 @@ def assemble_report_data(
     )
 
 
+def _dup_key(o: Offer) -> tuple[object, ...] | None:
+    """Klucz "to samo auto": model, rocznik, przebieg i cena; None = brak danych do porównania."""
+    if o.year is None or o.mileage_km is None or o.price_gross_pln is None:
+        return None
+    base = (o.brand, o.model_matched, o.year, o.mileage_km, o.price_gross_pln)
+    if o.mileage_km >= 1000:
+        return base
+    # auta prawie nowe mają podobne parametry — porównuj też miasto, a bez niego nie łącz
+    return (*base, o.location.strip().lower()) if o.location else None
+
+
+def dedupe_across_sources(results: list[SourceResult], priority: dict[str, int]) -> int:
+    """Usuwa duplikaty tego samego auta (zostaje źródło o najniższym `priority`)."""
+    ranked = sorted(
+        (
+            (priority.get(r.source, 100), r.source, o.offer_id, r, o)
+            for r in results
+            if r.status is SourceStatus.OK
+            for o in r.offers
+        ),
+        key=lambda x: x[:3],
+    )
+    seen: set[tuple[object, ...]] = set()
+    dropped: dict[str, int] = {}
+    kept: dict[str, list[Offer]] = {r.source: [] for r in results}
+    for _, source, _, _, offer in ranked:
+        key = _dup_key(offer)
+        if key is not None and key in seen:
+            dropped[source] = dropped.get(source, 0) + 1
+            continue
+        if key is not None:
+            seen.add(key)
+        kept[source].append(offer)
+    for r in results:
+        n = dropped.get(r.source, 0)
+        if n:
+            r.offers = kept[r.source]
+            r.offers_count = len(r.offers)
+            tag = f"pominięto {n} duplikatów (to samo auto u innego źródła)"
+            r.note = f"{r.note}; {tag}" if r.note else tag
+    return sum(dropped.values())
+
+
 async def run_scan(
     sources: list[SourceConfig],
     models: ModelsConfig,
@@ -222,6 +265,9 @@ async def run_scan(
         return res
 
     results = list(await asyncio.gather(*(one(c) for c in sources)))
+    removed = dedupe_across_sources(results, {c.id: c.priority for c in sources})
+    if removed:
+        log.info("duplicates_removed", count=removed)
 
     previous = storage.load_offers()
     first_run = not previous
