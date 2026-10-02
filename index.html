@@ -94,6 +94,9 @@ small, .muted { color: var(--muted); }
 table { border-collapse: collapse; width: 100%; font-size: .9rem; }
 th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
 td.wrap { white-space: normal; min-width: 220px; }
+.veh { display: flex; align-items: center; gap: 10px; }
+.mini { flex: none; width: 56px; height: 40px; border-radius: 6px; overflow: hidden; background: var(--chip); display: block; }
+.mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
@@ -126,13 +129,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 <main>
   <header>
     <h1>⚡ EV Radar</h1>
-    <div class="sub">Skan: 02.10.2026, 11:47 · czas trwania 33.4 s
-· przebieg #19</div>
+    <div class="sub">Skan: 02.10.2026, 12:00 · czas trwania 34.0 s
+· przebieg #20</div>
     <div class="stats">
       <div class="stat"><b>110</b><span>aktywnych ofert</span></div>
       <div class="stat new"><b>0</b><span>nowych</span></div>
       <div class="stat drop"><b>0</b><span>obniżek cen</span></div>
-      <div class="stat"><b>13</b><span>zniknęło</span></div>
+      <div class="stat"><b>0</b><span>zniknęło</span></div>
       <div class="stat"><b>7/7</b><span>źródeł OK</span></div>
     </div>
   </header>
@@ -142,37 +145,37 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     <div class="tile OK">
       <div class="name"><span>VW Financial Services</span>
         <span class="st">OK</span></div>
-      <div class="meta">2 ofert · 0.8 s</div>
+      <div class="meta">2 ofert · 1.1 s</div>
     </div>
     <div class="tile OK">
       <div class="name"><span>Ayvens</span>
         <span class="st">OK</span></div>
-      <div class="meta">0 ofert · 9.5 s</div>
+      <div class="meta">0 ofert · 8.4 s</div>
     </div>
     <div class="tile OK">
       <div class="name"><span>Mauto</span>
         <span class="st">OK</span></div>
-      <div class="meta">5 ofert · 3.0 s</div>
+      <div class="meta">5 ofert · 2.0 s</div>
     </div>
     <div class="tile OK">
       <div class="name"><span>Automarket</span>
         <span class="st">OK</span></div>
-      <div class="meta">14 ofert · 16.3 s</div>
+      <div class="meta">14 ofert · 14.6 s</div>
     </div>
     <div class="tile OK">
       <div class="name"><span>Stellantis &amp;You</span>
         <span class="st">OK</span></div>
-      <div class="meta">0 ofert · 2.1 s</div>
+      <div class="meta">0 ofert · 3.1 s</div>
     </div>
     <div class="tile OK">
       <div class="name"><span>Poleasingowe.pl</span>
         <span class="st">OK</span></div>
-      <div class="meta">0 ofert · 0.8 s</div>
+      <div class="meta">0 ofert · 11.1 s</div>
     </div>
     <div class="tile OK">
       <div class="name"><span>Otomoto</span>
         <span class="st">OK</span></div>
-      <div class="meta">89 ofert · 33.2 s</div>
+      <div class="meta">89 ofert · 33.7 s</div>
     </div>
   </section>
 
@@ -204,8 +207,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Otomoto"
             data-search="hyundai ioniq 5 hyundai ioniq 5 72,6 kwh techniq otusz otomoto">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>Hyundai IONIQ 5 72,6 kWh Techniq · Otusz</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-ioniq-5-ID6I62wh.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/b6z6w36acrlk1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>Hyundai IONIQ 5 72,6 kWh Techniq · Otusz</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="35000">35 000 km</td>
@@ -217,8 +225,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Otomoto"
             data-search="hyundai ioniq 5 hyundai ioniq 5 wtelno otomoto">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>Hyundai IONIQ 5 · Wtelno</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-ioniq-5-ID6IgcQQ.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/xiiqfphv1moq1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>Hyundai IONIQ 5 · Wtelno</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="69783">69 783 km</td>
@@ -230,8 +243,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Otomoto"
             data-search="hyundai ioniq 5 hyundai ioniq 5 77,4 kwh techniq kraków otomoto">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>Hyundai IONIQ 5 77,4 kWh Techniq · Kraków</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-ioniq-5-ID6HzVGY.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/72siz63e2k0d1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>Hyundai IONIQ 5 77,4 kWh Techniq · Kraków</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="37000">37 000 km</td>
@@ -243,8 +261,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Otomoto"
             data-search="hyundai ioniq 5 hyundai ioniq 5 58 kwh kwidzyn otomoto">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>Hyundai IONIQ 5 58 kWh · Kwidzyn</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-ioniq-5-ID6Idonp.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/6tjn0n61pwiz1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>Hyundai IONIQ 5 58 kWh · Kwidzyn</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="60300">60 300 km</td>
@@ -256,8 +279,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Otomoto"
             data-search="hyundai ioniq 5 hyundai ioniq 5 rokietnica otomoto">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>Hyundai IONIQ 5 · Rokietnica</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-ioniq-5-ID6IgiF2.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/92apfmd6uoxl3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>Hyundai IONIQ 5 · Rokietnica</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="34500">34 500 km</td>
@@ -269,8 +297,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
             data-search="hyundai ioniq 5 hyundai ioniq 5 ioniq 5 73kwh platinum gdańsk automarket">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>HYUNDAI Ioniq 5 Ioniq 5 73kWh Platinum · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/ioniq-5/304301/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvMS84/LzE4NjMyM18xXzMw/MDMyNjQ3NDVkYjQ5/NGRkM2UxM2IxY2Vl/NzBkZmJlZGJjMjg2/NGYuanBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>HYUNDAI Ioniq 5 Ioniq 5 73kWh Platinum · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="44091">44 091 km</td>
@@ -282,8 +315,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
             data-search="hyundai ioniq 5 hyundai ioniq 5 gdańsk automarket">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>HYUNDAI Ioniq 5 · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/ioniq-5/T150242/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxNTg0ODdfMjEu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>HYUNDAI Ioniq 5 · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="44127">44 127 km</td>
@@ -295,8 +333,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
             data-search="hyundai ioniq 5 hyundai ioniq 5 gdańsk automarket">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>HYUNDAI Ioniq 5 · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/ioniq-5/T150158/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxNTg0ODdfMjAu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>HYUNDAI Ioniq 5 · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="44127">44 127 km</td>
@@ -308,8 +351,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Otomoto"
             data-search="hyundai ioniq 5 hyundai ioniq 5 73kwh platinum gdańsk otomoto">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>Hyundai IONIQ 5 73kWh Platinum · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-ioniq-5-ID6Ibo3I.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/aqf99t4p3deu1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>Hyundai IONIQ 5 73kWh Platinum · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="44127">44 127 km</td>
@@ -321,8 +369,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
             data-search="hyundai ioniq 5 hyundai ioniq 5 ioniq 5 77kwh techniq jelonek automarket">
           <td class="wrap" data-s="Hyundai Ioniq 5">
-            <b>Hyundai Ioniq 5</b>
-            <br><small>HYUNDAI Ioniq 5 Ioniq 5 77kWh Techniq · JELONEK</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/ioniq-5/207917/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvaS9t/L2ltZ18yMDI1MDIy/NV8xMzA3MzQyNTAy/MjUxNTI5MDkuanBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Ioniq 5</b>
+                <br><small>HYUNDAI Ioniq 5 Ioniq 5 77kWh Techniq · JELONEK</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="23500">23 500 km</td>
@@ -334,8 +387,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 64kwh premium ostrowiec świętokrzyski otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 64kWh Premium · Ostrowiec Świętokrzyski</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6Iavkx.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/tu22c4drxed42-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 64kWh Premium · Ostrowiec Świętokrzyski</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="66000">66 000 km</td>
@@ -347,8 +405,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona gdańsk automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T153167/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxNzUwMzVfMjEu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="50990">50 990 km</td>
@@ -360,8 +423,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona gdańsk automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T153164/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxNzUwMzVfMjIu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="50990">50 990 km</td>
@@ -373,8 +441,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona rzeszów otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona · Rzeszów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfXMJ.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/d2anothq86v02-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona · Rzeszów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="38807">38 807 km</td>
@@ -386,8 +459,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona trend kwidzyn otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona Trend · Kwidzyn</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfNDg.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/g7t74rarth3p2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona Trend · Kwidzyn</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="53419">53 419 km</td>
@@ -399,8 +477,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona select kwidzyn otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona Select · Kwidzyn</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfXct.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/suevlyfh60gt3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona Select · Kwidzyn</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="42000">42 000 km</td>
@@ -412,8 +495,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 39kwh premium rzeszów otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 39kWh Premium · Rzeszów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6Ifqs1.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/ili2suh09wn91-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 39kWh Premium · Rzeszów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="24000">24 000 km</td>
@@ -425,8 +513,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 64kwh modern warszawa otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 64kWh Modern · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6Ibq6C.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/az5v0a9qnxko-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 64kWh Modern · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="54812">54 812 km</td>
@@ -438,8 +531,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
             data-search="hyundai kona electric hyundai kona electric 48kwh smart  mauto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona Electric 48kWh Smart</small>
+            <div class="veh">
+              <a class="mini" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-26827" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26827/640/DETAL_07_05_2026_11_45_311.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona Electric 48kWh Smart</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="38657">38 657 km</td>
@@ -451,8 +549,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 65kwh executive opole otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 65kWh Executive · Opole</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6Iglkb.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/vxdyo2txohuq1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 65kWh Executive · Opole</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="74000">74 000 km</td>
@@ -464,8 +567,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona kraków automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona · Kraków</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T181072/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvMy8w/LzMwMDE5MDg1Ml8x/NjAweDEyMDB4OTUu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona · Kraków</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="8076">8 076 km</td>
@@ -477,8 +585,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
             data-search="hyundai kona electric hyundai kona electric 64kwh modern  mauto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona Electric 64kWh Modern</small>
+            <div class="veh">
+              <a class="mini" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-26761" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26761/640/DETAL_18_05_2026_01_45_251.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona Electric 64kWh Modern</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="32040">32 040 km</td>
@@ -490,8 +603,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
             data-search="hyundai kona electric hyundai kona electric 65kwh smart  mauto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona Electric 65kWh Smart</small>
+            <div class="veh">
+              <a class="mini" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-27829" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/27829/640/DETAL_13_07_2026_11_15_591.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona Electric 65kWh Smart</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="30435">30 435 km</td>
@@ -503,8 +621,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona warszawa automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T106076/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxMzY4NDdfMjQu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="32000">32 000 km</td>
@@ -516,8 +639,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona warszawa automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T106070/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxNTYyMjFfMjQu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="30000">30 000 km</td>
@@ -529,8 +657,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
             data-search="hyundai kona electric hyundai kona electric 64kwh smart  mauto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona Electric 64kWh Smart</small>
+            <div class="veh">
+              <a class="mini" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-26424" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/26424/640/DETAL_18_05_2026_10_21_161.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona Electric 64kWh Smart</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="30886">30 886 km</td>
@@ -542,8 +675,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona warszawa automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T106082/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxMTQyMTlfMjQu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="30000">30 000 km</td>
@@ -555,8 +693,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 39kwh executive poznań otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 39kWh Executive · Poznań</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfXiA.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/ufp5r2h2f1bb1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 39kWh Executive · Poznań</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="10">10 km</td>
@@ -568,8 +711,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 65kwh smart lubin otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 65kWh Smart · Lubin</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6Ifyax.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/es35x7mipcfy-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 65kWh Smart · Lubin</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="9">9 km</td>
@@ -581,8 +729,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
             data-search="hyundai kona electric hyundai kona electric 64kwh smart  mauto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona Electric 64kWh Smart</small>
+            <div class="veh">
+              <a class="mini" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-27704" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://aukcje.blob.core.windows.net/mleasing/mleasing.dekra.pl/27704/640/DETAL_08_07_2026_11_45_181.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona Electric 64kWh Smart</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="31488">31 488 km</td>
@@ -594,8 +747,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
             data-search="hyundai kona electric hyundai kona warszawa automarket">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>HYUNDAI Kona · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/hyundai/kona/T106073/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8x/LzYxNTYyNjhfMjQu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>HYUNDAI Kona · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="31000">31 000 km</td>
@@ -607,8 +765,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Otomoto"
             data-search="hyundai kona electric hyundai kona 65kwh executive katowice otomoto">
           <td class="wrap" data-s="Hyundai Kona Electric">
-            <b>Hyundai Kona Electric</b>
-            <br><small>Hyundai Kona 65kWh Executive · Katowice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6HTuxX.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/o2cs54dgdx8f2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Hyundai Kona Electric</b>
+                <br><small>Hyundai Kona 65kWh Executive · Katowice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="28200">28 200 km</td>
@@ -620,8 +783,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia EV4" data-source="Otomoto"
             data-search="kia ev4 kia ev4 58,3-kwh air poznań otomoto">
           <td class="wrap" data-s="Kia EV4">
-            <b>Kia EV4</b>
-            <br><small>Kia EV4 58,3-kWh Air · Poznań</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-ev4-ID6IeRID.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/qvw8oa3llsi43-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia EV4</b>
+                <br><small>Kia EV4 58,3-kWh Air · Poznań</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="5">5 km</td>
@@ -633,8 +801,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia EV4" data-source="Otomoto"
             data-search="kia ev4 kia ev4 58,3-kwh air radom otomoto">
           <td class="wrap" data-s="Kia EV4">
-            <b>Kia EV4</b>
-            <br><small>Kia EV4 58,3-kWh Air · Radom</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-ev4-ID6IcQTE.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/nmws837grmo13-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia EV4</b>
+                <br><small>Kia EV4 58,3-kWh Air · Radom</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="10">10 km</td>
@@ -646,8 +819,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia EV4" data-source="Otomoto"
             data-search="kia ev4 kia ev4 58,3-kwh air nowy targ otomoto">
           <td class="wrap" data-s="Kia EV4">
-            <b>Kia EV4</b>
-            <br><small>Kia EV4 58,3-kWh Air · Nowy Targ</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-ev4-ID6HIOkU.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/k69i13s844cv2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia EV4</b>
+                <br><small>Kia EV4 58,3-kWh Air · Nowy Targ</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="6">6 km</td>
@@ -659,8 +837,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia Niro" data-source="Otomoto"
             data-search="kia niro kia niro 64kwh xl sieroszewice otomoto">
           <td class="wrap" data-s="Kia Niro">
-            <b>Kia Niro</b>
-            <br><small>Kia Niro 64kWh XL · Sieroszewice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-niro-ID6HXO7i.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/yo2j897awsk01-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia Niro</b>
+                <br><small>Kia Niro 64kWh XL · Sieroszewice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="79000">79 000 km</td>
@@ -672,8 +855,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia Niro" data-source="Otomoto"
             data-search="kia niro kia niro 64kwh l chrząstawa mała otomoto">
           <td class="wrap" data-s="Kia Niro">
-            <b>Kia Niro</b>
-            <br><small>Kia Niro 64kWh L · Chrząstawa Mała</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-niro-ID6Ig12g.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/z23s3ag95u433-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia Niro</b>
+                <br><small>Kia Niro 64kWh L · Chrząstawa Mała</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="120000">120 000 km</td>
@@ -685,8 +873,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia Niro" data-source="Otomoto"
             data-search="kia niro kia niro 64kwh xl koło otomoto">
           <td class="wrap" data-s="Kia Niro">
-            <b>Kia Niro</b>
-            <br><small>Kia Niro 64kWh XL · Koło</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-niro-ID6Gtg4p.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/p3px9w8dup2w1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia Niro</b>
+                <br><small>Kia Niro 64kWh XL · Koło</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="26000">26 000 km</td>
@@ -698,8 +891,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia Niro" data-source="Otomoto"
             data-search="kia niro kia niro 64kwh m mściszewice otomoto">
           <td class="wrap" data-s="Kia Niro">
-            <b>Kia Niro</b>
-            <br><small>Kia Niro 64kWh M · Mściszewice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-niro-ID6HJUqm.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/4otdggazst3w3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia Niro</b>
+                <br><small>Kia Niro 64kWh M · Mściszewice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="28000">28 000 km</td>
@@ -711,8 +909,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia Niro" data-source="Otomoto"
             data-search="kia niro kia niro vision kwidzyn otomoto">
           <td class="wrap" data-s="Kia Niro">
-            <b>Kia Niro</b>
-            <br><small>Kia Niro Vision · Kwidzyn</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/kia-niro-ID6Iczh3.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/bcdu922dk7sv1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia Niro</b>
+                <br><small>Kia Niro Vision · Kwidzyn</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="30696">30 696 km</td>
@@ -724,8 +927,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia e-Niro" data-source="Automarket"
             data-search="kia e-niro kia niro e-niro 64kwh xl mysłowice automarket">
           <td class="wrap" data-s="Kia e-Niro">
-            <b>Kia e-Niro</b>
-            <br><small>KIA Niro e-Niro 64kWh XL · Mysłowice</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/kia/niro/315977/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvY29uZmlndXJh/dGlvbi9wbGFjZWhv/bGRlci9vZmZlcl9p/bl9wcmVwYXJhdGlv/bi9wbGFjZWhvbGRl/cl9JXzEucG5n.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia e-Niro</b>
+                <br><small>KIA Niro e-Niro 64kWh XL · Mysłowice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="56648">56 648 km</td>
@@ -737,8 +945,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Kia" data-model="Kia e-Niro" data-source="Automarket"
             data-search="kia e-niro kia niro e-niro 64kwh l komorniki automarket">
           <td class="wrap" data-s="Kia e-Niro">
-            <b>Kia e-Niro</b>
-            <br><small>KIA Niro e-Niro 64kWh L · Komorniki</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/kia/niro/316844/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvMS85/LzE5NTE1N18xXzUy/MmEyODE3ZDljYWJk/YTUwM2FmNmVhMGQy/ZmEzMzMzZTU5Y2Jm/ODcuanBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Kia e-Niro</b>
+                <br><small>KIA Niro e-Niro 64kWh L · Komorniki</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="32368">32 368 km</td>
@@ -750,8 +963,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 langstreckenbatterie allradantrieb dual motor wrocław otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Langstreckenbatterie Allradantrieb Dual Motor · Wrocław</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Ie8Z4.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/6247bxl0wgiu1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Langstreckenbatterie Allradantrieb Dual Motor · Wrocław</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="76470">76 470 km</td>
@@ -763,8 +981,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 wrocław otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Wrocław</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IeW8K.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/d3dw559s7h8t2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Wrocław</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="34732">34 732 km</td>
@@ -776,8 +999,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 standard range plus kraczkowa otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Standard Range Plus · Kraczkowa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Ig7rk.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/zlt33j8l3uxg-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Standard Range Plus · Kraczkowa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="115000">115 000 km</td>
@@ -789,8 +1017,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 goświnowice otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Goświnowice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IgAvZ.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/r3rsdbfmglrq2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Goświnowice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="100240">100 240 km</td>
@@ -802,8 +1035,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 warszawa otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Igrvp.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/sj78lerqytu93-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="72900">72 900 km</td>
@@ -815,8 +1053,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 rwd hinterradantrieb niepruszewo otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 RWD Hinterradantrieb · Niepruszewo</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IdzSa.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/5rnbk8c341ga3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 RWD Hinterradantrieb · Niepruszewo</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="45668">45 668 km</td>
@@ -828,8 +1071,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 langstreckenbatterie rwd bydgoszcz otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Langstreckenbatterie RWD · Bydgoszcz</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IgseP.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/x3oozly0olrw2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Langstreckenbatterie RWD · Bydgoszcz</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="57159">57 159 km</td>
@@ -841,8 +1089,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 rwd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 RWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6If40o.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/iikvnuuazsft3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 RWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2026">2026</td>
           <td class="num" data-s="1201">1 201 km</td>
@@ -854,8 +1107,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 langstreckenbatterie allradantrieb dual motor chwaszczyno otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Langstreckenbatterie Allradantrieb Dual Motor · Chwaszczyno</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Ig6we.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/m6mysf70g6kh2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Langstreckenbatterie Allradantrieb Dual Motor · Chwaszczyno</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2026">2026</td>
           <td class="num" data-s="13409">13 409 km</td>
@@ -867,8 +1125,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 standard reichweite plus hinterradantrieb stargard otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Standard Reichweite Plus Hinterradantrieb · Stargard</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IgBSf.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/gm8muv8i2otk3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Standard Reichweite Plus Hinterradantrieb · Stargard</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="74030">74 030 km</td>
@@ -880,8 +1143,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 warszawa otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IaYcU.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/c74whtb2449k3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="93000">93 000 km</td>
@@ -893,8 +1161,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 standard range plus katowice otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Standard Range Plus · Katowice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IfwYJ.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/07v6l82orv4r-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Standard Range Plus · Katowice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="100948">100 948 km</td>
@@ -906,8 +1179,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 rwd lębork otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 RWD · Lębork</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IfD4U.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/cl4s6gn4nj331-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 RWD · Lębork</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="47200">47 200 km</td>
@@ -919,8 +1197,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 long range rwd premium grodków otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Long Range RWD Premium · Grodków</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IfiPj.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/eg6jjhhad0je2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Long Range RWD Premium · Grodków</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="88000">88 000 km</td>
@@ -932,8 +1215,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 long range rwd aleksandrów kujawski otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Long Range RWD · Aleksandrów Kujawski</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Ig3xi.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/0ndpuls376bw1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Long Range RWD · Aleksandrów Kujawski</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="90386">90 386 km</td>
@@ -945,8 +1233,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 katowice otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Katowice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IfVAY.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/ijuqobqxdbzc3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Katowice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="81884">81 884 km</td>
@@ -958,8 +1251,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 standard reichweite plus hinterradantrieb łęczyca otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Standard Reichweite Plus Hinterradantrieb · Łęczyca</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6HZ4hv.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/o6mqyx20ptcr3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Standard Reichweite Plus Hinterradantrieb · Łęczyca</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="116000">116 000 km</td>
@@ -971,8 +1269,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 awd jędrzejów otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 AWD · Jędrzejów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IgdAa.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/r81vjoed7vzn1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 AWD · Jędrzejów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="67000">67 000 km</td>
@@ -984,8 +1287,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 włocławek otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Włocławek</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-OLX_ID6If0ve.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/peeozuuo7al33-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Włocławek</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="115500">115 500 km</td>
@@ -997,8 +1305,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 wrocław otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Wrocław</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Iec0q.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/c5xgu0eqwbdm3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Wrocław</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="62245">62 245 km</td>
@@ -1010,8 +1323,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 long range awd kołobrzeg otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Long Range AWD · Kołobrzeg</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IcPBO.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/84gqpyt9f2oc3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Long Range AWD · Kołobrzeg</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="104000">104 000 km</td>
@@ -1023,8 +1341,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 langstreckenbatterie allradantrieb dual motor performance kobyłka otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Langstreckenbatterie Allradantrieb Dual Motor Performance · Kobyłka</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Igk3i.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/lysvawvg0z942-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Langstreckenbatterie Allradantrieb Dual Motor Performance · Kobyłka</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="61000">61 000 km</td>
@@ -1036,8 +1359,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 langstreckenbatterie rwd hinterradantrieb business nowa iwiczna otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 Langstreckenbatterie RWD Hinterradantrieb Business · Nowa Iwiczna</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IeLZf.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/j6cuwaz5ye1e1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 Langstreckenbatterie RWD Hinterradantrieb Business · Nowa Iwiczna</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="115000">115 000 km</td>
@@ -1049,8 +1377,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 ostrów wielkopolski otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Ostrów Wielkopolski</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Igjbv.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/wdue43xj8qmm1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Ostrów Wielkopolski</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="24558">24 558 km</td>
@@ -1062,8 +1395,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 zawiercie otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Zawiercie</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IgA3S.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/2grtm4zb1e7t3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Zawiercie</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="95000">95 000 km</td>
@@ -1075,8 +1413,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Otomoto"
             data-search="tesla model 3 tesla model 3 lamki otomoto">
           <td class="wrap" data-s="Tesla Model 3">
-            <b>Tesla Model 3</b>
-            <br><small>Tesla Model 3 · Lamki</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Id99r.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/egmg77m3r1wb1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model 3</b>
+                <br><small>Tesla Model 3 · Lamki</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="21844">21 844 km</td>
@@ -1088,8 +1431,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IemXj.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/kgye9py4vy2q-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="57641">57 641 km</td>
@@ -1101,8 +1449,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y żywiec otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Żywiec</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IeY6s.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/ksg2ah2uve4z2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Żywiec</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="16339">16 339 km</td>
@@ -1114,8 +1467,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y standard strzelce krajeńskie otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Standard · Strzelce Krajeńskie</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IggC6.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/g4xkkq79bwor3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Standard · Strzelce Krajeńskie</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2026">2026</td>
           <td class="num" data-s="6600">6 600 km</td>
@@ -1127,8 +1485,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd wrocław otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Wrocław</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IegwY.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/4zck3x9t78sa1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Wrocław</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="84600">84 600 km</td>
@@ -1140,8 +1503,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ig7eZ.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/4w7hcp3itgei3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="46656">46 656 km</td>
@@ -1153,8 +1521,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y rwd tychy otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y RWD · Tychy</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IfioD.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/s3o6pvzm4xaw2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y RWD · Tychy</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="15000">15 000 km</td>
@@ -1166,8 +1539,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range awd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range AWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IgnfK.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/84akz2wgfkfg-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range AWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="42749">42 749 km</td>
@@ -1179,8 +1557,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range awd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range AWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IfErq.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/uoovanktjyja1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range AWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="71400">71 400 km</td>
@@ -1192,8 +1575,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y performance dual motor awd rzeszów otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Performance Dual Motor AWD · Rzeszów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ifjj0.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/mposk8tz7bw01-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Performance Dual Motor AWD · Rzeszów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="14506">14 506 km</td>
@@ -1205,8 +1593,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ienwn.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/qmghunssk9jn-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="20955">20 955 km</td>
@@ -1218,8 +1611,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd kalisz otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Kalisz</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6If1qf.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/7afz89gicbs92-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Kalisz</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="38000">38 000 km</td>
@@ -1231,8 +1629,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ifqlc.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/zxndf8r32f7r1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="63450">63 450 km</td>
@@ -1244,8 +1647,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y paterek otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Paterek</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ieqpc.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/qteq7kzoh7962-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Paterek</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="14600">14 600 km</td>
@@ -1257,8 +1665,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd gręzów otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Gręzów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6I1p1N.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/u0aci1elf3dp-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Gręzów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="59050">59 050 km</td>
@@ -1270,8 +1683,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y standard kalisz otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Standard · Kalisz</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IgdS4.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/5t75gdehjw3a-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Standard · Kalisz</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="34000">34 000 km</td>
@@ -1283,8 +1701,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd dzięcielin otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Dzięcielin</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6I5tBz.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/3oexullxa7qa2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Dzięcielin</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="39900">39 900 km</td>
@@ -1296,8 +1719,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y performance awd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Performance AWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6HVI6z.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/nc29kn3ybg5s2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Performance AWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="121000">121 000 km</td>
@@ -1309,8 +1737,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IaS8H.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/ots9s5ihexam3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="94781">94 781 km</td>
@@ -1322,8 +1755,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range dual motor awd chwaszczyno otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range Dual Motor AWD · Chwaszczyno</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ig6wf.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/d4wpfc27cal13-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range Dual Motor AWD · Chwaszczyno</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2026">2026</td>
           <td class="num" data-s="960">960 km</td>
@@ -1335,8 +1773,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y nysa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Nysa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IcNAG.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/cz1p5bxv4f1g2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Nysa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="40000">40 000 km</td>
@@ -1348,8 +1791,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y rwd toruń otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y RWD · Toruń</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IfQaC.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/rxlojd05f313-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y RWD · Toruń</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="30943">30 943 km</td>
@@ -1361,8 +1809,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range awd wrocław otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range AWD · Wrocław</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Igeez.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/6hccbh95nt083-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range AWD · Wrocław</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="94533">94 533 km</td>
@@ -1374,8 +1827,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y garwolin otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Garwolin</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ifzz0.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/z2ubz4oxzml01-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Garwolin</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="114248">114 248 km</td>
@@ -1387,8 +1845,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y long range awd myszków otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Long Range AWD · Myszków</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IeSgo.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/7cj5uhdhf8wi3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Long Range AWD · Myszków</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="116000">116 000 km</td>
@@ -1400,8 +1863,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Igl0E.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/zyivvxvjuzwu3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2025">2025</td>
           <td class="num" data-s="33900">33 900 km</td>
@@ -1413,8 +1881,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y opole otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Opole</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6I6mJ9.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/orbangre731b-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Opole</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="103401">103 401 km</td>
@@ -1426,8 +1899,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y michałów otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y · Michałów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6IfEtz.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y · Michałów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="42300">42 300 km</td>
@@ -1439,8 +1917,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y rwd warszawa otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y RWD · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ig72L.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/vvrr3gg4ltbw2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y RWD · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="89000">89 000 km</td>
@@ -1452,8 +1935,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Otomoto"
             data-search="tesla model y tesla model y standard gdańsk otomoto">
           <td class="wrap" data-s="Tesla Model Y">
-            <b>Tesla Model Y</b>
-            <br><small>Tesla Model Y Standard · Gdańsk</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ift9c.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/5fnelnibyyct2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Tesla Model Y</b>
+                <br><small>Tesla Model Y Standard · Gdańsk</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="37700">37 700 km</td>
@@ -1465,8 +1953,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 pro energy słupca otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 Pro Energy · Słupca</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6Ige0J.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/jttfvmlfog8a-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 Pro Energy · Słupca</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2026">2026</td>
           <td class="num" data-s="7700">7 700 km</td>
@@ -1478,8 +1971,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 katowice otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 · Katowice</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6Iggat.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/5d7sa0low0fu2-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 · Katowice</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="93134">93 134 km</td>
@@ -1491,8 +1989,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 4motion pro warszawa otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 4MOTION Pro · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6Ia13c.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/2a7vv9x6npbt-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 4MOTION Pro · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="49900">49 900 km</td>
@@ -1504,8 +2007,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 pro łęczyca otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 Pro · Łęczyca</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6I9Gjc.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/61sumd7mujv81-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 Pro · Łęczyca</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="116000">116 000 km</td>
@@ -1517,8 +2025,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 radłów otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 · Radłów</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6Ify9K.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/q9agxovfk65t1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 · Radłów</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2024">2024</td>
           <td class="num" data-s="33500">33 500 km</td>
@@ -1530,8 +2043,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 bielany wrocławskie otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 · Bielany Wrocławskie</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6IfcYw.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/q226zp5cnrzl-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 · Bielany Wrocławskie</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="112385">112 385 km</td>
@@ -1543,8 +2061,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
             data-search="volkswagen id.4 volkswagen id.4 77kwh pro  vw financial services">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>VOLKSWAGEN ID.4 77kWh Pro</small>
+            <div class="veh">
+              <a class="mini" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-103370" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://d1zwrbqwpdo2jr.cloudfront.net/VC360Attachments/103370/198474/103370_198474_638.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>VOLKSWAGEN ID.4 77kWh Pro</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="83774">83 774 km</td>
@@ -1556,8 +2079,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Otomoto"
             data-search="volkswagen id.4 volkswagen id.4 4motion gtx wronki otomoto">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>Volkswagen ID.4 4MOTION GTX · Wronki</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id4-ID6I4Lbh.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/x6dfditx0h8y1-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>Volkswagen ID.4 4MOTION GTX · Wronki</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2021">2021</td>
           <td class="num" data-s="66600">66 600 km</td>
@@ -1569,8 +2097,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
             data-search="volkswagen id.4 volkswagen id.4 77kwh pro performance  vw financial services">
           <td class="wrap" data-s="Volkswagen ID.4">
-            <b>Volkswagen ID.4</b>
-            <br><small>VOLKSWAGEN ID.4 77kWh Pro Performance</small>
+            <div class="veh">
+              <a class="mini" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-95504" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://d1zwrbqwpdo2jr.cloudfront.net/VC360Attachments/95504/195696/95504_195696_638.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.4</b>
+                <br><small>VOLKSWAGEN ID.4 77kWh Pro Performance</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="33872">33 872 km</td>
@@ -1582,8 +2115,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Otomoto"
             data-search="volkswagen id.5 volkswagen id.5 antonin otomoto">
           <td class="wrap" data-s="Volkswagen ID.5">
-            <b>Volkswagen ID.5</b>
-            <br><small>Volkswagen ID.5 · Antonin</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id5-ID6HZ3uH.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/7r5vd4yj9fkq-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.5</b>
+                <br><small>Volkswagen ID.5 · Antonin</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="80000">80 000 km</td>
@@ -1595,8 +2133,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Otomoto"
             data-search="volkswagen id.5 volkswagen id.5 pro performance morzyczyn otomoto">
           <td class="wrap" data-s="Volkswagen ID.5">
-            <b>Volkswagen ID.5</b>
-            <br><small>Volkswagen ID.5 Pro Performance · Morzyczyn</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id5-ID6IdhlB.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/45n1nwa6x7im-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.5</b>
+                <br><small>Volkswagen ID.5 Pro Performance · Morzyczyn</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="91700">91 700 km</td>
@@ -1608,8 +2151,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Automarket"
             data-search="volkswagen id.5 volkswagen id.5 warszawa automarket">
           <td class="wrap" data-s="Volkswagen ID.5">
-            <b>Volkswagen ID.5</b>
-            <br><small>VOLKSWAGEN ID.5 · Warszawa</small>
+            <div class="veh">
+              <a class="mini" href="https://automarket.pl/oferta/volkswagen/id.5/T94313/leasing" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://cdn.automarket.pl/i/_/rs:fill:372:210/bG9jYWw6Ly8vbWVk/aWEvaW1hZ2UvNi8w/LzYwOTk4MjJfMjQu/anBn.webp" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.5</b>
+                <br><small>VOLKSWAGEN ID.5 · Warszawa</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2023">2023</td>
           <td class="num" data-s="32000">32 000 km</td>
@@ -1621,8 +2169,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Otomoto"
             data-search="volkswagen id.5 volkswagen id.5 zamość otomoto">
           <td class="wrap" data-s="Volkswagen ID.5">
-            <b>Volkswagen ID.5</b>
-            <br><small>Volkswagen ID.5 · Zamość</small>
+            <div class="veh">
+              <a class="mini" href="https://www.otomoto.pl/osobowe/oferta/volkswagen-id5-ID6I6vz4.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><img src="https://ireland.apollo.olxcdn.com/v1/files/pp7qpz8qb5lk3-OTOMOTOPL/image;s=640x480" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
+              <div>
+                <b>Volkswagen ID.5</b>
+                <br><small>Volkswagen ID.5 · Zamość</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="2022">2022</td>
           <td class="num" data-s="42000">42 000 km</td>
@@ -1638,67 +2191,10 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
   <h2>⚠️ Do weryfikacji <span class="count">0</span></h2>
 <div class="empty">Brak ofert wymagających weryfikacji.</div>
-  <h2>Zniknęły od ostatniego skanu <span class="count">13</span></h2>
+  <h2>Zniknęły od ostatniego skanu <span class="count">0</span></h2>
   <details>
-    <summary>Pokaż listę (13)</summary>
-    <div class="tbl-wrap" style="box-shadow:none"><table>
-      <thead><tr><th class="nosort">Pojazd</th><th class="nosort num">Rok</th><th class="nosort num">Ostatnia cena</th><th class="nosort">Źródło</th><th class="nosort"></th></tr></thead>
-      <tbody>
-        <tr><td class="wrap"><b>Hyundai Kona Electric</b><br><small>Hyundai Kona Style</small></td>
-          <td class="num">2020</td><td class="num">70 900 zł <small>brutto</small> <small>· 57 642 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfxRm.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Hyundai Kona Electric</b><br><small>Hyundai Kona 64kWh Premium</small></td>
-          <td class="num">2019</td><td class="num">84 900 zł <small>brutto</small> <small>· 69 024 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfVFc.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Hyundai Kona Electric</b><br><small>Hyundai Kona 64kWh Platinum</small></td>
-          <td class="num">2020</td><td class="num">85 900 zł <small>brutto</small> <small>· 69 837 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/hyundai-kona-ID6IfmKF.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2019</td><td class="num">70 000 zł <small>brutto</small> <small>· 56 911 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IeYUm.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2020</td><td class="num">82 500 zł <small>brutto</small> <small>· 67 073 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6HUqcH.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2019</td><td class="num">84 999 zł <small>brutto</small> <small>· 69 105 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Ig0Of.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2020</td><td class="num">85 000 zł <small>brutto</small> <small>· 69 106 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6If6na.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3 Performance AWD</small></td>
-          <td class="num">2019</td><td class="num">92 900 zł <small>brutto</small> <small>· 75 528 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Igj0Z.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2019</td><td class="num">94 000 zł <small>brutto</small> <small>· 76 423 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6Igg4k.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3 Standard Range Plus</small></td>
-          <td class="num">2020</td><td class="num">95 000 zł <small>brutto</small> <small>· 77 236 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IgAd1.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2019</td><td class="num">100 000 zł <small>brutto</small> <small>· 81 301 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IeTJj.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model 3</b><br><small>Tesla Model 3</small></td>
-          <td class="num">2020</td><td class="num">115 000 zł <small>brutto</small> <small>· 93 496 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-model-3-ID6IewUn.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-        <tr><td class="wrap"><b>Tesla Model Y</b><br><small>Tesla Model Y Long Range Dual Motor AWD</small></td>
-          <td class="num">2020</td><td class="num">120 881 zł <small>brutto</small> <small>· 98 277 zł netto</small></td>
-          <td>Otomoto</td>
-          <td><a href="https://www.otomoto.pl/osobowe/oferta/tesla-y-ID6Ifr37.html" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
-      </tbody>
-    </table></div>
-  </details>
+    <summary>Pokaż listę (0)</summary>
+<p class="muted">Nic nie zniknęło.</p>  </details>
 
   <h2>Alternatywnie: szukaj sam</h2>
   <p class="sub" style="margin:-6px 0 12px">Tych portali nie skanujemy — linki otwierają gotowe wyszukiwania (auta elektryczne, cena do 130 000 zł). Ceny w ogłoszeniach mogą być netto lub brutto, sprawdź w treści.</p>
@@ -1723,7 +2219,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     </tbody>
   </table></div>
 
-  <footer>Wygenerowano przez EV Radar · 02.10.2026 11:47</footer>
+  <footer>Wygenerowano przez EV Radar · 02.10.2026 12:00</footer>
 </main>
 
 <script>
@@ -1783,7 +2279,9 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
   document.addEventListener('error', function (e) {
     var t = e.target;
-    if (t && t.tagName === 'IMG') { t.parentNode.textContent = 'brak zdjęcia'; }
+    if (t && t.tagName === 'IMG') {
+      if (t.parentNode.classList.contains('mini')) { t.remove(); } else { t.parentNode.textContent = 'brak zdjęcia'; }
+    }
   }, true);
 
   apply();
