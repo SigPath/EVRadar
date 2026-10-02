@@ -22,6 +22,8 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - 🆕 **Nowe oferty**, 📉 **obniżki cen**, ↩️ **wróciły**, ❌ **zniknęły** — od ostatniego skanu,
 - ⚠️ **Do weryfikacji** — oferty, przy których nie da się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego paliwa); nic nie jest po cichu odrzucane,
 - tabela wszystkich ofert z miniaturami, wyszukiwarką, filtrami (marka, model, źródło) i sortowaniem; przy cenie **mini wykres** (zielony = spadła, czerwony = wzrosła), gdy oferta zmieniła cenę (historia zapełnia się z każdym skanem),
+- kolumna **Vs rynek**: cena brutto względem mediany porównywalnych ofert (ten sam model i rocznik, przy małej próbie sam model; min. 4–5 ofert); sortowanie rosnące pokazuje największe okazje,
+- przyciski **★ obserwuj** i **✕ ukryj** przy ofercie (zapamiętywane w przeglądarce, `localStorage`) oraz filtry „Tylko obserwowane” i „Pokaż ukryte”; odwiedzone linki „Oferta” szarzeją,
 - sekcja **Alternatywnie** — gotowe linki do wyszukiwań na OLX (nie jest skanowany), z filtrem „elektryczne” i limitem ceny,
 - status każdego źródła (`OK` / `BŁĄD` / `POMINIĘTE` / `DO AKTUALIZACJI`),
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),

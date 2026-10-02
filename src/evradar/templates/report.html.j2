@@ -102,6 +102,17 @@ td.wrap { white-space: normal; min-width: 220px; }
 .spark circle { fill: currentColor; }
 .spark.down { color: var(--new); }
 .spark.up { color: var(--err); }
+.mkt { font-size: .78rem; font-weight: 650; padding: 2px 8px; border-radius: 99px; background: var(--chip); color: var(--muted); }
+.mkt.deal { background: var(--new-bg); color: var(--new); }
+.mkt.pricey { background: var(--err-bg); color: var(--err); }
+.btn:visited { background: var(--muted); }
+.act { display: flex; align-items: center; gap: 6px; }
+.ico { border: 1px solid var(--line); background: var(--chip); color: var(--muted); border-radius: 8px; width: 30px; height: 30px;
+  font-size: 1rem; line-height: 1; cursor: pointer; padding: 0; }
+.ico:hover { color: var(--text); }
+tr.fav .ico.star { color: #f59e0b; border-color: #f59e0b; }
+tr.dismissed { opacity: .5; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px; }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
@@ -236,18 +247,23 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       {% for value, n in items %}<button type="button" class="chip" aria-pressed="false" data-value="{{ value }}">{{ value }}<i>{{ n }}</i></button>{% endfor %}
     </div>
     {% endfor %}
+    <div class="toggles">
+      <button type="button" class="chip" id="only-fav" aria-pressed="false">★ Tylko obserwowane<i id="fav-count">0</i></button>
+      <button type="button" class="chip" id="show-dismissed" aria-pressed="false">Pokaż ukryte<i id="dismissed-count">0</i></button>
+    </div>
   </div>
   <div class="tbl-wrap">
     <table id="offers">
       <thead><tr>
         <th data-type="text">Pojazd</th><th data-type="num" class="num">Rok</th>
         <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
+        <th data-type="num" class="num" title="Cena brutto względem mediany porównywalnych ofert">Vs rynek</th>
         <th data-type="text">Źródło</th>
         <th data-type="text">Widziana od</th><th class="nosort"></th>
       </tr></thead>
       <tbody>
       {% for o in confirmed %}
-        <tr data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}"
+        <tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}"
             data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ source_names.get(o.source, o.source))|lower }}">
           <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
             <div class="veh">
@@ -263,9 +279,15 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
           <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
           <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
           <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}{{ spark(o.offer_id) }}</td>
+          {% set m = market.get(o.offer_id) %}
+          <td class="num" data-s="{{ m.pct|round(1) if m else 999 }}">{% if m %}<span class="mkt {{ 'deal' if m.pct <= -10 else 'pricey' if m.pct >= 10 else '' }}" title="Mediana {{ m.median|pln }} ({{ m.n }} ofert, porównanie: {{ m.scope }})">{{ '%+.0f'|format(m.pct)|replace('-', '−') }}%</span>{% else %}<span class="muted" title="Za mało ofert do porównania">—</span>{% endif %}</td>
           <td data-s="{{ source_names.get(o.source, o.source) }}"><span class="badge">{{ source_names.get(o.source, o.source) }}</span></td>
           <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
-          <td><a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+          <td><div class="act">
+            <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
+            <button type="button" class="ico" data-act="hide" title="Ukryj / przywróć" aria-label="Ukryj">✕</button>
+            <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a>
+          </div></td>
         </tr>
       {% endfor %}
       </tbody>
@@ -321,11 +343,26 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   var counter = document.getElementById('visible-count');
   var noMatch = document.getElementById('no-match');
   var active = {};
+  var KEY = 'evradar:marks';
+  var marks = {};
+  try { marks = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { marks = {}; }
+  var onlyFav = document.getElementById('only-fav');
+  var showDismissed = document.getElementById('show-dismissed');
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} }
+  function pressed(b) { return b.getAttribute('aria-pressed') === 'true'; }
 
   function apply() {
-    var needle = q.value.trim().toLowerCase(), shown = 0;
+    var needle = q.value.trim().toLowerCase(), shown = 0, favs = 0, hid = 0;
     rows.forEach(function (tr) {
+      var mark = marks[tr.dataset.id] || '';
+      tr.classList.toggle('fav', mark === 'fav');
+      tr.classList.toggle('dismissed', mark === 'hide');
+      if (mark === 'fav') favs++;
+      if (mark === 'hide') hid++;
       var ok = !needle || tr.dataset.search.indexOf(needle) !== -1;
+      if (mark === 'hide' && !pressed(showDismissed)) ok = false;
+      if (pressed(onlyFav) && mark !== 'fav') ok = false;
       Object.keys(active).forEach(function (g) {
         var set = active[g];
         if (ok && set.length && set.indexOf(tr.dataset[g]) === -1) ok = false;
@@ -334,8 +371,22 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       if (ok) shown++;
     });
     counter.textContent = shown;
+    document.getElementById('fav-count').textContent = favs;
+    document.getElementById('dismissed-count').textContent = hid;
     noMatch.hidden = shown !== 0;
   }
+
+  [onlyFav, showDismissed].forEach(function (b) {
+    b.addEventListener('click', function () { b.setAttribute('aria-pressed', !pressed(b)); apply(); });
+  });
+  table.tBodies[0].addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]');
+    if (!b) return;
+    var id = b.closest('tr').dataset.id, want = b.dataset.act;
+    if (marks[id] === want) delete marks[id]; else marks[id] = want;
+    save();
+    apply();
+  });
 
   q.addEventListener('input', apply);
   Array.prototype.forEach.call(document.querySelectorAll('.chips'), function (box) {

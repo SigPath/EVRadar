@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
+from statistics import median
+from typing import NamedTuple
 from zoneinfo import ZoneInfo
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -17,8 +19,41 @@ TEMPLATE_DIR = Path(__file__).parent / "templates"
 LOCAL_TZ = ZoneInfo("Europe/Warsaw")
 NBSP = "\u00a0"
 SPARK_W, SPARK_H, SPARK_PAD = 56, 16, 2
+MIN_GROUP_YEAR, MIN_GROUP_MODEL = 4, 5  # minimalna liczba ofert do wyliczenia mediany
 
 AltRow = tuple[str, list[tuple[str, str]]]  # (etykieta, [(portal, url)])
+
+
+class MarketRef(NamedTuple):
+    """Cena oferty na tle mediany porównywalnych ofert (brutto)."""
+
+    pct: float
+    median: int
+    n: int
+    scope: str
+
+
+def market_refs(offers: list[Offer]) -> dict[str, MarketRef]:
+    """Odchylenie ceny brutto od mediany: ten sam model i rocznik, a przy małej próbie sam model."""
+    by_year: dict[tuple[str, str, int | None], list[int]] = defaultdict(list)
+    by_model: dict[tuple[str, str], list[int]] = defaultdict(list)
+    for o in offers:
+        if o.price_gross_pln:
+            by_year[(o.brand, o.model_matched, o.year)].append(o.price_gross_pln)
+            by_model[(o.brand, o.model_matched)].append(o.price_gross_pln)
+    refs: dict[str, MarketRef] = {}
+    for o in offers:
+        price = o.price_gross_pln
+        if not price:
+            continue
+        group, scope, need = by_year[(o.brand, o.model_matched, o.year)], "rocznik", MIN_GROUP_YEAR
+        if o.year is None or len(group) < need:
+            group, scope, need = by_model[(o.brand, o.model_matched)], "model", MIN_GROUP_MODEL
+        if len(group) < need:
+            continue
+        med = round(median(group))
+        refs[o.offer_id] = MarketRef((price - med) / med * 100, med, len(group), scope)
+    return refs
 
 
 def build_alt_links(alt: Alternatives, max_price_gross_pln: int | None) -> list[AltRow]:
@@ -150,6 +185,7 @@ def render_report(
         source_names=names,
         confirmed=confirmed,
         chip_groups=_chips(confirmed, names),
+        market=market_refs(confirmed),
         new_ids={x.offer.offer_id for x in data.new},
         drop_ids={x.offer.offer_id for x in data.price_drops},
         ok_count=sum(1 for s in data.sources if s.status.value == "OK"),
