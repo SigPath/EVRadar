@@ -27,9 +27,11 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - sekcja **Alternatywnie** — gotowe linki do wyszukiwań na OLX (nie jest skanowany), z filtrem „elektryczne” i limitem ceny,
 - status każdego źródła (`OK` / `BŁĄD` / `POMINIĘTE` / `DO AKTUALIZACJI`),
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),
-- opcjonalne powiadomienia Telegram, gdy pojawią się nowe oferty.
+- opcjonalne powiadomienia Telegram: o nowych ofertach oraz o awarii źródła,
+- **baner awarii** na górze raportu, gdy źródło zwróciło błąd lub 0 ofert, oraz ostrzeżenie, gdy raport jest starszy niż 36 h (zadanie dzienne nie działa),
+- przycisk **Eksport CSV** (widoczne wiersze, separator `;`, UTF-8 z BOM, otwiera się w Excelu).
 
-**Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV4, Hyundai Kona Electric / Ioniq 5, Tesla Model 3 / Model Y, Volkswagen ID.4 / ID.5.
+**Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV3 / EV4 / EV6, Hyundai Kona Electric / Ioniq 5 / Ioniq 6, Tesla Model 3 / Model Y / Model S / Model X, Volkswagen ID.3 / ID.4 / ID.5 / ID.7, Skoda Enyaq.
 
 ## Źródła danych
 
@@ -155,7 +157,7 @@ Register-ScheduledTask -TaskName "EVRadar Daily Report" -Action $action -Trigger
 
 Workflow [`daily.yml`](.github/workflows/daily.yml) to opcjonalny, ręcznie uruchamiany skan na GitHub Actions (raport tylko jako artefakt, bez publikacji na Pages); skan z serwerów GitHuba pomija źródła blokujące adresy IP centrów danych. [`ci.yml`](.github/workflows/ci.yml) uruchamia lint, typy i testy przy każdym pushu.
 
-**Powiadomienia (opcjonalne):** w `config/models.yaml` ustaw `notifications.enabled: true`, a w środowisku `TELEGRAM_BOT_TOKEN` i `TELEGRAM_CHAT_ID`. Wiadomość wychodzi tylko wtedy, gdy są nowe oferty.
+**Powiadomienia (opcjonalne):** w `config/models.yaml` ustaw `notifications.enabled: true`, a w środowisku `TELEGRAM_BOT_TOKEN` i `TELEGRAM_CHAT_ID`. Wiadomość o nowych ofertach wychodzi tylko wtedy, gdy są nowe oferty; osobny alert wychodzi, gdy któreś źródło ma status `BŁĄD` lub `DO AKTUALIZACJI` (nie w trybie dry-run).
 
 ## Jak dodać nowe źródło
 

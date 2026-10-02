@@ -17,7 +17,7 @@ from rich.table import Table
 from evradar.config import ROOT_DIR, SourceConfig, load_models_config, load_sources_config
 from evradar.demo import synthetic_report_data
 from evradar.models import ReportData, SourceResult, SourceStatus
-from evradar.notify import notify_new_offers
+from evradar.notify import notify_new_offers, notify_source_problems
 from evradar.report import build_alt_links, write_report
 from evradar.runner import run_scan
 from evradar.storage import Storage
@@ -148,6 +148,7 @@ def run(
     _finish(data, first_run, open_browser=not no_open)
     if models.notifications.enabled:
         notify_new_offers(models.notifications, data)
+        notify_source_problems(models.notifications, data)
 
 
 def _progress(result: SourceResult) -> None:

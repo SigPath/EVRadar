@@ -14,6 +14,7 @@ from markupsafe import Markup
 
 from evradar.config import Alternatives
 from evradar.models import Offer, OfferDiff, ReportData
+from evradar.notify import problem_sources
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 LOCAL_TZ = ZoneInfo("Europe/Warsaw")
@@ -186,6 +187,8 @@ def render_report(
         confirmed=confirmed,
         chip_groups=_chips(confirmed, names),
         market=market_refs(confirmed),
+        problems=problem_sources(data),
+        run_iso=data.run.started_at.isoformat(),
         new_ids={x.offer.offer_id for x in data.new},
         drop_ids={x.offer.offer_id for x in data.price_drops},
         ok_count=sum(1 for s in data.sources if s.status.value == "OK"),

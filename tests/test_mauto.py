@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from evradar.config import load_models_config
@@ -56,6 +57,7 @@ def test_ioniq_6_is_not_ioniq_5_and_kona_matches() -> None:
     for x in _load():
         m = matcher.match(x)
         if "Ioni" in x.title_raw:
-            assert m is None
+            expected = "Ioniq 6" if re.search(r"(?i)ioni[qc]\s*6", x.title_raw) else "Ioniq 5"
+            assert m is not None and m.model == expected
         if x.model and x.model.startswith("Kona"):
             assert m is not None and m.model == "Kona Electric"

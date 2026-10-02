@@ -1,4 +1,4 @@
-"""Opcjonalne powiadomienie Telegram, gdy liczba nowych ofert > 0 (włączane w models.yaml)."""
+"""Opcjonalne powiadomienia Telegram: nowe oferty i awarie źródeł (włączane w models.yaml)."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import httpx
 import structlog
 
 from evradar.config import Notifications
-from evradar.models import ReportData
+from evradar.models import ReportData, SourceResult, SourceStatus
 
 log = structlog.get_logger()
 
@@ -24,10 +24,22 @@ def build_message(data: ReportData) -> str:
     return "\n".join(lines)
 
 
-def notify_new_offers(cfg: Notifications, data: ReportData) -> bool:
-    """Wysyła wiadomość; token i chat_id wyłącznie ze zmiennych środowiskowych."""
-    if not cfg.enabled or not data.new or data.run.dry_run:
-        return False
+def problem_sources(data: ReportData) -> list[SourceResult]:
+    """Źródła z błędem lub z parserem, który przestał zwracać oferty."""
+    bad = (SourceStatus.ERROR, SourceStatus.STALE)
+    return [s for s in data.sources if s.status in bad]
+
+
+def build_problem_message(data: ReportData) -> str:
+    lines = [f"EV Radar: problem z {len(problem_sources(data))} źródłem/źródłami."]
+    for s in problem_sources(data):
+        reason = s.error or s.note or s.status.value
+        lines.append(f"• {s.name or s.source} ({s.status.value}): {reason[:150]}")
+    return "\n".join(lines)
+
+
+def _send_telegram(cfg: Notifications, text: str) -> bool:
+    """Token i chat_id wyłącznie ze zmiennych środowiskowych."""
     if cfg.channel != "telegram":
         log.warning("notify_channel_unsupported", channel=cfg.channel)
         return False
@@ -39,11 +51,7 @@ def notify_new_offers(cfg: Notifications, data: ReportData) -> bool:
     try:
         resp = httpx.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
-            json={
-                "chat_id": chat_id,
-                "text": build_message(data),
-                "disable_web_page_preview": True,
-            },
+            json={"chat_id": chat_id, "text": text, "disable_web_page_preview": True},
             timeout=15,
         )
         resp.raise_for_status()
@@ -51,3 +59,17 @@ def notify_new_offers(cfg: Notifications, data: ReportData) -> bool:
         log.error("notify_failed", error=type(exc).__name__)
         return False
     return True
+
+
+def notify_new_offers(cfg: Notifications, data: ReportData) -> bool:
+    """Wysyła wiadomość o nowych ofertach."""
+    if not cfg.enabled or not data.new or data.run.dry_run:
+        return False
+    return _send_telegram(cfg, build_message(data))
+
+
+def notify_source_problems(cfg: Notifications, data: ReportData) -> bool:
+    """Wysyła alert, gdy któreś źródło zawiodło (niezależnie od nowych ofert)."""
+    if not cfg.enabled or not problem_sources(data) or data.run.dry_run:
+        return False
+    return _send_telegram(cfg, build_problem_message(data))

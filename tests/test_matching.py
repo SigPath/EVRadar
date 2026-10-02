@@ -51,10 +51,30 @@ def test_vw_id4_matches(matcher: ModelMatcher, title: str, brand: str | None) ->
 
 
 def test_vw_other_models_rejected(matcher: ModelMatcher) -> None:
-    assert matcher.match(listing("VW ID.3 Pro", fuel="Elektryczny")) is None
+    assert matcher.match(listing("VW ID. Buzz", fuel="Elektryczny")) is None
     assert matcher.match(listing("Volkswagen Golf 1.5 TSI")) is None
-    assert matcher.match(listing("Skoda Enyaq iV 85")) is None  # ID.5 bez marki VW nie przechodzi
     assert matcher.match(listing("Audi Q4 e-tron ID.5")) is None
+
+
+@pytest.mark.parametrize(
+    ("title", "brand", "model"),
+    [
+        ("VW ID.3 Pro", None, "ID.3"),
+        ("Volkswagen ID.7 Tourer GTX", None, "ID.7"),
+        ("Skoda Enyaq iV 85", None, "Enyaq"),
+        ("Enyaq Coupe", "Škoda", "Enyaq"),
+        ("Hyundai Ioniq 6 77 kWh", None, "Ioniq 6"),
+        ("Kia EV6 GT", None, "EV6"),
+        ("Kia EV3 Earth", None, "EV3"),
+        ("Tesla Model S Plaid", None, "Model S"),
+        ("Tesla X", "Tesla", "Model X"),
+    ],
+)
+def test_added_models_match(
+    matcher: ModelMatcher, title: str, brand: str | None, model: str
+) -> None:
+    m = matcher.match(listing(title, brand=brand, fuel="Elektryczny"))
+    assert m is not None and m.model == model
 
 
 def test_normalize() -> None:
@@ -99,10 +119,10 @@ def test_tesla_model_3_performance(matcher: ModelMatcher) -> None:
 
 
 def test_other_brand_or_model_rejected(matcher: ModelMatcher) -> None:
-    assert matcher.match(listing("Hyundai Ioniq 6 77 kWh")) is None
-    assert matcher.match(listing("Tesla Model S")) is None
+    assert matcher.match(listing("Hyundai Ioniq 9 110 kWh")) is None
+    assert matcher.match(listing("Tesla Cybertruck")) is None
     assert matcher.match(listing("BMW iX3")) is None
-    assert matcher.match(listing("Kia EV6 GT")) is None
+    assert matcher.match(listing("Kia EV9 GT-Line")) is None
 
 
 def test_ev4_not_matched_inside_longer_token(matcher: ModelMatcher) -> None:

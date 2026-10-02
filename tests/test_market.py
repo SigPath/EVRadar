@@ -45,3 +45,9 @@ def test_report_has_market_column_and_marks() -> None:
     assert "Vs rynek" in html and 'data-act="fav"' in table and 'data-act="hide"' in table
     assert table.count("data-id=") == table.count("<tr data-id=")
     assert "evradar:marks" in html
+
+
+def test_report_has_csv_export() -> None:
+    html = render_report(synthetic_report_data())
+    table = html.split('id="offers"')[1].split('</table>')[0]
+    assert 'id="export-csv"' in html and 'data-url="' in table and 'data-gross="' in table
