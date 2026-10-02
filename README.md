@@ -107,7 +107,7 @@ filters:
   max_price_gross_pln: 130000   # null = bez limitu
   min_price_gross_pln: 70000    # tańsze oferty to zwykle cesje leasingu
   max_mileage_km: 122000
-  min_year: null
+  min_year: 2021
 notifications:
   enabled: false
 ```

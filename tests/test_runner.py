@@ -71,6 +71,7 @@ def models() -> ModelsConfig:
     cfg.filters.max_price_gross_pln = None  # testy nie zależą od limitów z configu
     cfg.filters.min_price_gross_pln = None
     cfg.filters.max_mileage_km = None
+    cfg.filters.min_year = None
     return cfg
 
 
@@ -182,6 +183,17 @@ def test_max_price_filter_drops_expensive(models: ModelsConfig) -> None:
     listings = [make_listing('s', 130_000, '1'), make_listing('s', 130_001, '2')]
     offers = runner.build_offers(listings, ModelMatcher(models.targets), models, utcnow())
     assert [o.price_gross_pln for o in offers] == [130_000]
+
+
+def test_min_year_filter(models: ModelsConfig) -> None:
+    models.filters.min_year = 2021
+    old = make_listing("s", 100_000, "1").model_copy(update={"year": 2020})
+    edge = make_listing("s", 100_000, "2").model_copy(update={"year": 2021})
+    unknown = make_listing("s", 100_000, "3").model_copy(update={"year": None})
+    offers = runner.build_offers(
+        [old, edge, unknown], ModelMatcher(models.targets), models, utcnow()
+    )
+    assert sorted(o.url.rsplit("/", 1)[1] for o in offers) == ["2", "3"]
 
 
 def test_min_price_and_mileage_filters(models: ModelsConfig) -> None:

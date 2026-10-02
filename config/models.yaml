@@ -20,7 +20,7 @@ filters:
   max_price_gross_pln: 130000   # null = bez limitu
   min_price_gross_pln: 70000    # tańsze oferty to zwykle cesje leasingu / błędy; null = bez limitu
   max_mileage_km: 122000
-  min_year: null
+  min_year: 2021
 notifications:
   enabled: false                # powiadomienie, gdy liczba nowych ofert > 0
   channel: telegram             # telegram | email (dane z zmiennych środowiskowych)
