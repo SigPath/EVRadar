@@ -19,6 +19,11 @@ def net_to_gross(net: int) -> int:
     return round(net * (1 + VAT_RATE))
 
 
+def gross_to_net(gross: int) -> int:
+    """Cena netto z brutto: -23% VAT (złotówki, zaokrąglone)."""
+    return round(gross / (1 + VAT_RATE))
+
+
 _YEAR = re.compile(r"(?<!\d)(19[89]\d|20[0-4]\d)(?!\d)")
 _KWH = re.compile(r"(\d{2,3}(?:[.,]\d{1,2})?)\s*kwh", re.IGNORECASE)
 _RANGE = re.compile(r"(\d{2,3})\s*km\s*\(?\s*wltp|wltp[^0-9]{0,20}(\d{2,3})\s*km", re.IGNORECASE)

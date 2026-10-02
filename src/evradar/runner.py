@@ -26,7 +26,7 @@ from evradar.models import (
     make_offer_id,
     utcnow,
 )
-from evradar.parsing import net_to_gross
+from evradar.parsing import gross_to_net, net_to_gross
 from evradar.robots import RobotsDisallowed
 from evradar.scrapers import get_scraper_class
 from evradar.storage import Storage
@@ -45,10 +45,13 @@ def build_offers(
         match = matcher.match(item)
         if match is None:
             continue
-        # serwis podał tylko netto -> brutto = netto + 23% VAT (decyzja użytkownika)
+        # serwis podał tylko jedną z cen -> druga przez 23% VAT (decyzja użytkownika)
         gross = item.price_gross_pln
-        if gross is None and item.price_net_pln:
-            gross = net_to_gross(item.price_net_pln)
+        net = item.price_net_pln
+        if gross is None and net:
+            gross = net_to_gross(net)
+        elif net is None and gross:
+            net = gross_to_net(gross)
         if not passes_filters(
             models.filters,
             year=item.year,
@@ -67,7 +70,7 @@ def build_offers(
             year=item.year,
             mileage_km=item.mileage_km,
             price_gross_pln=gross,
-            price_net_pln=item.price_net_pln,
+            price_net_pln=net,
             monthly_installment_pln=item.monthly_installment_pln,
             installment_basis=item.installment_basis,
             vat_invoice=item.vat_invoice,

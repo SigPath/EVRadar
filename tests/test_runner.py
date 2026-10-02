@@ -164,3 +164,10 @@ def test_net_only_price_gets_gross_with_vat(models: ModelsConfig) -> None:
     offers = runner.build_offers([listing], ModelMatcher(models.targets), models, utcnow())
     assert offers[0].price_net_pln == 100_000
     assert offers[0].price_gross_pln == 123_000
+
+
+def test_gross_only_price_gets_net_without_vat(models: ModelsConfig) -> None:
+    listing = make_listing("s", 123_000)
+    offers = runner.build_offers([listing], ModelMatcher(models.targets), models, utcnow())
+    assert offers[0].price_gross_pln == 123_000
+    assert offers[0].price_net_pln == 100_000
