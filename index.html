@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Radar — 02.10.2026</title>
+<style>
+:root {
+  --bg: #f4f6f8; --card: #ffffff; --text: #1c2430; --muted: #66727f; --line: #e2e7ec;
+  --accent: #2563eb; --new: #16a34a; --new-bg: #e7f7ed; --drop: #d97706; --drop-bg: #fff3dc;
+  --err: #dc2626; --err-bg: #fde8e8; --warn-bg: #fff3dc; --chip: #eef1f5;
+  --shadow: 0 1px 2px rgba(16,24,40,.06), 0 2px 8px rgba(16,24,40,.05);
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f141a; --card: #171e27; --text: #e6ebf0; --muted: #93a0ae; --line: #263140;
+    --accent: #6ea0ff; --new: #4ade80; --new-bg: #12301f; --drop: #fbbf24; --drop-bg: #3a2c0b;
+    --err: #f87171; --err-bg: #3b1717; --warn-bg: #3a2c0b; --chip: #1f2833;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.3);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: var(--accent); text-decoration: none; }
+main { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
+h1 { font-size: 1.6rem; margin: 0; letter-spacing: -.02em; }
+h2 { font-size: 1.15rem; margin: 34px 0 12px; display: flex; align-items: center; gap: 8px; }
+h2 .count { font-size: .8rem; color: var(--muted); font-weight: 500; background: var(--chip);
+  padding: 2px 9px; border-radius: 99px; }
+small, .muted { color: var(--muted); }
+.sub { color: var(--muted); margin-top: 4px; }
+.banner { background: var(--warn-bg); border-radius: var(--radius); padding: 10px 14px; margin-top: 12px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 16px; }
+.stat { background: var(--card); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); }
+.stat b { display: block; font-size: 1.6rem; line-height: 1.1; letter-spacing: -.02em; }
+.stat span { color: var(--muted); font-size: .82rem; }
+.stat.new b { color: var(--new); } .stat.drop b { color: var(--drop); }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.tile { background: var(--card); border-radius: var(--radius); padding: 10px 12px; box-shadow: var(--shadow);
+  border-left: 4px solid var(--new); }
+.tile.ERROR { border-color: var(--err); } .tile.SKIPPED { border-color: var(--muted); }
+.tile.STALE { border-color: var(--drop); }
+.tile .name { font-weight: 600; display: flex; justify-content: space-between; gap: 6px; }
+.tile .meta { color: var(--muted); font-size: .82rem; margin-top: 2px; }
+.tile .msg { font-size: .78rem; margin-top: 4px; color: var(--muted); word-break: break-word; }
+.st { font-size: .68rem; font-weight: 700; padding: 2px 7px; border-radius: 99px; background: var(--new-bg); color: var(--new);
+  white-space: nowrap; align-self: flex-start; }
+.ERROR .st { background: var(--err-bg); color: var(--err); }
+.STALE .st { background: var(--drop-bg); color: var(--drop); }
+.SKIPPED .st { background: var(--chip); color: var(--muted); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: 14px; }
+.card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  display: flex; flex-direction: column; break-inside: avoid; }
+.card.is-new { box-shadow: var(--shadow), inset 0 3px 0 var(--new); }
+.card.is-drop { box-shadow: var(--shadow), inset 0 3px 0 var(--drop); }
+.thumb { aspect-ratio: 16 / 10; background: var(--chip); display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: .8rem; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.ttl { font-weight: 650; font-size: 1.02rem; letter-spacing: -.01em; }
+.raw { color: var(--muted); font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.facts { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--muted); font-size: .86rem; }
+.price { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; }
+.price small { font-size: .72rem; font-weight: 500; }
+.old { text-decoration: line-through; color: var(--muted); font-size: .95rem; margin-right: 6px; }
+.delta { font-weight: 650; color: var(--drop); background: var(--drop-bg); padding: 1px 8px; border-radius: 99px; font-size: .82rem; }
+.delta.up { color: var(--err); background: var(--err-bg); }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 8px; }
+.badge { font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--chip); color: var(--muted); }
+.badge.new { background: var(--new-bg); color: var(--new); }
+.badge.drop { background: var(--drop-bg); color: var(--drop); }
+.badge.warn { background: var(--warn-bg); color: var(--drop); }
+.btn { display: inline-block; padding: 6px 12px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 600; font-size: .85rem; }
+.btn:hover { filter: brightness(1.1); }
+.empty { color: var(--muted); padding: 14px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+.toolbar { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.toolbar input[type=search] { width: 100%; max-width: 420px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--card); color: var(--text); font: inherit; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chips .lbl { font-size: .78rem; color: var(--muted); min-width: 52px; }
+.chip { border: 1px solid var(--line); background: var(--chip); color: var(--text); padding: 3px 11px; border-radius: 99px;
+  font: inherit; font-size: .82rem; cursor: pointer; }
+.chip[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip i { font-style: normal; opacity: .65; margin-left: 4px; }
+.tbl-wrap { overflow-x: auto; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td.wrap { white-space: normal; min-width: 220px; }
+th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
+th.nosort { cursor: default; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; }
+tr.hidden { display: none; }
+details { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 4px 14px; }
+details summary { cursor: pointer; padding: 10px 0; font-weight: 600; }
+footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: center; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.3rem; } .stat b { font-size: 1.3rem; }
+  .cards { grid-template-columns: 1fr; }
+}
+@media print {
+  :root { --bg: #fff; --card: #fff; --text: #000; --shadow: none; --line: #ccc; }
+  body { font-size: 11px; } .toolbar, .btn { display: none; }
+  .card { border: 1px solid #ccc; } .cards { grid-template-columns: repeat(3, 1fr); }
+  details { box-shadow: none; } details > * { display: block; }
+  .tbl-wrap { overflow: visible; } th { position: static; } tr.hidden { display: table-row; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+
+
+<main>
+  <header>
+    <h1>⚡ EV Radar</h1>
+    <div class="sub">Skan: 02.10.2026, 07:32 · czas trwania 16.1 s
+· przebieg #10</div>
+    <div class="stats">
+      <div class="stat"><b>61</b><span>aktywnych ofert</span></div>
+      <div class="stat new"><b>0</b><span>nowych</span></div>
+      <div class="stat drop"><b>0</b><span>obniżek cen</span></div>
+      <div class="stat"><b>0</b><span>zniknęło</span></div>
+      <div class="stat"><b>6/6</b><span>źródeł OK</span></div>
+    </div>
+  </header>
+
+  <h2>Status źródeł</h2>
+  <section class="tiles">
+    <div class="tile OK">
+      <div class="name"><span>VW Financial Services</span>
+        <span class="st">OK</span></div>
+      <div class="meta">7 ofert · 1.3 s</div>
+    </div>
+    <div class="tile OK">
+      <div class="name"><span>Ayvens</span>
+        <span class="st">OK</span></div>
+      <div class="meta">1 ofert · 11.1 s</div>
+    </div>
+    <div class="tile OK">
+      <div class="name"><span>Mauto</span>
+        <span class="st">OK</span></div>
+      <div class="meta">17 ofert · 3.2 s</div>
+    </div>
+    <div class="tile OK">
+      <div class="name"><span>Automarket</span>
+        <span class="st">OK</span></div>
+      <div class="meta">36 ofert · 15.6 s</div>
+    </div>
+    <div class="tile OK">
+      <div class="name"><span>Stellantis &amp;You</span>
+        <span class="st">OK</span></div>
+      <div class="meta">0 ofert · 4.4 s</div>
+    </div>
+    <div class="tile OK">
+      <div class="name"><span>Poleasingowe.pl</span>
+        <span class="st">OK</span></div>
+      <div class="meta">0 ofert · 1.5 s</div>
+    </div>
+  </section>
+
+  <h2>🆕 Nowe oferty <span class="count">0</span></h2>
+<div class="empty">Brak nowych ofert od ostatniego skanu.</div>
+  <h2>📉 Obniżki cen <span class="count">0</span></h2>
+<div class="empty">Brak obniżek cen.</div>
+
+
+  <h2>Wszystkie aktywne oferty <span class="count" id="visible-count">61</span></h2>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Szukaj: marka, model, miasto, tytuł…" aria-label="Szukaj">
+    <div class="chips" data-group="brand"><span class="lbl">Marka</span>
+<button type="button" class="chip" aria-pressed="false" data-value="Hyundai">Hyundai<i>21</i></button><button type="button" class="chip" aria-pressed="false" data-value="Kia">Kia<i>2</i></button><button type="button" class="chip" aria-pressed="false" data-value="Tesla">Tesla<i>21</i></button><button type="button" class="chip" aria-pressed="false" data-value="Volkswagen">Volkswagen<i>17</i></button>    </div>
+    <div class="chips" data-group="model"><span class="lbl">Model</span>
+<button type="button" class="chip" aria-pressed="false" data-value="Hyundai Ioniq 5">Hyundai Ioniq 5<i>9</i></button><button type="button" class="chip" aria-pressed="false" data-value="Hyundai Kona Electric">Hyundai Kona Electric<i>12</i></button><button type="button" class="chip" aria-pressed="false" data-value="Kia e-Niro">Kia e-Niro<i>2</i></button><button type="button" class="chip" aria-pressed="false" data-value="Tesla Model 3">Tesla Model 3<i>8</i></button><button type="button" class="chip" aria-pressed="false" data-value="Tesla Model Y">Tesla Model Y<i>13</i></button><button type="button" class="chip" aria-pressed="false" data-value="Volkswagen ID.4">Volkswagen ID.4<i>12</i></button><button type="button" class="chip" aria-pressed="false" data-value="Volkswagen ID.5">Volkswagen ID.5<i>5</i></button>    </div>
+    <div class="chips" data-group="source"><span class="lbl">Źródło</span>
+<button type="button" class="chip" aria-pressed="false" data-value="Automarket">Automarket<i>36</i></button><button type="button" class="chip" aria-pressed="false" data-value="Ayvens">Ayvens<i>1</i></button><button type="button" class="chip" aria-pressed="false" data-value="Mauto">Mauto<i>17</i></button><button type="button" class="chip" aria-pressed="false" data-value="VW Financial Services">VW Financial Services<i>7</i></button>    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table id="offers">
+      <thead><tr>
+        <th data-type="text">Pojazd</th><th data-type="num" class="num">Rok</th>
+        <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
+        <th data-type="text">Źródło</th>
+        <th data-type="text">Widziana od</th><th class="nosort"></th>
+      </tr></thead>
+      <tbody>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 ioniq 5 73kwh platinum gdańsk automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 Ioniq 5 73kWh Platinum · Gdańsk</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="44091">44 091 km</td>
+          <td class="num" data-s="119850">119 850 zł <small>brutto</small> <small>· 97 439 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/304301/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 gdańsk automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 · Gdańsk</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="44127">44 127 km</td>
+          <td class="num" data-s="119850">119 850 zł <small>brutto</small> <small>· 97 439 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/T150242/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 gdańsk automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 · Gdańsk</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="44127">44 127 km</td>
+          <td class="num" data-s="119850">119 850 zł <small>brutto</small> <small>· 97 439 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/T150158/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Mauto"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 77kwh techniq 4wd  mauto">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 77kWh Techniq 4WD</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="30001">30 001 km</td>
+          <td class="num" data-s="158750">158 750 zł <small>brutto</small> <small>· 129 065 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/samochody-poleasingowe/hyundai-ioniq-id-27437" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 warszawa automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="30000">30 000 km</td>
+          <td class="num" data-s="158900">158 900 zł <small>brutto</small> <small>· 129 187 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/T105989/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 warszawa automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="29000">29 000 km</td>
+          <td class="num" data-s="196900">196 900 zł <small>brutto</small> <small>· 160 081 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/T106013/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 ioniq 5 84kwh n line wejherowo automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 Ioniq 5 84kWh N Line · Wejherowo</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="15">15 km</td>
+          <td class="num" data-s="229901">229 901 zł <small>brutto</small> <small>· 186 911 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/T112493/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 ioniq 5 84kwh uniq 4wd wejherowo automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 Ioniq 5 84kWh Uniq 4WD · Wejherowo</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="15">15 km</td>
+          <td class="num" data-s="249900">249 900 zł <small>brutto</small> <small>· 203 171 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/T161213/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Ioniq 5" data-source="Automarket"
+            data-search="hyundai ioniq 5 hyundai ioniq 5 ioniq 5 77kwh techniq jelonek automarket">
+          <td class="wrap" data-s="Hyundai Ioniq 5">
+            <b>Hyundai Ioniq 5</b>
+            <br><small>HYUNDAI Ioniq 5 Ioniq 5 77kWh Techniq · JELONEK</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="23500">23 500 km</td>
+          <td class="num" data-s="0"><span class="muted">brak ceny</span></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/ioniq-5/207917/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona gdańsk automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona · Gdańsk</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="50990">50 990 km</td>
+          <td class="num" data-s="74841">74 841 zł <small>brutto</small> <small>· 60 846 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T153167/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona gdańsk automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona · Gdańsk</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="50990">50 990 km</td>
+          <td class="num" data-s="74841">74 841 zł <small>brutto</small> <small>· 60 846 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T153164/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
+            data-search="hyundai kona electric hyundai kona electric 48kwh smart  mauto">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona Electric 48kWh Smart</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="38657">38 657 km</td>
+          <td class="num" data-s="104750">104 750 zł <small>brutto</small> <small>· 85 162 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-26827" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona kraków automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>Hyundai Kona · Kraków</small>
+          </td>
+          <td class="num" data-s="2025">2025</td>
+          <td class="num" data-s="8076">8 076 km</td>
+          <td class="num" data-s="120000">120 000 zł <small>brutto</small> <small>· 97 561 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T181072/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
+            data-search="hyundai kona electric hyundai kona electric 64kwh modern  mauto">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona Electric 64kWh Modern</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="32040">32 040 km</td>
+          <td class="num" data-s="123750">123 750 zł <small>brutto</small> <small>· 100 609 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-26761" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
+            data-search="hyundai kona electric hyundai kona electric 65kwh smart  mauto">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona Electric 65kWh Smart</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="30435">30 435 km</td>
+          <td class="num" data-s="123750">123 750 zł <small>brutto</small> <small>· 100 609 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-27829" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona warszawa automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="32000">32 000 km</td>
+          <td class="num" data-s="123900">123 900 zł <small>brutto</small> <small>· 100 732 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T106076/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona warszawa automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona · Warszawa</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="30000">30 000 km</td>
+          <td class="num" data-s="123900">123 900 zł <small>brutto</small> <small>· 100 732 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T106070/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
+            data-search="hyundai kona electric hyundai kona electric 64kwh smart  mauto">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona Electric 64kWh Smart</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="30886">30 886 km</td>
+          <td class="num" data-s="125750">125 750 zł <small>brutto</small> <small>· 102 235 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-26424" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona warszawa automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="30000">30 000 km</td>
+          <td class="num" data-s="125900">125 900 zł <small>brutto</small> <small>· 102 358 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T106082/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Mauto"
+            data-search="hyundai kona electric hyundai kona electric 64kwh smart  mauto">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona Electric 64kWh Smart</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="31488">31 488 km</td>
+          <td class="num" data-s="129750">129 750 zł <small>brutto</small> <small>· 105 487 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/samochody-poleasingowe/hyundai-kona-id-27704" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Hyundai" data-model="Hyundai Kona Electric" data-source="Automarket"
+            data-search="hyundai kona electric hyundai kona warszawa automarket">
+          <td class="wrap" data-s="Hyundai Kona Electric">
+            <b>Hyundai Kona Electric</b>
+            <br><small>HYUNDAI Kona · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="31000">31 000 km</td>
+          <td class="num" data-s="129900">129 900 zł <small>brutto</small> <small>· 105 610 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/hyundai/kona/T106073/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Kia" data-model="Kia e-Niro" data-source="Automarket"
+            data-search="kia e-niro kia niro e-niro 64kwh xl mysłowice automarket">
+          <td class="wrap" data-s="Kia e-Niro">
+            <b>Kia e-Niro</b>
+            <br><small>KIA Niro e-Niro 64kWh XL · Mysłowice</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="56648">56 648 km</td>
+          <td class="num" data-s="89850">89 850 zł <small>brutto</small> <small>· 73 049 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/kia/niro/315977/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Kia" data-model="Kia e-Niro" data-source="Automarket"
+            data-search="kia e-niro kia niro e-niro 64kwh l komorniki automarket">
+          <td class="wrap" data-s="Kia e-Niro">
+            <b>Kia e-Niro</b>
+            <br><small>KIA Niro e-Niro 64kWh L · Komorniki</small>
+          </td>
+          <td class="num" data-s="2022">2022</td>
+          <td class="num" data-s="32368">32 368 km</td>
+          <td class="num" data-s="108850">108 850 zł <small>brutto</small> <small>· 88 496 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/kia/niro/316844/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Ayvens"
+            data-search="tesla model 3 tesla model 3 long range  ayvens">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>Tesla Model 3 Long Range</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="150757">150 757 km</td>
+          <td class="num" data-s="124899">124 899 zł <small>brutto</small></td>
+          <td data-s="Ayvens"><span class="badge">Ayvens</span></td>
+          <td data-s="2026-10-01T10:50:38.604664+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://usedcars.ayvens.com/pl-pl/tesla-model-3/2961312-pl-tesla-model3.html" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 tarnowskie góry automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 · Tarnowskie Góry</small>
+          </td>
+          <td class="num" data-s="2021">2021</td>
+          <td class="num" data-s="148000">148 000 km</td>
+          <td class="num" data-s="129000">129 000 zł <small>brutto</small> <small>· 104 878 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/T183546/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 warszawa automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="116000">116 000 km</td>
+          <td class="num" data-s="138850">138 850 zł <small>brutto</small> <small>· 112 886 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/T147155/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 3 long range awd warszawa automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 3 Long Range AWD · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="115816">115 816 km</td>
+          <td class="num" data-s="138850">138 850 zł <small>brutto</small> <small>· 112 886 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/311801/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 balice automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 · Balice</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="73000">73 000 km</td>
+          <td class="num" data-s="139000">139 000 zł <small>brutto</small> <small>· 113 008 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/T114533/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 3 rwd premium ożarów mazowiecki automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 3 RWD Premium · Ożarów Mazowiecki</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="62172">62 172 km</td>
+          <td class="num" data-s="144850">144 850 zł <small>brutto</small> <small>· 117 764 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/322640/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 warszawa automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="59000">59 000 km</td>
+          <td class="num" data-s="144900">144 900 zł <small>brutto</small> <small>· 117 805 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/T106727/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model 3" data-source="Automarket"
+            data-search="tesla model 3 tesla model 3 warszawa automarket">
+          <td class="wrap" data-s="Tesla Model 3">
+            <b>Tesla Model 3</b>
+            <br><small>TESLA Model 3 · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="31000">31 000 km</td>
+          <td class="num" data-s="217899">217 899 zł <small>brutto</small> <small>· 177 154 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-3/T106724/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Automarket"
+            data-search="tesla model y tesla model y nieborowice automarket">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>TESLA Model Y · Nieborowice</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="43674">43 674 km</td>
+          <td class="num" data-s="66900">66 900 zł <small>brutto</small> <small>· 54 390 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-y/T133559/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Automarket"
+            data-search="tesla model y tesla model y y rwd warszawa automarket">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>TESLA Model Y Y RWD · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="30239">30 239 km</td>
+          <td class="num" data-s="142899">142 899 zł <small>brutto</small> <small>· 116 178 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T10:50:38.495497+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/tesla/model-y/T171126/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25173" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25172" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25170" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25169" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25168" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25167" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25166" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25164" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25163" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25162" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Tesla" data-model="Tesla Model Y" data-source="Mauto"
+            data-search="tesla model y tesla y long range awd  mauto">
+          <td class="wrap" data-s="Tesla Model Y">
+            <b>Tesla Model Y</b>
+            <br><small>Tesla Y Long Range AWD</small>
+          </td>
+          <td class="num" data-s="2026">2026</td>
+          <td class="num" data-s="0">0 km</td>
+          <td class="num" data-s="199742">199 742 zł <small>brutto</small> <small>· 162 391 zł netto</small></td>
+          <td data-s="Mauto"><span class="badge">Mauto</span></td>
+          <td data-s="2026-10-01T10:50:30.108554+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://mauto.pl/nowe-samochody/tesla-y-id-25165" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
+            data-search="volkswagen id.4 volkswagen id.4 77kwh pro  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 77kWh Pro</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="124307">124 307 km</td>
+          <td class="num" data-s="112900">112 900 zł <small>brutto</small> <small>· 91 789 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T15:10:32.013182+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-103368" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
+            data-search="volkswagen id.4 volkswagen id.4 77kwh 4mot. gtx  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 77kWh 4Mot. GTX</small>
+          </td>
+          <td class="num" data-s="2022">2022</td>
+          <td class="num" data-s="122041">122 041 km</td>
+          <td class="num" data-s="119900">119 900 zł <small>brutto</small> <small>· 97 480 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T15:10:32.013182+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-100935" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
+            data-search="volkswagen id.4 volkswagen id.4 77kwh pro  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 77kWh Pro</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="83774">83 774 km</td>
+          <td class="num" data-s="125900">125 900 zł <small>brutto</small> <small>· 102 358 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T15:10:32.013182+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-103370" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
+            data-search="volkswagen id.4 volkswagen id.4 77kwh pro performance  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 77kWh Pro Performance</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="33872">33 872 km</td>
+          <td class="num" data-s="126900">126 900 zł <small>brutto</small> <small>· 103 171 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T15:10:32.013182+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-95504" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Automarket"
+            data-search="volkswagen id.4 volkswagen id.4 id.4 77kwh pro performance wrocław automarket">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 ID.4 77kWh Pro Performance · Wrocław</small>
+          </td>
+          <td class="num" data-s="2022">2022</td>
+          <td class="num" data-s="78185">78 185 km</td>
+          <td class="num" data-s="134850">134 850 zł <small>brutto</small> <small>· 109 634 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.4/307376/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Automarket"
+            data-search="volkswagen id.4 volkswagen id.4 id.4 77kwh pro performance tech wrocław automarket">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 ID.4 77kWh Pro Performance Tech · Wrocław</small>
+          </td>
+          <td class="num" data-s="2022">2022</td>
+          <td class="num" data-s="80921">80 921 km</td>
+          <td class="num" data-s="134850">134 850 zł <small>brutto</small> <small>· 109 634 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.4/321686/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
+            data-search="volkswagen id.4 volkswagen id.4 52kwh pure performance  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 52kWh Pure Performance</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="8716">8 716 km</td>
+          <td class="num" data-s="136900">136 900 zł <small>brutto</small> <small>· 111 301 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T15:10:32.013182+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-98215" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Automarket"
+            data-search="volkswagen id.4 volkswagen id.4 kielce automarket">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 · Kielce</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="48063">48 063 km</td>
+          <td class="num" data-s="139900">139 900 zł <small>brutto</small> <small>· 113 740 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.4/T141932/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Automarket"
+            data-search="volkswagen id.4 volkswagen id.4 kielce automarket">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 · Kielce</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="48063">48 063 km</td>
+          <td class="num" data-s="139900">139 900 zł <small>brutto</small> <small>· 113 740 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.4/T140114/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Automarket"
+            data-search="volkswagen id.4 volkswagen id.4 kielce automarket">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 · Kielce</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="48063">48 063 km</td>
+          <td class="num" data-s="139900">139 900 zł <small>brutto</small> <small>· 113 740 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.4/T139796/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="Automarket"
+            data-search="volkswagen id.4 volkswagen id.4 id.4 77kwh life pro mysłowice automarket">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 ID.4 77kWh Life Pro · Mysłowice</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="61792">61 792 km</td>
+          <td class="num" data-s="142850">142 850 zł <small>brutto</small> <small>· 116 138 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T15:10:47.299053+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.4/315359/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.4" data-source="VW Financial Services"
+            data-search="volkswagen id.4 volkswagen id.4 77kwh 4mot. gtx  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.4">
+            <b>Volkswagen ID.4</b>
+            <br><small>VOLKSWAGEN ID.4 77kWh 4Mot. GTX</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="27655">27 655 km</td>
+          <td class="num" data-s="176900">176 900 zł <small>brutto</small> <small>· 143 821 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T15:10:32.013182+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.4-id-93763" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Automarket"
+            data-search="volkswagen id.5 volkswagen id.5 raba niżna automarket">
+          <td class="wrap" data-s="Volkswagen ID.5">
+            <b>Volkswagen ID.5</b>
+            <br><small>VOLKSWAGEN ID.5 · Raba Niżna</small>
+          </td>
+          <td class="num" data-s="2022">2022</td>
+          <td class="num" data-s="118000">118 000 km</td>
+          <td class="num" data-s="48900">48 900 zł <small>brutto</small> <small>· 39 756 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T12:08:10.394650+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.5/T133649/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Automarket"
+            data-search="volkswagen id.5 volkswagen id.5 warszawa automarket">
+          <td class="wrap" data-s="Volkswagen ID.5">
+            <b>Volkswagen ID.5</b>
+            <br><small>VOLKSWAGEN ID.5 · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="32000">32 000 km</td>
+          <td class="num" data-s="123600">123 600 zł <small>brutto</small> <small>· 100 488 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T12:08:10.394650+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.5/T94313/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Automarket"
+            data-search="volkswagen id.5 volkswagen id.5 id.5 77kwh pro performance warszawa automarket">
+          <td class="wrap" data-s="Volkswagen ID.5">
+            <b>Volkswagen ID.5</b>
+            <br><small>VOLKSWAGEN ID.5 ID.5 77kWh Pro Performance · Warszawa</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="31911">31 911 km</td>
+          <td class="num" data-s="130600">130 600 zł <small>brutto</small> <small>· 106 179 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T12:08:10.394650+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.5/264632/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="Automarket"
+            data-search="volkswagen id.5 volkswagen id.5 id.5 77kwh gtx 4motion natolin automarket">
+          <td class="wrap" data-s="Volkswagen ID.5">
+            <b>Volkswagen ID.5</b>
+            <br><small>VOLKSWAGEN ID.5 ID.5 77kWh GTX 4Motion · Natolin</small>
+          </td>
+          <td class="num" data-s="2023">2023</td>
+          <td class="num" data-s="36131">36 131 km</td>
+          <td class="num" data-s="132501">132 501 zł <small>brutto</small> <small>· 107 724 zł netto</small></td>
+          <td data-s="Automarket"><span class="badge">Automarket</span></td>
+          <td data-s="2026-10-01T12:08:10.394650+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://automarket.pl/oferta/volkswagen/id.5/270087/leasing" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+        <tr data-brand="Volkswagen" data-model="Volkswagen ID.5" data-source="VW Financial Services"
+            data-search="volkswagen id.5 volkswagen id.5 77kwh gtx 4motion  vw financial services">
+          <td class="wrap" data-s="Volkswagen ID.5">
+            <b>Volkswagen ID.5</b>
+            <br><small>VOLKSWAGEN ID.5 77kWh GTX 4Motion</small>
+          </td>
+          <td class="num" data-s="2024">2024</td>
+          <td class="num" data-s="23927">23 927 km</td>
+          <td class="num" data-s="159900">159 900 zł <small>brutto</small> <small>· 130 000 zł netto</small></td>
+          <td data-s="VW Financial Services"><span class="badge">VW Financial Services</span></td>
+          <td data-s="2026-10-01T12:07:52.600340+00:00">01.10.2026</td>
+          <td><a class="btn" href="https://store.vwfs.pl/oferta/volkswagen-id.5-id-95382" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="empty" id="no-match" hidden style="margin-top:10px">Brak ofert spełniających kryteria.</div>
+
+  <h2>⚠️ Do weryfikacji <span class="count">0</span></h2>
+<div class="empty">Brak ofert wymagających weryfikacji.</div>
+  <h2>Zniknęły od ostatniego skanu <span class="count">0</span></h2>
+  <details>
+    <summary>Pokaż listę (0)</summary>
+<p class="muted">Nic nie zniknęło.</p>  </details>
+
+  <footer>Wygenerowano przez EV Radar · 02.10.2026 07:32</footer>
+</main>
+
+<script>
+(function () {
+  var table = document.getElementById('offers');
+  var rows = Array.prototype.slice.call(table.tBodies[0].rows);
+  var q = document.getElementById('q');
+  var counter = document.getElementById('visible-count');
+  var noMatch = document.getElementById('no-match');
+  var active = {};
+
+  function apply() {
+    var needle = q.value.trim().toLowerCase(), shown = 0;
+    rows.forEach(function (tr) {
+      var ok = !needle || tr.dataset.search.indexOf(needle) !== -1;
+      Object.keys(active).forEach(function (g) {
+        var set = active[g];
+        if (ok && set.length && set.indexOf(tr.dataset[g]) === -1) ok = false;
+      });
+      tr.classList.toggle('hidden', !ok);
+      if (ok) shown++;
+    });
+    counter.textContent = shown;
+    noMatch.hidden = shown !== 0;
+  }
+
+  q.addEventListener('input', apply);
+  Array.prototype.forEach.call(document.querySelectorAll('.chips'), function (box) {
+    var group = box.dataset.group;
+    active[group] = [];
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.chip');
+      if (!b) return;
+      var on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', on);
+      var v = b.dataset.value, list = active[group], i = list.indexOf(v);
+      if (on && i === -1) list.push(v); else if (!on && i !== -1) list.splice(i, 1);
+      apply();
+    });
+  });
+
+  Array.prototype.forEach.call(table.tHead.rows[0].cells, function (th, idx) {
+    if (th.classList.contains('nosort')) return;
+    th.addEventListener('click', function () {
+      var dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+      Array.prototype.forEach.call(th.parentNode.cells, function (c) { c.removeAttribute('aria-sort'); });
+      th.setAttribute('aria-sort', dir);
+      var num = th.dataset.type === 'num', mul = dir === 'ascending' ? 1 : -1;
+      rows.sort(function (a, b) {
+        var x = a.cells[idx].dataset.s, y = b.cells[idx].dataset.s;
+        if (num) return (parseFloat(x) - parseFloat(y)) * mul;
+        return x.localeCompare(y, 'pl') * mul;
+      });
+      rows.forEach(function (tr) { table.tBodies[0].appendChild(tr); });
+    });
+  });
+
+  document.addEventListener('error', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'IMG') { t.parentNode.textContent = 'brak zdjęcia'; }
+  }, true);
+
+  apply();
+})();
+</script>
+</body>
+</html>
