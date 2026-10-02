@@ -30,11 +30,28 @@ class Notifications(BaseModel):
     channel: str = "telegram"
 
 
+class AltSite(BaseModel):
+    name: str
+    url: str  # szablon z {path}
+    price_param: str
+
+
+class AltSearch(BaseModel):
+    label: str
+    paths: dict[str, str] = Field(default_factory=dict)  # klucz portalu -> {path}
+
+
+class Alternatives(BaseModel):
+    sites: dict[str, AltSite] = Field(default_factory=dict)
+    searches: list[AltSearch] = Field(default_factory=list)
+
+
 class ModelsConfig(BaseModel):
     targets: list[ModelTarget]
     brand_aliases: dict[str, list[str]] = Field(default_factory=dict)
     filters: Filters = Field(default_factory=Filters)
     notifications: Notifications = Field(default_factory=Notifications)
+    alternatives: Alternatives = Field(default_factory=Alternatives)
 
 
 class SourceConfig(BaseModel):
@@ -63,11 +80,20 @@ def load_models_config(path: Path | None = None) -> ModelsConfig:
     for brand, entries in (raw.get("targets") or {}).items():
         for entry in entries:
             targets.append(ModelTarget(brand=brand, **entry))
+    alt_raw = raw.get("alternatives") or {}
+    alternatives = Alternatives(
+        sites={k: AltSite(**v) for k, v in (alt_raw.get("sites") or {}).items()},
+        searches=[
+            AltSearch(label=s["label"], paths={k: v for k, v in s.items() if k != "label"})
+            for s in (alt_raw.get("searches") or [])
+        ],
+    )
     return ModelsConfig(
         targets=targets,
         brand_aliases={b: list(a) for b, a in (raw.get("brand_aliases") or {}).items()},
         filters=Filters(**(raw.get("filters") or {})),
         notifications=Notifications(**(raw.get("notifications") or {})),
+        alternatives=alternatives,
     )
 
 

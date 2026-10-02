@@ -18,7 +18,7 @@ from evradar.config import ROOT_DIR, SourceConfig, load_models_config, load_sour
 from evradar.demo import synthetic_report_data
 from evradar.models import ReportData, SourceResult, SourceStatus
 from evradar.notify import notify_new_offers
-from evradar.report import write_report
+from evradar.report import build_alt_links, write_report
 from evradar.runner import run_scan
 from evradar.storage import Storage
 
@@ -81,8 +81,20 @@ def _summary(data: ReportData) -> None:
     )
 
 
+def _write(data: ReportData, out_dir: Path, *, first_run: bool = False) -> Path:
+    models = load_models_config()
+    max_price = models.filters.max_price_gross_pln
+    return write_report(
+        data,
+        out_dir,
+        first_run=first_run,
+        alt_links=build_alt_links(models.alternatives, max_price),
+        alt_max_price=max_price,
+    )
+
+
 def _finish(data: ReportData, first_run: bool, open_browser: bool) -> Path:
-    path = write_report(data, OUT_DIR, first_run=first_run)
+    path = _write(data, OUT_DIR, first_run=first_run)
     console.print(f"Raport: [link=file:///{path.as_posix()}]{path}[/]")
     if open_browser:
         webbrowser.open(path.resolve().as_uri())
@@ -192,7 +204,7 @@ def sources() -> None:
 @app.command("demo-report")
 def demo_report(no_open: Annotated[bool, typer.Option("--no-open")] = False) -> None:
     """Raport na danych syntetycznych (podgląd wyglądu)."""
-    path = write_report(synthetic_report_data(), OUT_DIR / "demo")
+    path = _write(synthetic_report_data(), OUT_DIR / "demo")
     console.print(f"Raport demo: {path}")
     if not no_open:
         webbrowser.open(path.resolve().as_uri())

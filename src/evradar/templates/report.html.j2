@@ -284,6 +284,19 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     {% else %}<p class="muted">Nic nie zniknęło.</p>{% endif %}
   </details>
 
+  {% if alt_links %}
+  <h2>Alternatywnie: Otomoto i OLX</h2>
+  <p class="sub" style="margin:-6px 0 12px">Tych portali nie skanujemy — linki otwierają gotowe wyszukiwania (auta elektryczne{% if alt_max_price %}, cena do {{ alt_max_price|pln }}{% endif %}). Ceny w ogłoszeniach mogą być netto lub brutto, sprawdź w treści.</p>
+  <div class="tbl-wrap"><table>
+    <tbody>
+    {% for label, links in alt_links %}
+      <tr><td style="width:260px"><b>{{ label }}</b></td>
+        <td>{% for name, url in links %}<a class="btn" href="{{ url }}" target="_blank" rel="noopener noreferrer">{{ name }} ↗</a> {% endfor %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% endif %}
+
   <footer>Wygenerowano przez EV Radar · {{ run_date }} {{ run_time }}</footer>
 </main>
 

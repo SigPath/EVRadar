@@ -4,9 +4,35 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from evradar.config import load_models_config
 from evradar.demo import synthetic_report_data
 from evradar.models import DiffKind, Offer, OfferDiff
-from evradar.report import render_report, write_report
+from evradar.report import build_alt_links, render_report, write_report
+
+
+def test_alt_links_use_config_and_price_limit() -> None:
+    alt = load_models_config().alternatives
+    rows = dict(build_alt_links(alt, 130_000))
+    links = dict(rows["Volkswagen ID.4"])
+    assert links["Otomoto"].startswith("https://www.otomoto.pl/osobowe/volkswagen/id4?")
+    assert "fuel_type%5D=electric" in links["Otomoto"]
+    assert links["Otomoto"].endswith("%5D=130000")
+    assert links["OLX"] == (
+        "https://www.olx.pl/motoryzacja/samochody/volkswagen/q-id4/"
+        "?search%5Bfilter_float_price%3Ato%5D=130000"
+    )
+    no_limit = dict(dict(build_alt_links(alt, None))["Volkswagen ID.4"])
+    assert "price" not in no_limit["Otomoto"] and "price" not in no_limit["OLX"]
+
+
+def test_render_alternatives_section() -> None:
+    alt = load_models_config().alternatives
+    html = render_report(
+        synthetic_report_data(), alt_links=build_alt_links(alt, 130_000), alt_max_price=130_000
+    )
+    assert "Alternatywnie: Otomoto i OLX" in html
+    assert "https://www.otomoto.pl/osobowe/tesla/y?" in html
+    assert "Alternatywnie" not in render_report(synthetic_report_data())
 
 
 def test_render_contains_all_sections() -> None:

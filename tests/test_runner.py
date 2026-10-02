@@ -180,4 +180,3 @@ def test_max_price_filter_drops_expensive(models: ModelsConfig) -> None:
     listings = [make_listing('s', 130_000, '1'), make_listing('s', 130_001, '2')]
     offers = runner.build_offers(listings, ModelMatcher(models.targets), models, utcnow())
     assert [o.price_gross_pln for o in offers] == [130_000]
-

@@ -9,11 +9,33 @@ from zoneinfo import ZoneInfo
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from evradar.config import Alternatives
 from evradar.models import Offer, OfferDiff, ReportData
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 LOCAL_TZ = ZoneInfo("Europe/Warsaw")
 NBSP = "\u00a0"
+
+AltRow = tuple[str, list[tuple[str, str]]]  # (etykieta, [(portal, url)])
+
+
+def build_alt_links(alt: Alternatives, max_price_gross_pln: int | None) -> list[AltRow]:
+    """Linki do gotowych wyszukiwań na portalach, których nie skanujemy."""
+    rows: list[AltRow] = []
+    for search in alt.searches:
+        links: list[tuple[str, str]] = []
+        for key, site in alt.sites.items():
+            path = search.paths.get(key)
+            if not path:
+                continue
+            url = site.url.format(path=path)
+            if max_price_gross_pln is not None:
+                sep = "&" if "?" in url else "?"
+                url += f"{sep}{site.price_param}={max_price_gross_pln}"
+            links.append((site.name, url))
+        if links:
+            rows.append((search.label, links))
+    return rows
 
 
 def _pln(value: int | float | None) -> str:
@@ -52,7 +74,13 @@ def _chips(
     ]
 
 
-def render_report(data: ReportData, *, first_run: bool = False) -> str:
+def render_report(
+    data: ReportData,
+    *,
+    first_run: bool = False,
+    alt_links: list[AltRow] | None = None,
+    alt_max_price: int | None = None,
+) -> str:
     """Zwraca kompletny HTML raportu (CSS i JS inline)."""
     env = Environment(
         loader=FileSystemLoader(TEMPLATE_DIR),
@@ -92,12 +120,24 @@ def render_report(data: ReportData, *, first_run: bool = False) -> str:
         run_date=local.strftime("%d.%m.%Y"),
         run_time=local.strftime("%H:%M"),
         first_run=first_run,
+        alt_links=alt_links or [],
+        alt_max_price=alt_max_price,
     )
 
 
-def write_report(data: ReportData, out_dir: Path, *, first_run: bool = False) -> Path:
+def write_report(
+    data: ReportData,
+    out_dir: Path,
+    *,
+    first_run: bool = False,
+    alt_links: list[AltRow] | None = None,
+    alt_max_price: int | None = None,
+) -> Path:
     """Zapisuje raport jako out/index.html (nadpisywany przy każdym skanie)."""
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "index.html"
-    path.write_text(render_report(data, first_run=first_run), encoding="utf-8")
+    html = render_report(
+        data, first_run=first_run, alt_links=alt_links, alt_max_price=alt_max_price
+    )
+    path.write_text(html, encoding="utf-8")
     return path

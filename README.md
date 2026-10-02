@@ -22,6 +22,7 @@ EV Radar codziennie odpytuje **6 polskich serwisów** z autami leasingowymi/pole
 - 🆕 **Nowe oferty**, 📉 **obniżki cen**, ↩️ **wróciły**, ❌ **zniknęły** — od ostatniego skanu,
 - ⚠️ **Do weryfikacji** — oferty, przy których nie da się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego paliwa); nic nie jest po cichu odrzucane,
 - tabela wszystkich ofert z wyszukiwarką, filtrami (marka, model, źródło) i sortowaniem,
+- sekcja **Alternatywnie** — gotowe linki do wyszukiwań na Otomoto i OLX (portale nie są skanowane), z filtrem „elektryczne” i limitem ceny,
 - status każdego źródła (`OK` / `BŁĄD` / `POMINIĘTE` / `DO AKTUALIZACJI`),
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),
 - opcjonalne powiadomienia Telegram, gdy pojawią się nowe oferty.
@@ -112,6 +113,8 @@ notifications:
 - Filtr ceny działa na cenie brutto; oferty bez ceny nie są odrzucane.
 
 **[`config/sources.yaml`](config/sources.yaml)** — adresy, opóźnienia (`delay_min_s` / `delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`).
+
+Sekcja `alternatives` w `models.yaml` opisuje linki z sekcji **Alternatywnie** w raporcie: szablony adresów portali (`sites`) i wyszukiwania per model (`searches`, np. `{ label: "Volkswagen ID.4", otomoto: "volkswagen/id4", olx: "volkswagen/q-id4" }`). Limit ceny jest dołączany z `filters.max_price_gross_pln`.
 
 ## Publikacja raportu (GitHub Pages)
 
