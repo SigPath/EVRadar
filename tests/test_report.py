@@ -19,7 +19,8 @@ def test_alt_links_use_config_and_price_limit() -> None:
     assert links["Otomoto"].endswith("%5D=130000")
     assert links["OLX"] == (
         "https://www.olx.pl/motoryzacja/samochody/volkswagen/q-id4/"
-        "?search%5Bfilter_float_price%3Ato%5D=130000"
+        "?search%5Bfilter_enum_petrol%5D%5B0%5D=electric"
+        "&search%5Bfilter_float_price%3Ato%5D=130000"
     )
     no_limit = dict(dict(build_alt_links(alt, None))["Volkswagen ID.4"])
     assert "price" not in no_limit["Otomoto"] and "price" not in no_limit["OLX"]

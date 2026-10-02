@@ -33,7 +33,7 @@ alternatives:
       price_param: "search%5Bfilter_float_price%3Ato%5D"   # dodawane, gdy filters.max_price_gross_pln != null
     olx:
       name: "OLX"
-      url: "https://www.olx.pl/motoryzacja/samochody/{path}/"
+      url: "https://www.olx.pl/motoryzacja/samochody/{path}/?search%5Bfilter_enum_petrol%5D%5B0%5D=electric"
       price_param: "search%5Bfilter_float_price%3Ato%5D"
   searches:
     - { label: "Kia Niro EV / e-Niro", otomoto: "kia/niro", olx: "kia/q-niro-ev" }
