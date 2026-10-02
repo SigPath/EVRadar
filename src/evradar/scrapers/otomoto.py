@@ -15,6 +15,11 @@ Ceny: `price.isGross` mówi, czy podana kwota jest brutto, czy netto (oferty fir
 nie przeliczamy — brakującą cenę dolicza runner. Dane zawierają też ogłoszenia z OLX (id `OLX_ID…`).
 Dodatkowo: `createdAt` (data dodania), `seller.__typename` (Professional/PrivateSeller)
 i SOH baterii wyciągane z tytułu i krótkiego opisu.
+
+Uszkodzone ("Uszkodzony: Tak"): pole nie występuje w liście wyników, więc dla każdej ścieżki
+pobieramy dodatkowo wyniki z `search[filter_enum_damaged]=1` i wycinamy te ID (oferty bez
+deklaracji zostają).
+Wyłączenie: `params.exclude_damaged: false` w `config/sources.yaml`.
 """
 
 from __future__ import annotations
@@ -24,14 +29,18 @@ from datetime import datetime
 from typing import Any
 from urllib.parse import quote
 
+import structlog
 from selectolax.parser import HTMLParser
 
 from evradar.models import RawListing, SellerType
 from evradar.parsing import parse_int, parse_kwh, parse_soh
 from evradar.scrapers.base import BaseScraper
 
+log = structlog.get_logger()
+
 _PRICE_PARAM = "search[filter_float_price:to]"
 _FUEL_PARAM = "search[filter_enum_fuel_type]"
+_DAMAGED_PARAM = "search[filter_enum_damaged]"
 _SELLER_TYPES: dict[str, SellerType] = {"ProfessionalSeller": "dealer", "PrivateSeller": "private"}
 
 
@@ -99,22 +108,40 @@ def parse_listing(html: str) -> tuple[list[RawListing], int]:
 class OtomotoScraper(BaseScraper):
     source_id = "otomoto"
 
+    async def _collect(
+        self, base: str, path: str, params: dict[str, str]
+    ) -> dict[str, RawListing]:
+        """Wszystkie strony wyników jednej ścieżki modelu (limit `max_pages`)."""
+        found: dict[str, RawListing] = {}
+        for page in range(1, self.config.max_pages + 1):
+            html = await self.get_text(
+                f"{base}/osobowe/{quote(path, safe='/')}", {**params, "page": page}
+            )
+            listings, total = parse_listing(html)
+            for item in listings:
+                found[item.external_id or item.url] = item
+            if not listings or len(found) >= total:
+                break
+        return found
+
     async def fetch(self) -> list[RawListing]:
         base = self.config.url.rstrip("/")
         params: dict[str, str] = {_FUEL_PARAM: "electric"}
         if self.max_price_gross_pln is not None:
             params[_PRICE_PARAM] = str(self.max_price_gross_pln)
+        exclude_damaged = bool(self.config.params.get("exclude_damaged", True))
         results: dict[str, RawListing] = {}
+        damaged: set[str] = set()
         for path in self.config.params.get("paths", []):
-            fetched = 0
-            for page in range(1, self.config.max_pages + 1):
-                html = await self.get_text(
-                    f"{base}/osobowe/{quote(path, safe='/')}", {**params, "page": page}
-                )
-                listings, total = parse_listing(html)
-                fetched += len(listings)
-                for item in listings:
-                    results[item.external_id or item.url] = item
-                if not listings or fetched >= total:
-                    break
-        return list(results.values())
+            found = await self._collect(base, path, params)
+            results.update(found)
+            if exclude_damaged and found:
+                marked = await self._collect(base, path, {**params, _DAMAGED_PARAM: "1"})
+                if len(marked) >= len(found):
+                    # filtr zignorowany (zmiana serwisu) — nie wycinamy wszystkiego
+                    log.warning("otomoto_damaged_filter_ignored", path=path)
+                else:
+                    damaged.update(marked)
+        if damaged:
+            log.info("excluded_damaged", count=len(damaged & results.keys()))
+        return [item for key, item in results.items() if key not in damaged]

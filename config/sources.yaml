@@ -33,6 +33,7 @@ sources:
     priority: 200                     # agregator: przy duplikacie wygrywa źródło bezpośrednie
     params:
       # ścieżki <marka>/<model> z Otomoto (nieznany slug zwraca całą markę, np. Tesla Model Y = tesla/y)
+      exclude_damaged: true             # wytnij oferty z "Uszkodzony: Tak" (dodatkowe zapytanie na ścieżkę)
       paths:
         - kia/niro
         - kia/ev4

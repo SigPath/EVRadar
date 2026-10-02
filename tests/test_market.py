@@ -45,3 +45,13 @@ def test_report_has_market_column_and_marks() -> None:
     assert "Vs rynek" in html and 'data-act="fav"' in table and 'data-act="hide"' in table
     assert table.count("data-id=") == table.count("<tr data-id=")
     assert "evradar:marks" in html
+
+
+def test_new_offers_use_the_same_table_rows_as_the_main_list() -> None:
+    data = synthetic_report_data()
+    assert data.new
+    html = render_report(data)
+    section = html.split("Nowe oferty")[1].split("<h2>")[0]
+    assert '<table class="offers">' in section and "<article" not in html
+    assert section.count("<tr data-id=") == len(data.new)
+    assert 'data-act="cmp"' in section and "Vs rynek" in section

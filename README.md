@@ -33,7 +33,9 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - **porównanie** 2–3 ofert obok siebie (przycisk ⇄ przy ofercie, potem „Porównaj”; najlepsze wartości wyróżnione),
 - sekcja **Trend cen modeli**: mediana ceny brutto modelu w kolejnych dniach skanu (zapisywana od pierwszego skanu po wdrożeniu),
 - **zdrowie źródeł**: słupki liczby ofert z ostatnich przebiegów w kafelku źródła i ostrzeżenie przy nagłym spadku (poniżej połowy zwykłej liczby),
-- z Otomoto: typ sprzedawcy (firma/prywatna, też jako filtr), data dodania ogłoszenia i SOH baterii wyciągany z opisu.
+- z Otomoto: typ sprzedawcy (firma/prywatna, też jako filtr), data dodania ogłoszenia i SOH baterii wyciągany z opisu,
+- oferty **nowe, obniżki, powroty i podwyżki** wyglądają tak samo jak główna tabela (te same kolumny, sortowanie, ★ ✕ ⇄),
+- z Otomoto są wycinane oferty oznaczone „Uszkodzony: Tak” (wyłączenie: `exclude_damaged: false` w `config/sources.yaml`).
 
 **Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV3 / EV4 / EV6, Hyundai Kona Electric / Ioniq 5 / Ioniq 6, Tesla Model 3 / Model Y / Model S / Model X, Volkswagen ID.3 / ID.4 / ID.5 / ID.7, Skoda Enyaq, Audi Q4 e-tron (także Sportback i wszystkie wersje: 35/40/45/50).
 

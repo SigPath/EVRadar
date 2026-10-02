@@ -67,4 +67,5 @@ def test_report_shows_sparkline_only_for_changed_offers() -> None:
     assert 'class="spark' not in render_report(data)
     data.price_history = {target.offer_id: [(T1, 130_000), (T2, 120_000)]}
     html = render_report(data)
-    assert html.count('<svg class="spark down"') == 1
+    main_table = html.split('id="offers"')[1].split("</table>")[0]
+    assert main_table.count('<svg class="spark down"') == 1

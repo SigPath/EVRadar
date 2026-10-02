@@ -173,40 +173,73 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
 {% macro basis(b) -%}{{ 'netto' if b == 'net' else 'brutto' }}{%- endmacro %}
 
-{% macro card(o, kind='', diff=none) %}
-<article class="card {{ kind }}">
-  <div class="thumb">
-    {% if o.image_url %}<img src="{{ o.image_url }}" alt="{{ o.brand }} {{ o.model_matched }}" loading="lazy" referrerpolicy="no-referrer">
-    {% else %}brak zdjęcia{% endif %}
-  </div>
-  <div class="body">
-    <div class="ttl">{{ o.brand }} {{ o.model_matched }}</div>
-    <div class="raw" title="{{ o.title_raw }}">{{ o.title_raw }}</div>
-    <div class="facts">
-      {% if o.year %}<span>{{ o.year }}</span>{% endif %}
-      {% if o.mileage_km is not none %}<span>{{ o.mileage_km|km }}</span>{% endif %}
-      {% if o.battery_kwh %}<span>{{ o.battery_kwh|round(1) }} kWh</span>{% endif %}
-      {% if o.range_km_wltp %}<span>{{ o.range_km_wltp }} km WLTP</span>{% endif %}
-      {% if o.soh_pct %}<span>SOH {{ o.soh_pct }}%</span>{% endif %}
-      {% if o.location %}<span>{{ o.location }}</span>{% endif %}
-    </div>
-    {% if diff and diff.old_price is not none and diff.new_price is not none %}
+{% macro thead() %}
+<thead><tr>
+  <th data-type="text">Pojazd</th><th data-type="num" class="num">Rok</th>
+  <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
+  <th data-type="num" class="num" title="Cena brutto względem mediany porównywalnych ofert">Vs rynek</th>
+  <th data-type="text">Źródło</th>
+  <th data-type="text">Widziana od</th><th class="nosort"></th>
+</tr></thead>
+{% endmacro %}
+
+{% macro offer_row(o, diff=none) %}
+<tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}" data-source-all="{{ offer_sources(o)|join('|') }}"
+    data-year="{{ o.year or '' }}" data-km="{{ o.mileage_km if o.mileage_km is not none else '' }}" data-gross="{{ o.price_gross_pln or '' }}" data-net="{{ o.price_net_pln or '' }}"
+    data-title="{{ o.title_raw }}" data-loc="{{ o.location or '' }}" data-url="{{ o.url }}" data-mkt="{{ '%.1f'|format(market[o.offer_id].pct) if o.offer_id in market else '' }}"
+    data-seller="{{ seller_labels.get(o.seller_type, '') }}" data-soh="{{ o.soh_pct or '' }}" data-listed="{{ o.listed_at|short_date if o.listed_at else '' }}" data-kwh="{{ o.battery_kwh or '' }}"
+    data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ offer_sources(o)|join(' '))|lower }}">
+  <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
+    <div class="veh">
+      <a class="mini" href="{{ o.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">{% if o.image_url %}<img src="{{ o.image_url }}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">{% endif %}</a>
       <div>
-        <span class="old">{{ diff.old_price|pln }}</span><span class="price">{{ diff.new_price|pln }}</span>
-        <small>{{ basis(diff.price_basis) }}</small>
+        <b>{{ o.brand }} {{ o.model_matched }}</b>
+        {% if o.offer_id in new_ids %}<span class="badge new">NOWA</span>{% endif %}
+        {% if o.offer_id in drop_ids %}<span class="badge drop">OBNIŻKA</span>{% endif %}
+        {% if o.uncertain_powertrain %}<span class="badge warn">⚠ napęd do weryfikacji</span>{% endif %}
+        <br><small>{{ o.title_raw }}{% if o.location %} · {{ o.location }}{% endif %}</small>
+        {% if o.seller_type or o.soh_pct or o.listed_at or o.battery_kwh or o.range_km_wltp %}<br>
+          {% if o.seller_type %}<span class="badge">{{ seller_labels[o.seller_type] }}</span>{% endif %}
+          {% if o.battery_kwh %}<span class="badge">{{ o.battery_kwh|round(1) }} kWh</span>{% endif %}
+          {% if o.range_km_wltp %}<span class="badge">{{ o.range_km_wltp }} km WLTP</span>{% endif %}
+          {% if o.soh_pct %}<span class="badge soh" title="Stan zdrowia baterii z opisu ogłoszenia">SOH {{ o.soh_pct }}%</span>{% endif %}
+          {% if o.listed_at %}<span class="badge" title="Data dodania ogłoszenia">dodano {{ o.listed_at|short_date }}</span>{% endif %}
+        {% endif %}
       </div>
-      <div><span class="delta {{ 'up' if diff.delta > 0 else '' }}">{{ '%+d'|format(diff.delta)|replace('-', '−') }} zł
-        {% if diff.delta_pct is not none %}({{ '%+.1f'|format(diff.delta_pct)|replace('-', '−') }}%){% endif %}</span></div>
-    {% else %}
-      <div class="price">{{ price(o) }}</div>
-    {% endif %}
-    {% if o.uncertain_powertrain %}<div><span class="badge warn">⚠ napęd do weryfikacji</span></div>{% endif %}
-    <div class="row">
-      <span class="badge">{{ source_names.get(o.source, o.source) }}</span>
-      <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Zobacz ofertę ↗</a>
     </div>
-  </div>
-</article>
+  </td>
+  <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
+  <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
+  <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">
+    {%- if diff and diff.old_price is not none and diff.new_price is not none -%}
+      <span class="old">{{ diff.old_price|pln }}</span><b>{{ diff.new_price|pln }}</b> <small>{{ basis(diff.price_basis) }}</small><br>
+      <span class="delta {{ 'up' if diff.delta > 0 else '' }}">{{ '%+d'|format(diff.delta)|replace('-', '−') }} zł
+        {%- if diff.delta_pct is not none %} ({{ '%+.1f'|format(diff.delta_pct)|replace('-', '−') }}%){% endif %}</span>
+    {%- else -%}
+      {{ price(o) }}{{ spark(o.offer_id) }}
+    {%- endif -%}
+  </td>
+  {% set m = market.get(o.offer_id) %}
+  <td class="num" data-s="{{ m.pct|round(1) if m else 999 }}">{% if m %}<span class="mkt {{ 'deal' if m.pct <= -10 else 'pricey' if m.pct >= 10 else '' }}" title="Mediana {{ m.median|pln }} ({{ m.n }} ofert, porównanie: {{ m.scope }})">{{ '%+.0f'|format(m.pct)|replace('-', '−') }}%</span>{% else %}<span class="muted" title="Za mało ofert do porównania">—</span>{% endif %}</td>
+  <td data-s="{{ source_names.get(o.source, o.source) }}" class="srcs">
+    <a class="badge" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">{{ source_names.get(o.source, o.source) }}</a>
+    {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto też tutaj">{{ source_names.get(l.source, l.source) }}</a>{% endfor %}
+  </td>
+  <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
+  <td><div class="act">
+    <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
+    <button type="button" class="ico" data-act="hide" title="Ukryj / przywróć" aria-label="Ukryj">✕</button>
+    <button type="button" class="ico" data-act="cmp" title="Dodaj do porównania (maks. 3)" aria-label="Porównaj">⇄</button>
+    <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a>
+  </div></td>
+</tr>
+{% endmacro %}
+
+{% macro offers_section(diffs) %}
+<div class="tbl-wrap"><table class="offers">
+  {{ thead() }}
+  <tbody>{% for x in diffs %}{{ offer_row(x.offer, x if x.old_price is not none else none) }}{% endfor %}</tbody>
+</table></div>
 {% endmacro %}
 
 <main>
@@ -247,26 +280,22 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
   <h2>🆕 Nowe oferty <span class="count">{{ d.new|length }}</span></h2>
   {% if d.new %}
-  <section class="cards">
-    {% for x in d.new %}{{ card(x.offer, 'is-new') }}{% endfor %}
-  </section>
+  {{ offers_section(d.new) }}
   {% else %}<div class="empty">Brak nowych ofert od ostatniego skanu.</div>{% endif %}
 
   <h2>📉 Obniżki cen <span class="count">{{ d.price_drops|length }}</span></h2>
   {% if d.price_drops %}
-  <section class="cards">
-    {% for x in d.price_drops %}{{ card(x.offer, 'is-drop', x) }}{% endfor %}
-  </section>
+  {{ offers_section(d.price_drops) }}
   {% else %}<div class="empty">Brak obniżek cen.</div>{% endif %}
 
   {% if d.back %}
   <h2>↩️ Wróciły do oferty <span class="count">{{ d.back|length }}</span></h2>
-  <section class="cards">{% for x in d.back %}{{ card(x.offer) }}{% endfor %}</section>
+  {{ offers_section(d.back) }}
   {% endif %}
 
   {% if d.price_ups %}
   <h2>📈 Podwyżki cen <span class="count">{{ d.price_ups|length }}</span></h2>
-  <section class="cards">{% for x in d.price_ups %}{{ card(x.offer, '', x) }}{% endfor %}</section>
+  {{ offers_section(d.price_ups) }}
   {% endif %}
 
   <h2>Wszystkie aktywne oferty <span class="count" id="visible-count">{{ confirmed|length }}</span></h2>
@@ -290,55 +319,10 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     </div>
   </div>
   <div class="tbl-wrap">
-    <table id="offers">
-      <thead><tr>
-        <th data-type="text">Pojazd</th><th data-type="num" class="num">Rok</th>
-        <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
-        <th data-type="num" class="num" title="Cena brutto względem mediany porównywalnych ofert">Vs rynek</th>
-        <th data-type="text">Źródło</th>
-        <th data-type="text">Widziana od</th><th class="nosort"></th>
-      </tr></thead>
+    <table class="offers" id="offers">
+      {{ thead() }}
       <tbody>
-      {% for o in confirmed %}
-        <tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}" data-source-all="{{ offer_sources(o)|join('|') }}"
-            data-year="{{ o.year or '' }}" data-km="{{ o.mileage_km if o.mileage_km is not none else '' }}" data-gross="{{ o.price_gross_pln or '' }}" data-net="{{ o.price_net_pln or '' }}"
-            data-title="{{ o.title_raw }}" data-loc="{{ o.location or '' }}" data-url="{{ o.url }}" data-mkt="{{ '%.1f'|format(market[o.offer_id].pct) if o.offer_id in market else '' }}"
-            data-seller="{{ seller_labels.get(o.seller_type, '') }}" data-soh="{{ o.soh_pct or '' }}" data-listed="{{ o.listed_at|short_date if o.listed_at else '' }}" data-kwh="{{ o.battery_kwh or '' }}"
-            data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ offer_sources(o)|join(' '))|lower }}">
-          <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
-            <div class="veh">
-              <a class="mini" href="{{ o.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">{% if o.image_url %}<img src="{{ o.image_url }}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">{% endif %}</a>
-              <div>
-                <b>{{ o.brand }} {{ o.model_matched }}</b>
-                {% if o.offer_id in new_ids %}<span class="badge new">NOWA</span>{% endif %}
-                {% if o.offer_id in drop_ids %}<span class="badge drop">OBNIŻKA</span>{% endif %}
-                <br><small>{{ o.title_raw }}{% if o.location %} · {{ o.location }}{% endif %}</small>
-                {% if o.seller_type or o.soh_pct or o.listed_at %}<br>
-                  {% if o.seller_type %}<span class="badge">{{ seller_labels[o.seller_type] }}</span>{% endif %}
-                  {% if o.soh_pct %}<span class="badge soh" title="Stan zdrowia baterii z opisu ogłoszenia">SOH {{ o.soh_pct }}%</span>{% endif %}
-                  {% if o.listed_at %}<span class="badge" title="Data dodania ogłoszenia">dodano {{ o.listed_at|short_date }}</span>{% endif %}
-                {% endif %}
-              </div>
-            </div>
-          </td>
-          <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
-          <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
-          <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}{{ spark(o.offer_id) }}</td>
-          {% set m = market.get(o.offer_id) %}
-          <td class="num" data-s="{{ m.pct|round(1) if m else 999 }}">{% if m %}<span class="mkt {{ 'deal' if m.pct <= -10 else 'pricey' if m.pct >= 10 else '' }}" title="Mediana {{ m.median|pln }} ({{ m.n }} ofert, porównanie: {{ m.scope }})">{{ '%+.0f'|format(m.pct)|replace('-', '−') }}%</span>{% else %}<span class="muted" title="Za mało ofert do porównania">—</span>{% endif %}</td>
-          <td data-s="{{ source_names.get(o.source, o.source) }}" class="srcs">
-            <a class="badge" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">{{ source_names.get(o.source, o.source) }}</a>
-            {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto też tutaj">{{ source_names.get(l.source, l.source) }}</a>{% endfor %}
-          </td>
-          <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
-          <td><div class="act">
-            <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
-            <button type="button" class="ico" data-act="hide" title="Ukryj / przywróć" aria-label="Ukryj">✕</button>
-            <button type="button" class="ico" data-act="cmp" title="Dodaj do porównania (maks. 3)" aria-label="Porównaj">⇄</button>
-            <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a>
-          </div></td>
-        </tr>
-      {% endfor %}
+      {% for o in confirmed %}{{ offer_row(o) }}{% endfor %}
       </tbody>
     </table>
   </div>
@@ -371,7 +355,10 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   <h2>⚠️ Do weryfikacji <span class="count">{{ d.uncertain|length }}</span></h2>
   {% if d.uncertain %}
   <p class="sub" style="margin:-6px 0 12px">Nie udało się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego rodzaju paliwa).</p>
-  <section class="cards">{% for o in d.uncertain %}{{ card(o) }}{% endfor %}</section>
+  <div class="tbl-wrap"><table class="offers">
+    {{ thead() }}
+    <tbody>{% for o in d.uncertain %}{{ offer_row(o) }}{% endfor %}</tbody>
+  </table></div>
   {% else %}<div class="empty">Brak ofert wymagających weryfikacji.</div>{% endif %}
 
   <h2>Zniknęły od ostatniego skanu <span class="count">{{ d.gone|length }}</span></h2>
@@ -420,6 +407,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 (function () {
   var table = document.getElementById('offers');
   var rows = Array.prototype.slice.call(table.tBodies[0].rows);
+  var allRows = Array.prototype.slice.call(document.querySelectorAll('table.offers tbody tr'));
   var q = document.getElementById('q');
   var counter = document.getElementById('visible-count');
   var noMatch = document.getElementById('no-match');
@@ -435,6 +423,11 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
   function apply() {
     var needle = q.value.trim().toLowerCase(), shown = 0, favs = 0, hid = 0;
+    allRows.forEach(function (tr) {
+      var mark = marks[tr.dataset.id] || '';
+      tr.classList.toggle('fav', mark === 'fav');
+      tr.classList.toggle('dismissed', mark === 'hide');
+    });
     rows.forEach(function (tr) {
       var mark = marks[tr.dataset.id] || '';
       tr.classList.toggle('fav', mark === 'fav');
@@ -462,8 +455,8 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   [onlyFav, showDismissed].forEach(function (b) {
     b.addEventListener('click', function () { b.setAttribute('aria-pressed', !pressed(b)); apply(); });
   });
-  table.tBodies[0].addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-act]');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('table.offers button[data-act]');
     if (!b) return;
     var id = b.closest('tr').dataset.id, want = b.dataset.act;
     if (want === 'cmp') { toggleCompare(id); return; }
@@ -516,7 +509,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   function toggleCompare(id) {
     var i = cmp.indexOf(id);
     if (i !== -1) cmp.splice(i, 1); else { cmp.push(id); if (cmp.length > 3) cmp.shift(); }
-    rows.forEach(function (tr) { tr.querySelector('[data-act=cmp]').classList.toggle('cmp-on', cmp.indexOf(tr.dataset.id) !== -1); });
+    allRows.forEach(function (tr) { tr.querySelector('[data-act=cmp]').classList.toggle('cmp-on', cmp.indexOf(tr.dataset.id) !== -1); });
     document.getElementById('cmp-count').textContent = cmp.length;
     cmpBtn.disabled = cmp.length < 2;
   }
@@ -532,7 +525,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   ];
   function cell(tag, text) { var c = document.createElement(tag); c.textContent = text; return c; }
   function openCompare() {
-    var picked = cmp.map(function (id) { return rows.filter(function (tr) { return tr.dataset.id === id; })[0]; });
+    var picked = cmp.map(function (id) { return allRows.filter(function (tr) { return tr.dataset.id === id; })[0]; });
     var t = document.createElement('table');
     CMP_FIELDS.forEach(function (f) {
       var vals = picked.map(function (tr) { return tr.dataset[f[1]]; });
@@ -581,19 +574,22 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     });
   });
 
-  Array.prototype.forEach.call(table.tHead.rows[0].cells, function (th, idx) {
-    if (th.classList.contains('nosort')) return;
-    th.addEventListener('click', function () {
-      var dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
-      Array.prototype.forEach.call(th.parentNode.cells, function (c) { c.removeAttribute('aria-sort'); });
-      th.setAttribute('aria-sort', dir);
-      var num = th.dataset.type === 'num', mul = dir === 'ascending' ? 1 : -1;
-      rows.sort(function (a, b) {
-        var x = a.cells[idx].dataset.s, y = b.cells[idx].dataset.s;
-        if (num) return (parseFloat(x) - parseFloat(y)) * mul;
-        return x.localeCompare(y, 'pl') * mul;
+  Array.prototype.forEach.call(document.querySelectorAll('table.offers'), function (tbl) {
+    var body = tbl.tBodies[0], list = Array.prototype.slice.call(body.rows);
+    Array.prototype.forEach.call(tbl.tHead.rows[0].cells, function (th, idx) {
+      if (th.classList.contains('nosort')) return;
+      th.addEventListener('click', function () {
+        var dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+        Array.prototype.forEach.call(th.parentNode.cells, function (c) { c.removeAttribute('aria-sort'); });
+        th.setAttribute('aria-sort', dir);
+        var num = th.dataset.type === 'num', mul = dir === 'ascending' ? 1 : -1;
+        list.sort(function (a, b) {
+          var x = a.cells[idx].dataset.s, y = b.cells[idx].dataset.s;
+          if (num) return (parseFloat(x) - parseFloat(y)) * mul;
+          return x.localeCompare(y, 'pl') * mul;
+        });
+        list.forEach(function (tr) { body.appendChild(tr); });
       });
-      rows.forEach(function (tr) { table.tBodies[0].appendChild(tr); });
     });
   });
 
