@@ -17,6 +17,7 @@ from evradar.models import (
     DiffKind,
     Offer,
     OfferDiff,
+    OfferLink,
     RawListing,
     ReportData,
     RunInfo,
@@ -226,15 +227,18 @@ def dedupe_across_sources(results: list[SourceResult], priority: dict[str, int])
         key=lambda x: x[:3],
     )
     seen: set[tuple[object, ...]] = set()
+    kept_by_key: dict[tuple[object, ...], Offer] = {}
     dropped: dict[str, int] = {}
     kept: dict[str, list[Offer]] = {r.source: [] for r in results}
     for _, source, _, _, offer in ranked:
         key = _dup_key(offer)
         if key is not None and key in seen:
             dropped[source] = dropped.get(source, 0) + 1
+            kept_by_key[key].also_on.append(OfferLink(source=source, url=offer.url))
             continue
         if key is not None:
             seen.add(key)
+            kept_by_key[key] = offer
         kept[source].append(offer)
     for r in results:
         n = dropped.get(r.source, 0)

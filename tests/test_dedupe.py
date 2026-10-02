@@ -8,6 +8,8 @@ from evradar import runner
 from evradar.config import ModelsConfig, load_models_config
 from evradar.matching import ModelMatcher
 from evradar.models import RawListing, SourceResult, SourceStatus, utcnow
+from evradar.report import render_report
+from evradar.storage import Storage
 
 
 @pytest.fixture
@@ -92,3 +94,29 @@ def test_failed_source_is_ignored(models: ModelsConfig) -> None:
     bad.status = SourceStatus.ERROR
     assert runner.dedupe_across_sources([ok, bad], {}) == 0
     assert len(bad.offers) == 1
+
+
+def test_kept_offer_lists_all_other_sources(models: ModelsConfig) -> None:
+    direct = result(models, "direct", [listing("direct", "1", 129_000)])
+    agg1 = result(models, "agg1", [listing("agg1", "9", 129_000)])
+    agg2 = result(models, "agg2", [listing("agg2", "7", 129_000)])
+    runner.dedupe_across_sources([agg1, agg2, direct], {"direct": 100, "agg1": 200, "agg2": 210})
+    (kept,) = direct.offers
+    assert [(x.source, x.url) for x in kept.also_on] == [
+        ("agg1", "https://agg1.pl/o/9"),
+        ("agg2", "https://agg2.pl/o/7"),
+    ]
+
+
+def test_also_on_survives_database_roundtrip(models: ModelsConfig) -> None:
+    direct = result(models, "direct", [listing("direct", "1", 129_000)])
+    agg = result(models, "agg", [listing("agg", "9", 129_000)])
+    runner.dedupe_across_sources([direct, agg], {"direct": 100, "agg": 200})
+    db = Storage(":memory:")
+    db.save_run(utcnow(), 0.1, [direct, agg], direct.offers, [])
+    (stored,) = db.load_offers().values()
+    assert [(x.source, x.url) for x in stored.also_on] == [("agg", "https://agg.pl/o/9")]
+
+    html = render_report(db.load_report_data() or pytest.fail("brak danych"))
+    assert 'data-source-all="direct|agg"' in html
+    assert 'href="https://agg.pl/o/9"' in html and "To samo auto też tutaj" in html

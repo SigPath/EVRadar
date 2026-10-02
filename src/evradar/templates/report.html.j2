@@ -116,6 +116,9 @@ tr.fav .ico.star { color: #f59e0b; border-color: #f59e0b; }
 tr.dismissed { opacity: .5; }
 .toggles { display: flex; flex-wrap: wrap; gap: 6px; }
 .bars { display: block; margin-top: 6px; }
+td.srcs { white-space: normal; max-width: 200px; }
+td.srcs .badge { display: inline-block; margin: 0 4px 4px 0; color: var(--muted); }
+td.srcs a.badge:hover { color: var(--accent); }
 .bars rect { fill: var(--new); } .bars rect.err { fill: var(--err); } .bars rect.stale { fill: var(--drop); }
 .bars rect.skip { fill: var(--line); }
 .badge.soh { background: var(--new-bg); color: var(--new); }
@@ -297,11 +300,11 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       </tr></thead>
       <tbody>
       {% for o in confirmed %}
-        <tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}"
+        <tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}" data-source-all="{{ offer_sources(o)|join('|') }}"
             data-year="{{ o.year or '' }}" data-km="{{ o.mileage_km if o.mileage_km is not none else '' }}" data-gross="{{ o.price_gross_pln or '' }}" data-net="{{ o.price_net_pln or '' }}"
             data-title="{{ o.title_raw }}" data-loc="{{ o.location or '' }}" data-url="{{ o.url }}" data-mkt="{{ '%.1f'|format(market[o.offer_id].pct) if o.offer_id in market else '' }}"
             data-seller="{{ seller_labels.get(o.seller_type, '') }}" data-soh="{{ o.soh_pct or '' }}" data-listed="{{ o.listed_at|short_date if o.listed_at else '' }}" data-kwh="{{ o.battery_kwh or '' }}"
-            data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ source_names.get(o.source, o.source))|lower }}">
+            data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ offer_sources(o)|join(' '))|lower }}">
           <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
             <div class="veh">
               <a class="mini" href="{{ o.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">{% if o.image_url %}<img src="{{ o.image_url }}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">{% endif %}</a>
@@ -323,7 +326,10 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
           <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}{{ spark(o.offer_id) }}</td>
           {% set m = market.get(o.offer_id) %}
           <td class="num" data-s="{{ m.pct|round(1) if m else 999 }}">{% if m %}<span class="mkt {{ 'deal' if m.pct <= -10 else 'pricey' if m.pct >= 10 else '' }}" title="Mediana {{ m.median|pln }} ({{ m.n }} ofert, porównanie: {{ m.scope }})">{{ '%+.0f'|format(m.pct)|replace('-', '−') }}%</span>{% else %}<span class="muted" title="Za mało ofert do porównania">—</span>{% endif %}</td>
-          <td data-s="{{ source_names.get(o.source, o.source) }}"><span class="badge">{{ source_names.get(o.source, o.source) }}</span></td>
+          <td data-s="{{ source_names.get(o.source, o.source) }}" class="srcs">
+            <a class="badge" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">{{ source_names.get(o.source, o.source) }}</a>
+            {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto też tutaj">{{ source_names.get(l.source, l.source) }}</a>{% endfor %}
+          </td>
           <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
           <td><div class="act">
             <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
@@ -440,7 +446,8 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       if (pressed(onlyFav) && mark !== 'fav') ok = false;
       Object.keys(active).forEach(function (g) {
         var set = active[g];
-        if (ok && set.length && set.indexOf(tr.dataset[g]) === -1) ok = false;
+        var vals = (tr.dataset[g + 'All'] || tr.dataset[g]).split('|');
+        if (ok && set.length && !vals.some(function (v) { return set.indexOf(v) !== -1; })) ok = false;
       });
       if (ok && !inRanges(tr)) ok = false;
       tr.classList.toggle('hidden', !ok);

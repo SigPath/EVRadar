@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from datetime import UTC, datetime
 from enum import StrEnum
-from typing import Literal
+from typing import Any, Literal
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 PriceBasis = Literal["net", "gross"]
 SellerType = Literal["dealer", "private"]
@@ -64,6 +65,13 @@ class RawListing(BaseModel):
     soh_pct: int | None = None
 
 
+class OfferLink(BaseModel):
+    """To samo auto w innym źródle (połączony duplikat)."""
+
+    source: str
+    url: str
+
+
 class Offer(BaseModel):
     """Oferta po dopasowaniu do konfiguracji modeli."""
 
@@ -91,7 +99,15 @@ class Offer(BaseModel):
     first_seen_at: datetime = Field(default_factory=utcnow)
     last_seen_at: datetime = Field(default_factory=utcnow)
     uncertain_powertrain: bool = False
+    also_on: list[OfferLink] = Field(default_factory=list)
 
+    @field_validator("also_on", mode="before")
+    @classmethod
+    def _parse_also_on(cls, value: Any) -> Any:
+        """Baza trzyma listę jako JSON w tekście (NULL = brak)."""
+        if value is None or value == "":
+            return []
+        return json.loads(value) if isinstance(value, str) else value
     @property
     def price_for_diff(self) -> tuple[int, PriceBasis] | None:
         """Cena używana do porównań: brutto, a gdy brak — netto (bez przeliczeń)."""

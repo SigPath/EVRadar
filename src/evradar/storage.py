@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sqlite3
 from datetime import datetime
 from pathlib import Path
@@ -45,6 +46,7 @@ CREATE TABLE IF NOT EXISTS offers (
     first_seen_at TEXT NOT NULL,
     last_seen_at TEXT NOT NULL,
     uncertain_powertrain INTEGER NOT NULL DEFAULT 0,
+    also_on TEXT,
     active INTEGER NOT NULL DEFAULT 1
 );
 CREATE INDEX IF NOT EXISTS idx_offers_source ON offers(source, active);
@@ -83,7 +85,12 @@ CREATE TABLE IF NOT EXISTS diffs (
 """
 
 # kolumny dodane po pierwszej wersji schematu (migracja istniejących baz)
-_ADDED_COLUMNS = {"seller_type": "TEXT", "listed_at": "TEXT", "soh_pct": "INTEGER"}
+_ADDED_COLUMNS = {
+    "seller_type": "TEXT",
+    "listed_at": "TEXT",
+    "soh_pct": "INTEGER",
+    "also_on": "TEXT",
+}
 
 _STATS_SCHEMA = """
 CREATE TABLE IF NOT EXISTS model_stats (
@@ -102,7 +109,7 @@ _OFFER_COLUMNS = [
     "price_gross_pln", "price_net_pln", "monthly_installment_pln", "installment_basis",
     "vat_invoice", "battery_kwh", "range_km_wltp", "drivetrain", "location", "image_url",
     "seller_type", "listed_at", "soh_pct",
-    "first_seen_at", "last_seen_at", "uncertain_powertrain",
+    "first_seen_at", "last_seen_at", "uncertain_powertrain", "also_on",
 ]  # fmt: skip
 
 
@@ -290,6 +297,7 @@ class Storage:
         data["first_seen_at"] = (old.first_seen_at if old else offer.first_seen_at).isoformat()
         data["last_seen_at"] = offer.last_seen_at.isoformat()
         data["listed_at"] = offer.listed_at.isoformat() if offer.listed_at else None
+        data["also_on"] = json.dumps(data["also_on"]) if data["also_on"] else None
         values = [data[c] for c in _OFFER_COLUMNS]
         placeholders = ", ".join("?" for _ in _OFFER_COLUMNS)
         updates = ", ".join(

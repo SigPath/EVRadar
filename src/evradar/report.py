@@ -200,7 +200,9 @@ def _chips(
 ) -> list[tuple[str, str, list[tuple[str, int]]]]:
     brands = Counter(o.brand for o in offers)
     models = Counter(f"{o.brand} {o.model_matched}" for o in offers)
-    sources = Counter(names.get(o.source, o.source) for o in offers)
+    sources = Counter(
+        names.get(s, s) for o in offers for s in (o.source, *(link.source for link in o.also_on))
+    )
     sellers = Counter(SELLER_LABELS[o.seller_type] for o in offers if o.seller_type)
     groups = [
         ("brand", "Marka", sorted(brands.items())),
@@ -247,6 +249,9 @@ def render_report(
     names = {s.source: (s.name or s.source) for s in data.sources}
     history = data.price_history
     env.globals["spark"] = lambda offer_id: _sparkline(history.get(offer_id, []))
+    env.globals["offer_sources"] = lambda o: [
+        names.get(s, s) for s in (o.source, *(link.source for link in o.also_on))
+    ]
     confirmed = [o for o in data.active if not o.uncertain_powertrain]
     local = data.run.started_at.astimezone(LOCAL_TZ)
     return env.get_template("report.html.j2").render(

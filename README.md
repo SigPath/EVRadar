@@ -134,7 +134,7 @@ notifications:
 
 **[`config/sources.yaml`](config/sources.yaml)** — adresy, opóźnienia (`delay_min_s` / `delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`) oraz `priority` (przy duplikacie oferty zostaje źródło o niższej wartości; Otomoto ma 200).
 
-**Duplikaty:** to samo auto z kilku źródeł (ten sam model, rocznik, przebieg i cena brutto) trafia do raportu raz. Dla aut z przebiegiem poniżej 1000 km porównywane jest też miasto, a oferty bez rocznika, przebiegu lub ceny nigdy nie są łączone. Liczbę pominiętych duplikatów widzisz w kafelku źródła.
+**Duplikaty:** to samo auto z kilku źródeł (ten sam model, rocznik, przebieg i cena brutto) trafia do raportu raz, a w kolumnie Źródło widać wszystkie portale z linkami do ogłoszeń (filtr Źródło i wyszukiwarka też je uwzględniają). Dla aut z przebiegiem poniżej 1000 km porównywane jest też miasto, a oferty bez rocznika, przebiegu lub ceny nigdy nie są łączone. Liczbę pominiętych duplikatów widzisz w kafelku źródła.
 
 Sekcja `alternatives` w `models.yaml` opisuje linki z sekcji **Alternatywnie** w raporcie: szablony adresów portali (`sites`) i wyszukiwania per model (`searches`, np. `{ label: "Volkswagen ID.4", olx: "volkswagen/q-id4" }`). Limit ceny jest dołączany z `filters.max_price_gross_pln`. Ścieżki modeli dla Otomoto (`params.paths`) są w `sources.yaml`.
 
