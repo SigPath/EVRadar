@@ -53,6 +53,15 @@ def test_render_contains_all_sections() -> None:
     assert "<link" not in html
 
 
+def test_table_rows_have_thumbnail() -> None:
+    data = synthetic_report_data()
+    rows = [o for o in data.active if not o.uncertain_powertrain]
+    html = render_report(data)
+    table = html.split('id="offers"')[1].split("</table>")[0]
+    assert table.count('class="mini"') == len(rows)
+    assert table.count('alt="" loading="lazy"') == len([o for o in rows if o.image_url])
+
+
 def test_html_is_escaped() -> None:
     data = synthetic_report_data()
     evil = data.new[0].offer.model_copy(update={"title_raw": "<script>alert(1)</script>"})

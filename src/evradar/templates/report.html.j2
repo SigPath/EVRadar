@@ -94,6 +94,9 @@ small, .muted { color: var(--muted); }
 table { border-collapse: collapse; width: 100%; font-size: .9rem; }
 th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
 td.wrap { white-space: normal; min-width: 220px; }
+.veh { display: flex; align-items: center; gap: 10px; }
+.mini { flex: none; width: 56px; height: 40px; border-radius: 6px; overflow: hidden; background: var(--chip); display: block; }
+.mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
@@ -242,10 +245,15 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}"
             data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ source_names.get(o.source, o.source))|lower }}">
           <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
-            <b>{{ o.brand }} {{ o.model_matched }}</b>
-            {% if o.offer_id in new_ids %}<span class="badge new">NOWA</span>{% endif %}
-            {% if o.offer_id in drop_ids %}<span class="badge drop">OBNIŻKA</span>{% endif %}
-            <br><small>{{ o.title_raw }}{% if o.location %} · {{ o.location }}{% endif %}</small>
+            <div class="veh">
+              <a class="mini" href="{{ o.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">{% if o.image_url %}<img src="{{ o.image_url }}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">{% endif %}</a>
+              <div>
+                <b>{{ o.brand }} {{ o.model_matched }}</b>
+                {% if o.offer_id in new_ids %}<span class="badge new">NOWA</span>{% endif %}
+                {% if o.offer_id in drop_ids %}<span class="badge drop">OBNIŻKA</span>{% endif %}
+                <br><small>{{ o.title_raw }}{% if o.location %} · {{ o.location }}{% endif %}</small>
+              </div>
+            </div>
           </td>
           <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
           <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
@@ -357,7 +365,9 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 
   document.addEventListener('error', function (e) {
     var t = e.target;
-    if (t && t.tagName === 'IMG') { t.parentNode.textContent = 'brak zdjęcia'; }
+    if (t && t.tagName === 'IMG') {
+      if (t.parentNode.classList.contains('mini')) { t.remove(); } else { t.parentNode.textContent = 'brak zdjęcia'; }
+    }
   }, true);
 
   apply();
