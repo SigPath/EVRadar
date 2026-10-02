@@ -36,7 +36,7 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - **zdrowie źródeł**: słupki liczby ofert z ostatnich przebiegów w kafelku źródła i ostrzeżenie przy nagłym spadku (poniżej połowy zwykłej liczby),
 - z Otomoto: typ sprzedawcy (firma/prywatna, też jako filtr), data dodania ogłoszenia i SOH baterii wyciągany z opisu.
 
-**Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV3 / EV4 / EV6, Hyundai Kona Electric / Ioniq 5 / Ioniq 6, Tesla Model 3 / Model Y / Model S / Model X, Volkswagen ID.3 / ID.4 / ID.5 / ID.7, Skoda Enyaq.
+**Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV3 / EV4 / EV6, Hyundai Kona Electric / Ioniq 5 / Ioniq 6, Tesla Model 3 / Model Y / Model S / Model X, Volkswagen ID.3 / ID.4 / ID.5 / ID.7, Skoda Enyaq, Audi Q4 e-tron (także Sportback i wszystkie wersje: 35/40/45/50).
 
 ## Źródła danych
 

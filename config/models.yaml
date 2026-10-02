@@ -22,6 +22,8 @@ targets:
     - { model: "ID.7", aliases: ["ID7", "ID 7", "ID.7 Tourer", "ID.7 GTX"] }
   skoda:
     - { model: "Enyaq", aliases: ["Enyaq iV", "Enyaq Coupe", "Enyaq Coupe iV"] }
+  audi:
+    - { model: "Q4 e-tron", aliases: ["Q4 etron", "Q4 Sportback", "Q4 Sportback e-tron", "Q4"] }
 brand_aliases:
   volkswagen: ["VW"]
 filters:
@@ -63,3 +65,4 @@ alternatives:
     - { label: "Volkswagen ID.5", olx: "volkswagen/q-id5" }
     - { label: "Volkswagen ID.7", olx: "volkswagen/q-id7" }
     - { label: "Skoda Enyaq", olx: "skoda/q-enyaq" }
+    - { label: "Audi Q4 e-tron", olx: "audi/q-q4" }

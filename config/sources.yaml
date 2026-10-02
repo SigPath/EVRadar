@@ -50,6 +50,8 @@ sources:
         - volkswagen/id5
         - volkswagen/id-7
         - skoda/enyaq
+        - audi/q4
+        - audi/q4-sportback
   autoplac:
     name: "Autoplac"
     url: "https://autoplac.pl"
@@ -74,6 +76,7 @@ sources:
         - volkswagen/id5
         - volkswagen/id7
         - skoda/enyaq
+        - audi/q4
   findcar:
     name: "FindCar"
     url: "https://findcar.pl"

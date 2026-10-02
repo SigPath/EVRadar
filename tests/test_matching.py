@@ -53,7 +53,17 @@ def test_vw_id4_matches(matcher: ModelMatcher, title: str, brand: str | None) ->
 def test_vw_other_models_rejected(matcher: ModelMatcher) -> None:
     assert matcher.match(listing("VW ID. Buzz", fuel="Elektryczny")) is None
     assert matcher.match(listing("Volkswagen Golf 1.5 TSI")) is None
-    assert matcher.match(listing("Audi Q4 e-tron ID.5")) is None
+    assert matcher.match(listing("BMW iX3 ID.5")) is None
+
+
+@pytest.mark.parametrize(
+    "title",
+    ["Audi Q4 e-tron 40", "Audi Q4 Sportback e-tron 35", "AUDI Q4 etron 45 quattro", "Audi Q4 40"],
+)
+def test_audi_q4_matches(matcher: ModelMatcher, title: str) -> None:
+    m = matcher.match(listing(title, fuel="Elektryczny"))
+    assert m is not None and (m.brand, m.model) == ("Audi", "Q4 e-tron")
+    assert matcher.match(listing("Audi Q5 40 TDI")) is None
 
 
 @pytest.mark.parametrize(
