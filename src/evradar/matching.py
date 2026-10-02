@@ -192,4 +192,7 @@ def passes_filters(
     if max_km is not None and mileage_km is not None and mileage_km > max_km:
         return False
     max_price = filters.max_price_gross_pln
-    return not (max_price is not None and price_gross is not None and price_gross > max_price)
+    if max_price is not None and price_gross is not None and price_gross > max_price:
+        return False
+    min_price = filters.min_price_gross_pln
+    return not (min_price is not None and price_gross is not None and price_gross < min_price)

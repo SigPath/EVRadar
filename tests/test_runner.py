@@ -68,7 +68,9 @@ def cfg(source_id: str, **kw: object) -> SourceConfig:
 @pytest.fixture
 def models() -> ModelsConfig:
     cfg = load_models_config()
-    cfg.filters.max_price_gross_pln = None  # testy nie zależą od limitu ceny z configu
+    cfg.filters.max_price_gross_pln = None  # testy nie zależą od limitów z configu
+    cfg.filters.min_price_gross_pln = None
+    cfg.filters.max_mileage_km = None
     return cfg
 
 
@@ -180,3 +182,20 @@ def test_max_price_filter_drops_expensive(models: ModelsConfig) -> None:
     listings = [make_listing('s', 130_000, '1'), make_listing('s', 130_001, '2')]
     offers = runner.build_offers(listings, ModelMatcher(models.targets), models, utcnow())
     assert [o.price_gross_pln for o in offers] == [130_000]
+
+
+def test_min_price_and_mileage_filters(models: ModelsConfig) -> None:
+    models.filters.min_price_gross_pln = 70_000
+    models.filters.max_mileage_km = 122_000
+    cheap = make_listing("s", 69_999, "1")
+    edge_price = make_listing("s", 70_000, "2")
+    high_km = make_listing("s", 100_000, "3").model_copy(update={"mileage_km": 122_001})
+    edge_km = make_listing("s", 100_000, "4").model_copy(update={"mileage_km": 122_000})
+    no_km = make_listing("s", 100_000, "5").model_copy(update={"mileage_km": None})
+    offers = runner.build_offers(
+        [cheap, edge_price, high_km, edge_km, no_km],
+        ModelMatcher(models.targets),
+        models,
+        utcnow(),
+    )
+    assert sorted(o.url.rsplit("/", 1)[1] for o in offers) == ["2", "4", "5"]

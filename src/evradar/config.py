@@ -21,6 +21,7 @@ class ModelTarget(BaseModel):
 
 class Filters(BaseModel):
     max_price_gross_pln: int | None = None
+    min_price_gross_pln: int | None = None
     max_mileage_km: int | None = None
     min_year: int | None = None
 

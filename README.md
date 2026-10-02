@@ -105,7 +105,8 @@ brand_aliases:
   volkswagen: ["VW"]
 filters:
   max_price_gross_pln: 130000   # null = bez limitu
-  max_mileage_km: null
+  min_price_gross_pln: 70000    # tańsze oferty to zwykle cesje leasingu
+  max_mileage_km: 122000
   min_year: null
 notifications:
   enabled: false
@@ -113,7 +114,7 @@ notifications:
 
 - Dopasowanie nazw ignoruje wielkość liter, spacje, myślniki i polskie znaki (`IONIQ5` = `Ioniq 5`); nigdy nie myli różnych cyfr (`Ioniq 6` ≠ `Ioniq 5`).
 - `require_electric: true` — dla modeli występujących także jako hybryda/spalinowe (Niro, Kona). Przy niejednoznacznych danych oferta trafia do **Do weryfikacji**.
-- Filtr ceny działa na cenie brutto; oferty bez ceny nie są odrzucane.
+- Filtry ceny działają na cenie brutto (`min_price_gross_pln` odcina podejrzanie tanie oferty, np. cesje leasingu), a filtr przebiegu na `max_mileage_km`. Oferty bez ceny lub bez przebiegu nie są odrzucane.
 
 **[`config/sources.yaml`](config/sources.yaml)** — adresy, opóźnienia (`delay_min_s` / `delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`).
 
