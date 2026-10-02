@@ -8,6 +8,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from markupsafe import Markup
 
 from evradar.config import Alternatives
 from evradar.models import Offer, OfferDiff, ReportData
@@ -15,6 +16,7 @@ from evradar.models import Offer, OfferDiff, ReportData
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 LOCAL_TZ = ZoneInfo("Europe/Warsaw")
 NBSP = "\u00a0"
+SPARK_W, SPARK_H, SPARK_PAD = 56, 16, 2
 
 AltRow = tuple[str, list[tuple[str, str]]]  # (etykieta, [(portal, url)])
 
@@ -54,6 +56,38 @@ def _short_date(value: object) -> str:
     if isinstance(value, datetime):
         return value.astimezone(LOCAL_TZ).strftime("%d.%m.%Y")
     return ""
+
+
+def _sparkline(points: list[tuple[str, int]]) -> Markup:
+    """Miniaturowy wykres zmian ceny (SVG); pusty, gdy oferta nie zmieniała ceny."""
+    if len(points) < 2:
+        return Markup("")
+    stamps = [datetime.fromisoformat(t) for t, _ in points]
+    prices = [p for _, p in points]
+    t0, span = stamps[0].timestamp(), stamps[-1].timestamp() - stamps[0].timestamp()
+    lo, hi = min(prices), max(prices)
+    inner_w, inner_h = SPARK_W - 2 * SPARK_PAD, SPARK_H - 2 * SPARK_PAD
+
+    def xy(i: int) -> tuple[float, float]:
+        frac = (stamps[i].timestamp() - t0) / span if span else i / (len(points) - 1)
+        y = SPARK_PAD + (hi - prices[i]) / (hi - lo) * inner_h if hi > lo else SPARK_H / 2
+        return SPARK_PAD + frac * inner_w, y
+
+    coords = [xy(i) for i in range(len(points))]
+    line = " ".join(f"{x:.1f},{y:.1f}" for x, y in coords)
+    kind = "down" if prices[-1] < prices[0] else "up" if prices[-1] > prices[0] else "flat"
+    first, last = stamps[0].astimezone(LOCAL_TZ), stamps[-1].astimezone(LOCAL_TZ)
+    pct = (prices[-1] - prices[0]) / prices[0] * 100
+    label = (
+        f"{first:%d.%m} {_pln(prices[0])} → {last:%d.%m} {_pln(prices[-1])} ({pct:+.0f}%)"
+    )
+    ex, ey = coords[-1]
+    return Markup(
+        f'<svg class="spark {kind}" width="{SPARK_W}" height="{SPARK_H}" '
+        f'viewBox="0 0 {SPARK_W} {SPARK_H}" role="img" aria-label="{label}">'
+        f"<title>{label}</title><polyline points=\"{line}\"/>"
+        f'<circle cx="{ex:.1f}" cy="{ey:.1f}" r="2"/></svg>'
+    )
 
 
 def _offer_sort_key(o: Offer) -> tuple[str, str, int]:
@@ -107,6 +141,8 @@ def render_report(
         }
     )
     names = {s.source: (s.name or s.source) for s in data.sources}
+    history = data.price_history
+    env.globals["spark"] = lambda offer_id: _sparkline(history.get(offer_id, []))
     confirmed = [o for o in data.active if not o.uncertain_powertrain]
     local = data.run.started_at.astimezone(LOCAL_TZ)
     return env.get_template("report.html.j2").render(

@@ -6,6 +6,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 from enum import StrEnum
+from functools import lru_cache
 
 from rapidfuzz import fuzz
 
@@ -182,10 +183,28 @@ class ModelMatcher:
         return None
 
 
+def text_excluded(patterns: list[str], text: str) -> bool:
+    """Czy treść ogłoszenia (po zdjęciu polskich znaków) pasuje do któregoś z wzorców."""
+    folded = _fold(text)
+    return any(_compiled(p).search(folded) for p in patterns)
+
+
+@lru_cache(maxsize=64)
+def _compiled(pattern: str) -> re.Pattern[str]:
+    return re.compile(pattern)
+
+
 def passes_filters(
-    filters: Filters, *, year: int | None, mileage_km: int | None, price_gross: int | None
+    filters: Filters,
+    *,
+    year: int | None,
+    mileage_km: int | None,
+    price_gross: int | None,
+    text: str = "",
 ) -> bool:
     """Filtry z konfiguracji; brak danych w ofercie nie wyklucza jej (nie zgadujemy)."""
+    if filters.exclude_text_patterns and text_excluded(filters.exclude_text_patterns, text):
+        return False
     if filters.min_year is not None and year is not None and year < filters.min_year:
         return False
     max_km = filters.max_mileage_km

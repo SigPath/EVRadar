@@ -17,11 +17,11 @@
 
 ## Co robi
 
-EV Radar codziennie odpytuje **7 polskich serwisów** z autami leasingowymi/poleasingowymi i ogłoszeniami (w tym Otomoto), wyłuskuje wyłącznie **wybrane modele elektryczne** i porównuje wynik z poprzednim skanem. Efektem jest jeden plik `index.html` (bez serwera i zależności), który otwierasz dwuklikiem albo publikujesz na GitHub Pages.
+EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/poleasingowymi i ogłoszeniami (w tym Otomoto, Autoplac, FindCar), wyłuskuje wyłącznie **wybrane modele elektryczne** i porównuje wynik z poprzednim skanem. Efektem jest jeden plik `index.html` (bez serwera i zależności), który otwierasz dwuklikiem albo publikujesz na GitHub Pages.
 
 - 🆕 **Nowe oferty**, 📉 **obniżki cen**, ↩️ **wróciły**, ❌ **zniknęły** — od ostatniego skanu,
 - ⚠️ **Do weryfikacji** — oferty, przy których nie da się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego paliwa); nic nie jest po cichu odrzucane,
-- tabela wszystkich ofert z wyszukiwarką, filtrami (marka, model, źródło) i sortowaniem,
+- tabela wszystkich ofert z miniaturami, wyszukiwarką, filtrami (marka, model, źródło) i sortowaniem; przy cenie **mini wykres** (zielony = spadła, czerwony = wzrosła), gdy oferta zmieniła cenę (historia zapełnia się z każdym skanem),
 - sekcja **Alternatywnie** — gotowe linki do wyszukiwań na OLX (nie jest skanowany), z filtrem „elektryczne” i limitem ceny,
 - status każdego źródła (`OK` / `BŁĄD` / `POMINIĘTE` / `DO AKTUALIZACJI`),
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),
@@ -40,6 +40,8 @@ EV Radar codziennie odpytuje **7 polskich serwisów** z autami leasingowymi/pole
 | **Stellantis &You** (`stellantis`) | publiczny indeks Algolia używany przez stronę | brutto |
 | **Poleasingowe.pl** (`poleasingowe`) | HTML (aukcje) | netto |
 | **Otomoto** (`otomoto`) | SSR: `__NEXT_DATA__` → `advertSearch` (per model, paginacja) | brutto lub netto (flaga `isGross`) |
+| **Autoplac** (`autoplac`) | SSR Angular: `ng-state` → lista ofert (per model, `?p=N`) | brutto + netto (gdy FV) |
+| **FindCar** (`findcar`) | SSR Angular: `ng-state` → TanStack Query (per marka, `/znajdz-samochod/N`) | brutto |
 
 **Nieskanowane:** OLX zwraca 403 już na `robots.txt`, a Allegro blokuje boty (403 na kategoriach) — traktujemy to jak zakaz i niczego nie omijamy. OLX mamy jako linki w sekcji **Alternatywnie**; część ogłoszeń z OLX jest i tak widoczna na Otomoto.
 
@@ -105,16 +107,20 @@ brand_aliases:
   volkswagen: ["VW"]
 filters:
   max_price_gross_pln: 130000   # null = bez limitu
-  min_price_gross_pln: 70000    # tańsze oferty to zwykle cesje leasingu
+  min_price_gross_pln: null     # opcjonalny dolny próg ceny
   max_mileage_km: 122000
   min_year: 2021
+  exclude_text_patterns:        # regexy na tytuł + opis (bez polskich znaków)
+    - 'cesj'
+    - 'przejec\w*\s+(umowy\s+)?leasing'
 notifications:
   enabled: false
 ```
 
 - Dopasowanie nazw ignoruje wielkość liter, spacje, myślniki i polskie znaki (`IONIQ5` = `Ioniq 5`); nigdy nie myli różnych cyfr (`Ioniq 6` ≠ `Ioniq 5`).
 - `require_electric: true` — dla modeli występujących także jako hybryda/spalinowe (Niro, Kona). Przy niejednoznacznych danych oferta trafia do **Do weryfikacji**.
-- Filtry ceny działają na cenie brutto (`min_price_gross_pln` odcina podejrzanie tanie oferty, np. cesje leasingu), a filtr przebiegu na `max_mileage_km`. Oferty bez ceny lub bez przebiegu nie są odrzucane.
+- Filtry ceny działają na cenie brutto, a filtr przebiegu na `max_mileage_km`. Oferty bez ceny, przebiegu lub rocznika nie są odrzucane.
+- `exclude_text_patterns` odrzuca ogłoszenia po treści (tytuł i, gdy serwis go podaje, opis): domyślnie „cesja”, „przejęcie leasingu” i „rata <kwota>”. Dzięki temu tanie, normalne auta nie odpadają przez dolny próg ceny. Opis w skanie jest dostępny z Otomoto; pozostałe źródła dają tylko tytuł.
 
 **[`config/sources.yaml`](config/sources.yaml)** — adresy, opóźnienia (`delay_min_s` / `delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`) oraz `priority` (przy duplikacie oferty zostaje źródło o niższej wartości; Otomoto ma 200).
 

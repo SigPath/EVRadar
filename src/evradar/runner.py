@@ -12,7 +12,7 @@ import structlog
 
 from evradar.config import ModelsConfig, SourceConfig
 from evradar.diff import compute_diff
-from evradar.matching import ModelMatcher, Powertrain, passes_filters
+from evradar.matching import ModelMatcher, Powertrain, passes_filters, text_excluded
 from evradar.models import (
     DiffKind,
     Offer,
@@ -41,6 +41,7 @@ def build_offers(
 ) -> list[Offer]:
     """Dopasowuje surowe ogłoszenia do modeli z configu, stosuje filtry i deduplikuje."""
     offers: dict[str, Offer] = {}
+    excluded_text = 0
     for item in listings:
         match = matcher.match(item)
         if match is None:
@@ -52,12 +53,16 @@ def build_offers(
             gross = net_to_gross(net)
         elif net is None and gross:
             net = gross_to_net(gross)
+        text = f"{item.title_raw} {item.description or ''}"
         if not passes_filters(
             models.filters,
             year=item.year,
             mileage_km=item.mileage_km,
             price_gross=gross,
+            text=text,
         ):
+            if text_excluded(models.filters.exclude_text_patterns, text):
+                excluded_text += 1
             continue
         offer_id = make_offer_id(item.source, item.external_id, item.url)
         offers[offer_id] = Offer(
@@ -83,6 +88,8 @@ def build_offers(
             last_seen_at=now,
             uncertain_powertrain=match.powertrain is Powertrain.UNCERTAIN,
         )
+    if excluded_text:
+        log.info("excluded_by_text", count=excluded_text)
     return list(offers.values())
 
 
@@ -286,4 +293,5 @@ async def run_scan(
     data = assemble_report_data(
         previous, results, diffs, started_at, duration, run_id=run_id, dry_run=dry_run
     )
+    data.price_history = storage.load_price_history()
     return data, first_run

@@ -97,6 +97,11 @@ td.wrap { white-space: normal; min-width: 220px; }
 .veh { display: flex; align-items: center; gap: 10px; }
 .mini { flex: none; width: 56px; height: 40px; border-radius: 6px; overflow: hidden; background: var(--chip); display: block; }
 .mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.spark { vertical-align: middle; margin-left: 8px; color: var(--muted); }
+.spark polyline { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.spark circle { fill: currentColor; }
+.spark.down { color: var(--new); }
+.spark.up { color: var(--err); }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
@@ -257,7 +262,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
           </td>
           <td class="num" data-s="{{ o.year or 0 }}">{{ o.year or '—' }}</td>
           <td class="num" data-s="{{ o.mileage_km if o.mileage_km is not none else -1 }}">{{ o.mileage_km|km if o.mileage_km is not none else '—' }}</td>
-          <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}</td>
+          <td class="num" data-s="{{ o.price_gross_pln or o.price_net_pln or 0 }}">{{ price(o) }}{{ spark(o.offer_id) }}</td>
           <td data-s="{{ source_names.get(o.source, o.source) }}"><span class="badge">{{ source_names.get(o.source, o.source) }}</span></td>
           <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
           <td><a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a></td>

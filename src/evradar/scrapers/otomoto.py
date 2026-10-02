@@ -65,6 +65,7 @@ def parse_listing(html: str) -> tuple[list[RawListing], int]:
                 external_id=str(n["id"]),
                 url=n["url"],
                 title_raw=title,
+                description=n.get("shortDescription"),
                 brand=(params.get("make") or {}).get("displayValue"),
                 model=(params.get("model") or {}).get("displayValue"),
                 fuel=(params.get("fuel_type") or {}).get("displayValue"),

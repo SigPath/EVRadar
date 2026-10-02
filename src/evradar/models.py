@@ -172,3 +172,5 @@ class ReportData(BaseModel):
     back: list[OfferDiff]
     gone: list[OfferDiff]
     uncertain: list[Offer]
+    # offer_id -> [(data ISO, cena)] tylko dla ofert z co najmniej dwiema różnymi cenami
+    price_history: dict[str, list[tuple[str, int]]] = Field(default_factory=dict)

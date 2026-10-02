@@ -42,3 +42,24 @@ sources:
         - tesla/y
         - volkswagen/id4
         - volkswagen/id5
+  autoplac:
+    name: "Autoplac"
+    url: "https://autoplac.pl"
+    max_pages: 6                      # 24 oferty na stronę
+    priority: 150
+    params:
+      # ścieżki <marka>/<model> z Autoplac (nieznany model => błąd, a nie cicho cała marka)
+      paths:
+        - kia/niro
+        - kia/ev4
+        - hyundai/kona
+        - hyundai/ioniq-5
+        - tesla/model-3
+        - tesla/model-y
+        - volkswagen/id4
+        - volkswagen/id5
+  findcar:
+    name: "FindCar"
+    url: "https://findcar.pl"
+    max_pages: 10                     # 15 ofert na stronę; zapytania po markach z config/models.yaml
+    priority: 150

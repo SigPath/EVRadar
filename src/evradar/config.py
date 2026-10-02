@@ -24,6 +24,8 @@ class Filters(BaseModel):
     min_price_gross_pln: int | None = None
     max_mileage_km: int | None = None
     min_year: int | None = None
+    # regexy na tytuł i opis (bez polskich znaków, małe litery); trafienie = odrzucenie oferty
+    exclude_text_patterns: list[str] = Field(default_factory=list)
 
 
 class Notifications(BaseModel):

@@ -131,6 +131,22 @@ class Storage:
             "SELECT * FROM price_history WHERE offer_id = ? ORDER BY id", (offer_id,)
         ).fetchall()
 
+    def load_price_history(self) -> dict[str, list[tuple[str, int]]]:
+        """Zmiany ceny (brutto, a gdy brak — netto); tylko oferty z co najmniej dwiema cenami."""
+        rows = self.conn.execute(
+            "SELECT offer_id, seen_at, price_gross_pln, price_net_pln "
+            "FROM price_history ORDER BY id"
+        )
+        out: dict[str, list[tuple[str, int]]] = {}
+        for r in rows:
+            price = r["price_gross_pln"] if r["price_gross_pln"] is not None else r["price_net_pln"]
+            if price is None:
+                continue
+            points = out.setdefault(r["offer_id"], [])
+            if not points or points[-1][1] != price:
+                points.append((r["seen_at"], int(price)))
+        return {k: v for k, v in out.items() if len(v) >= 2}
+
     # --- zapis ------------------------------------------------------------------
 
     def save_run(
@@ -278,4 +294,5 @@ class Storage:
             back=by_kind[DiffKind.BACK],
             gone=by_kind[DiffKind.GONE],
             uncertain=[o for o in active if o.uncertain_powertrain],
+            price_history=self.load_price_history(),
         )

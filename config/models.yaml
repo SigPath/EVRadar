@@ -18,9 +18,14 @@ brand_aliases:
   volkswagen: ["VW"]
 filters:
   max_price_gross_pln: 130000   # null = bez limitu
-  min_price_gross_pln: 70000    # tańsze oferty to zwykle cesje leasingu / błędy; null = bez limitu
+  min_price_gross_pln: null     # dolny próg ceny; podejrzanie tanie (cesje) odcina exclude_text_patterns
   max_mileage_km: 122000
   min_year: 2021
+  # treść ogłoszenia (tytuł + opis) bez polskich znaków, regex; trafienie = oferta odrzucona
+  exclude_text_patterns:
+    - 'cesj'                                        # cesja / cesji leasingu
+    - 'przejec\w*\s+(umowy\s+)?leasing'             # przejęcie (umowy) leasingu
+    - '\brata\b\s*(miesieczna\s*)?[:=-]?\s*(od\s*)?\d'  # "Rata 1500 zł", "rata miesięczna: 1 450"
 notifications:
   enabled: false                # powiadomienie, gdy liczba nowych ofert > 0
   channel: telegram             # telegram | email (dane z zmiennych środowiskowych)
