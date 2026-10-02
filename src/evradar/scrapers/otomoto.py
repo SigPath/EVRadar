@@ -13,22 +13,33 @@ nieoczywiste (Tesla Model Y = `tesla/y`), a nieznany slug cicho zwraca całą ma
 
 Ceny: `price.isGross` mówi, czy podana kwota jest brutto, czy netto (oferty firm z fakturą VAT);
 nie przeliczamy — brakującą cenę dolicza runner. Dane zawierają też ogłoszenia z OLX (id `OLX_ID…`).
+Dodatkowo: `createdAt` (data dodania), `seller.__typename` (Professional/PrivateSeller)
+i SOH baterii wyciągane z tytułu i krótkiego opisu.
 """
 
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from typing import Any
 from urllib.parse import quote
 
 from selectolax.parser import HTMLParser
 
-from evradar.models import RawListing
-from evradar.parsing import parse_int, parse_kwh
+from evradar.models import RawListing, SellerType
+from evradar.parsing import parse_int, parse_kwh, parse_soh
 from evradar.scrapers.base import BaseScraper
 
 _PRICE_PARAM = "search[filter_float_price:to]"
 _FUEL_PARAM = "search[filter_enum_fuel_type]"
+_SELLER_TYPES: dict[str, SellerType] = {"ProfessionalSeller": "dealer", "PrivateSeller": "private"}
+
+
+def _created_at(value: object) -> datetime | None:
+    try:
+        return datetime.fromisoformat(str(value)) if value else None
+    except ValueError:
+        return None
 
 
 def _search_node(html: str) -> dict[str, Any]:
@@ -77,6 +88,9 @@ def parse_listing(html: str) -> tuple[list[RawListing], int]:
                 battery_kwh=parse_kwh(title),
                 location=city,
                 image_url=thumb,
+                seller_type=_SELLER_TYPES.get(str((n.get("seller") or {}).get("__typename"))),
+                listed_at=_created_at(n.get("createdAt")),
+                soh_pct=parse_soh(f"{title} {n.get('shortDescription') or ''}"),
             )
         )
     return listings, int(search.get("totalCount", len(listings)))

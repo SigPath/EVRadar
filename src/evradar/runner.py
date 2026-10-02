@@ -84,6 +84,9 @@ def build_offers(
             drivetrain=item.drivetrain,
             location=item.location,
             image_url=item.image_url,
+            seller_type=item.seller_type,
+            listed_at=item.listed_at,
+            soh_pct=item.soh_pct,
             first_seen_at=now,
             last_seen_at=now,
             uncertain_powertrain=match.powertrain is Powertrain.UNCERTAIN,
@@ -294,4 +297,6 @@ async def run_scan(
         previous, results, diffs, started_at, duration, run_id=run_id, dry_run=dry_run
     )
     data.price_history = storage.load_price_history()
+    data.model_trend = storage.load_model_trend()
+    data.source_history = storage.source_history()
     return data, first_run

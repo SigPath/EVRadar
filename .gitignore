@@ -10,3 +10,4 @@ out/
 debug/
 .playwright-mcp/
 .env
+data/backups/

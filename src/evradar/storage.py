@@ -5,6 +5,7 @@ from __future__ import annotations
 import sqlite3
 from datetime import datetime
 from pathlib import Path
+from statistics import median
 from typing import Any
 
 from evradar.models import (
@@ -38,6 +39,9 @@ CREATE TABLE IF NOT EXISTS offers (
     drivetrain TEXT,
     location TEXT,
     image_url TEXT,
+    seller_type TEXT,
+    listed_at TEXT,
+    soh_pct INTEGER,
     first_seen_at TEXT NOT NULL,
     last_seen_at TEXT NOT NULL,
     uncertain_powertrain INTEGER NOT NULL DEFAULT 0,
@@ -78,10 +82,26 @@ CREATE TABLE IF NOT EXISTS diffs (
 );
 """
 
+# kolumny dodane po pierwszej wersji schematu (migracja istniejących baz)
+_ADDED_COLUMNS = {"seller_type": "TEXT", "listed_at": "TEXT", "soh_pct": "INTEGER"}
+
+_STATS_SCHEMA = """
+CREATE TABLE IF NOT EXISTS model_stats (
+    run_id INTEGER NOT NULL REFERENCES runs(id),
+    model TEXT NOT NULL,
+    n INTEGER NOT NULL,
+    median_gross_pln INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_stats_model ON model_stats(model);
+"""
+
+MIN_STATS_GROUP = 3  # minimalna liczba ofert modelu w statystyce trendu
+
 _OFFER_COLUMNS = [
     "offer_id", "source", "url", "brand", "model_matched", "title_raw", "year", "mileage_km",
     "price_gross_pln", "price_net_pln", "monthly_installment_pln", "installment_basis",
     "vat_invoice", "battery_kwh", "range_km_wltp", "drivetrain", "location", "image_url",
+    "seller_type", "listed_at", "soh_pct",
     "first_seen_at", "last_seen_at", "uncertain_powertrain",
 ]  # fmt: skip
 
@@ -95,9 +115,23 @@ class Storage:
         self.conn = sqlite3.connect(str(path))
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript(SCHEMA)
+        existing = {r["name"] for r in self.conn.execute("PRAGMA table_info(offers)")}
+        for column, sql_type in _ADDED_COLUMNS.items():
+            if column not in existing:
+                self.conn.execute(f"ALTER TABLE offers ADD COLUMN {column} {sql_type}")
+        self.conn.executescript(_STATS_SCHEMA)
 
     def close(self) -> None:
         self.conn.close()
+
+    def backup(self, dest: Path) -> None:
+        """Spójna kopia bazy (API backup SQLite, bezpieczna przy otwartym połączeniu)."""
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        target = sqlite3.connect(str(dest))
+        try:
+            self.conn.backup(target)
+        finally:
+            target.close()
 
     # --- odczyt -----------------------------------------------------------------
 
@@ -146,6 +180,35 @@ class Storage:
             if not points or points[-1][1] != price:
                 points.append((r["seen_at"], int(price)))
         return {k: v for k, v in out.items() if len(v) >= 2}
+
+    def load_model_trend(self) -> dict[str, list[tuple[str, int, int]]]:
+        """Mediana ceny brutto modelu w czasie: model -> [(data ISO, mediana, liczba ofert)]."""
+        rows = self.conn.execute(
+            "SELECT ms.model, r.started_at, ms.median_gross_pln, ms.n "
+            "FROM model_stats ms JOIN runs r ON r.id = ms.run_id ORDER BY r.id"
+        )
+        by_day: dict[str, dict[str, tuple[str, int, int]]] = {}
+        for r in rows:
+            day = str(r["started_at"])[:10]
+            by_day.setdefault(r["model"], {})[day] = (
+                r["started_at"],
+                int(r["median_gross_pln"]),
+                int(r["n"]),
+            )
+        return {m: list(days.values()) for m, days in by_day.items()}
+
+    def source_history(self, last_n: int = 14) -> dict[str, list[tuple[str, str, int]]]:
+        """Ostatnie przebiegi źródła: source -> [(data ISO, status, ofert)], od najstarszych."""
+        rows = self.conn.execute(
+            "SELECT sr.source, r.started_at, sr.status, sr.offers_count FROM source_runs sr "
+            "JOIN runs r ON r.id = sr.run_id ORDER BY sr.run_id"
+        )
+        out: dict[str, list[tuple[str, str, int]]] = {}
+        for r in rows:
+            out.setdefault(r["source"], []).append(
+                (r["started_at"], r["status"], int(r["offers_count"]))
+            )
+        return {k: v[-last_n:] for k, v in out.items()}
 
     # --- zapis ------------------------------------------------------------------
 
@@ -203,12 +266,30 @@ class Storage:
                         res.duration_s,
                     ),
                 )
+            self._save_model_stats(run_id)
         return run_id
+
+    def _save_model_stats(self, run_id: int) -> None:
+        """Zapisuje medianę ceny brutto każdego modelu (aktywne, potwierdzone oferty)."""
+        groups: dict[str, list[int]] = {}
+        for r in self.conn.execute(
+            "SELECT brand, model_matched, price_gross_pln FROM offers "
+            "WHERE active = 1 AND uncertain_powertrain = 0 AND price_gross_pln IS NOT NULL"
+        ):
+            groups.setdefault(f"{r['brand']} {r['model_matched']}", []).append(r["price_gross_pln"])
+        for model, prices in groups.items():
+            if len(prices) >= MIN_STATS_GROUP:
+                self.conn.execute(
+                    "INSERT INTO model_stats (run_id, model, n, median_gross_pln) "
+                    "VALUES (?, ?, ?, ?)",
+                    (run_id, model, len(prices), round(median(prices))),
+                )
 
     def _upsert_offer(self, offer: Offer, old: StoredOffer | None) -> None:
         data = offer.model_dump()
         data["first_seen_at"] = (old.first_seen_at if old else offer.first_seen_at).isoformat()
         data["last_seen_at"] = offer.last_seen_at.isoformat()
+        data["listed_at"] = offer.listed_at.isoformat() if offer.listed_at else None
         values = [data[c] for c in _OFFER_COLUMNS]
         placeholders = ", ".join("?" for _ in _OFFER_COLUMNS)
         updates = ", ".join(
@@ -295,4 +376,15 @@ class Storage:
             gone=by_kind[DiffKind.GONE],
             uncertain=[o for o in active if o.uncertain_powertrain],
             price_history=self.load_price_history(),
+            model_trend=self.load_model_trend(),
+            source_history=self.source_history(),
         )
+
+
+def make_backup(storage: Storage, backup_dir: Path, *, day: str, keep: int = 14) -> Path:
+    """Kopia dzienna `evradar-<day>.db` (nadpisywana tego dnia); zostaje `keep` najnowszych."""
+    dest = backup_dir / f"evradar-{day}.db"
+    storage.backup(dest)
+    for old in sorted(backup_dir.glob("evradar-*.db"), reverse=True)[keep:]:
+        old.unlink()
+    return dest

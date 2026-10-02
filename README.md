@@ -29,7 +29,12 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - ceny **brutto i netto** obok siebie (gdy serwis podaje tylko jedną, druga jest wyliczana przez VAT 23%),
 - opcjonalne powiadomienia Telegram: o nowych ofertach oraz o awarii źródła,
 - **baner awarii** na górze raportu, gdy źródło zwróciło błąd lub 0 ofert, oraz ostrzeżenie, gdy raport jest starszy niż 36 h (zadanie dzienne nie działa),
-- przycisk **Eksport CSV** (widoczne wiersze, separator `;`, UTF-8 z BOM, otwiera się w Excelu).
+- przycisk **Eksport CSV** (widoczne wiersze, separator `;`, UTF-8 z BOM, otwiera się w Excelu),
+- **suwaki** ceny, przebiegu i rocznika nad tabelą (filtrowanie w przeglądarce, bez edycji YAML i ponownego skanu),
+- **porównanie** 2–3 ofert obok siebie (przycisk ⇄ przy ofercie, potem „Porównaj”; najlepsze wartości wyróżnione),
+- sekcja **Trend cen modeli**: mediana ceny brutto modelu w kolejnych dniach skanu (zapisywana od pierwszego skanu po wdrożeniu),
+- **zdrowie źródeł**: słupki liczby ofert z ostatnich przebiegów w kafelku źródła i ostrzeżenie przy nagłym spadku (poniżej połowy zwykłej liczby),
+- z Otomoto: typ sprzedawcy (firma/prywatna, też jako filtr), data dodania ogłoszenia i SOH baterii wyciągany z opisu.
 
 **Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV3 / EV4 / EV6, Hyundai Kona Electric / Ioniq 5 / Ioniq 6, Tesla Model 3 / Model Y / Model S / Model X, Volkswagen ID.3 / ID.4 / ID.5 / ID.7, Skoda Enyaq.
 
@@ -95,6 +100,8 @@ Po kilkunastu sekundach w terminalu pojawi się tabela z wynikami, a raport otwo
 | `uv run evradar run --no-open` | bez otwierania przeglądarki |
 | `uv run evradar report --last` | przegenerowanie raportu z bazy, bez skanowania |
 | `uv run evradar sources` | lista źródeł i status ostatniego skanu |
+| `uv run evradar health` | zdrowie źródeł: liczba ofert z ostatnich przebiegów i wykryte spadki |
+| `uv run evradar backup` | kopia bazy w `data/backups` (po każdym skanie robiona automatycznie, zostaje 14 ostatnich dni) |
 | `uv run evradar demo-report` | raport na danych syntetycznych (podgląd wyglądu) |
 
 ## Konfiguracja

@@ -27,7 +27,11 @@ def gross_to_net(gross: int) -> int:
 _YEAR = re.compile(r"(?<!\d)(19[89]\d|20[0-4]\d)(?!\d)")
 _KWH = re.compile(r"(\d{2,3}(?:[.,]\d{1,2})?)\s*kwh", re.IGNORECASE)
 _RANGE = re.compile(r"(\d{2,3})\s*km\s*\(?\s*wltp|wltp[^0-9]{0,20}(\d{2,3})\s*km", re.IGNORECASE)
-
+_SOH = re.compile(
+    r"(?:\bsoh\b|stan\w*\s+bateri\w*|zdrowie\s+bateri\w*|battery\s+health)[^0-9%]{0,15}(\d{2,3})\s*%"
+    r"|(\d{2,3})\s*%\s*soh\b",
+    re.IGNORECASE,
+)
 
 @dataclass(frozen=True)
 class ParsedPrice:
@@ -102,3 +106,14 @@ def parse_range_wltp(text: str | None) -> int | None:
     if not match:
         return None
     return int(match.group(1) or match.group(2))
+
+
+def parse_soh(text: str | None) -> int | None:
+    """Stan zdrowia baterii (SOH) w % z opisu; tylko wartości 50–100."""
+    if not text:
+        return None
+    match = _SOH.search(text)
+    if not match:
+        return None
+    value = int(match.group(1) or match.group(2))
+    return value if 50 <= value <= 100 else None

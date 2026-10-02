@@ -6,6 +6,7 @@ import asyncio
 import logging
 import sys
 import webbrowser
+from datetime import datetime
 from pathlib import Path
 from typing import Annotated
 
@@ -16,11 +17,12 @@ from rich.table import Table
 
 from evradar.config import ROOT_DIR, SourceConfig, load_models_config, load_sources_config
 from evradar.demo import synthetic_report_data
+from evradar.health import source_verdict
 from evradar.models import ReportData, SourceResult, SourceStatus
 from evradar.notify import notify_new_offers, notify_source_problems
 from evradar.report import build_alt_links, write_report
 from evradar.runner import run_scan
-from evradar.storage import Storage
+from evradar.storage import Storage, make_backup
 
 app = typer.Typer(help="EV Radar — agregator ofert aut elektrycznych.", no_args_is_help=True)
 console = Console()
@@ -36,12 +38,20 @@ def _main() -> None:
 DB_PATH = ROOT_DIR / "data" / "evradar.db"
 OUT_DIR = ROOT_DIR / "out"
 DEBUG_DIR = ROOT_DIR / "debug"
+BACKUP_DIR = ROOT_DIR / "data" / "backups"
 
 _STATUS_STYLE = {
     SourceStatus.OK: "[green]OK[/]",
     SourceStatus.ERROR: "[red]BŁĄD[/]",
     SourceStatus.SKIPPED: "[dim]POMINIĘTE[/]",
     SourceStatus.STALE: "[yellow]DO AKTUALIZACJI[/]",
+}
+_VERDICT_STYLE = {
+    "ok": "[green]ok[/]",
+    "drop": "[yellow]podejrzany spadek ofert[/]",
+    "error": "[red]błąd[/]",
+    "stale": "[yellow]parser nie zwraca ofert[/]",
+    "skipped": "[dim]pominięte[/]",
 }
 
 
@@ -142,6 +152,8 @@ def run(
                 on_source_done=lambda r: _progress(r),
             )
         )
+        if not dry_run:
+            make_backup(storage, BACKUP_DIR, day=f"{data.run.started_at:%Y%m%d}")
     finally:
         storage.close()
     _summary(data)
@@ -198,6 +210,45 @@ def sources() -> None:
             str(row["offers_count"]) if row else "—",
             (s.reason if not s.enabled else (row["error"] or row["note"] or "") if row else "")
             or "",
+        )
+    console.print(table)
+
+
+@app.command()
+def backup(keep: Annotated[int, typer.Option(help="Ile kopii zachować")] = 14) -> None:
+    """Tworzy kopię bazy w data/backups (dzienna, z rotacją)."""
+    storage = Storage(DB_PATH)
+    try:
+        path = make_backup(storage, BACKUP_DIR, day=f"{datetime.now():%Y%m%d}", keep=keep)
+    finally:
+        storage.close()
+    console.print(f"Kopia: {path}")
+
+
+@app.command()
+def health() -> None:
+    """Zdrowie źródeł: liczba ofert w ostatnich przebiegach i wykryte spadki."""
+    storage = Storage(DB_PATH)
+    try:
+        history = storage.source_history()
+    finally:
+        storage.close()
+    table = Table(title="Zdrowie źródeł (ostatnie przebiegi)")
+    for col in ("Źródło", "Ostatni status", "Ofert", "Mediana wcześniej", "Historia", "Ocena"):
+        table.add_column(col)
+    for s in load_sources_config().sources:
+        runs = history.get(s.id, [])
+        if not runs:
+            table.add_row(s.id, "—", "—", "—", "", "[dim]brak danych[/]")
+            continue
+        verdict, ref = source_verdict(runs)
+        table.add_row(
+            s.id,
+            _STATUS_STYLE[SourceStatus(runs[-1][1])],
+            str(runs[-1][2]),
+            str(ref) if ref is not None else "—",
+            " ".join(str(n) for _, _, n in runs),
+            _VERDICT_STYLE[verdict],
         )
     console.print(table)
 

@@ -115,6 +115,24 @@ td.wrap { white-space: normal; min-width: 220px; }
 tr.fav .ico.star { color: #f59e0b; border-color: #f59e0b; }
 tr.dismissed { opacity: .5; }
 .toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+.bars { display: block; margin-top: 6px; }
+.bars rect { fill: var(--new); } .bars rect.err { fill: var(--err); } .bars rect.stale { fill: var(--drop); }
+.bars rect.skip { fill: var(--line); }
+.badge.soh { background: var(--new-bg); color: var(--new); }
+.ranges { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+.ranges label { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--muted); }
+.ranges output { color: var(--text); font-weight: 650; min-width: 74px; }
+.ranges input[type=range] { width: 150px; accent-color: var(--accent); }
+.ico.cmp-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+dialog#cmp { border: 0; border-radius: var(--radius); padding: 0; max-width: min(960px, 96vw); width: 100%;
+  background: var(--card); color: var(--text); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+dialog#cmp::backdrop { background: rgba(0,0,0,.5); }
+.cmp-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.cmp-head h3 { margin: 0; font-size: 1.05rem; }
+#cmp-body { overflow-x: auto; padding: 4px 8px 12px; }
+#cmp-body td.best { color: var(--new); font-weight: 700; }
+#cmp-body th { position: static; cursor: default; text-transform: none; }
+table.trend td.up { color: var(--err); } table.trend td.down { color: var(--new); }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
@@ -166,6 +184,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       {% if o.mileage_km is not none %}<span>{{ o.mileage_km|km }}</span>{% endif %}
       {% if o.battery_kwh %}<span>{{ o.battery_kwh|round(1) }} kWh</span>{% endif %}
       {% if o.range_km_wltp %}<span>{{ o.range_km_wltp }} km WLTP</span>{% endif %}
+      {% if o.soh_pct %}<span>SOH {{ o.soh_pct }}%</span>{% endif %}
       {% if o.location %}<span>{{ o.location }}</span>{% endif %}
     </div>
     {% if diff and diff.old_price is not none and diff.new_price is not none %}
@@ -215,6 +234,10 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       {% if s.status.value == 'STALE' %}<div class="msg">Źródło wymaga aktualizacji — parser nie zwrócił ofert (zmiana struktury strony?).</div>{% endif %}
       {% if s.note %}<div class="msg">{{ s.note }}</div>{% endif %}
       {% if s.error %}<div class="msg">{{ s.error[:200] }}</div>{% endif %}
+      {% set h = health.get(s.source) %}
+      {% if h %}{{ h.bars }}
+        {% if h.verdict == 'drop' %}<div class="msg">⚠ Podejrzany spadek liczby ofert (zwykle ok. {{ h.ref }}).</div>{% endif %}
+      {% endif %}
     </div>
     {% endfor %}
   </section>
@@ -251,9 +274,16 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
       {% for value, n in items %}<button type="button" class="chip" aria-pressed="false" data-value="{{ value }}">{{ value }}<i>{{ n }}</i></button>{% endfor %}
     </div>
     {% endfor %}
+    <div class="ranges">
+      <label>Cena do <input type="range" id="r-price" aria-label="Maksymalna cena"><output id="o-price"></output></label>
+      <label>Przebieg do <input type="range" id="r-km" aria-label="Maksymalny przebieg"><output id="o-km"></output></label>
+      <label>Rocznik od <input type="range" id="r-year" aria-label="Minimalny rocznik"><output id="o-year"></output></label>
+      <button type="button" class="chip" id="reset-ranges">Wyczyść suwaki</button>
+    </div>
     <div class="toggles">
       <button type="button" class="chip" id="only-fav" aria-pressed="false">★ Tylko obserwowane<i id="fav-count">0</i></button>
       <button type="button" class="chip" id="show-dismissed" aria-pressed="false">Pokaż ukryte<i id="dismissed-count">0</i></button>
+      <button type="button" class="chip" id="compare-btn" disabled>⇄ Porównaj<i id="cmp-count">0</i></button>
       <button type="button" class="chip" id="export-csv">⬇ Eksport CSV (widoczne)</button>
     </div>
   </div>
@@ -271,6 +301,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         <tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}"
             data-year="{{ o.year or '' }}" data-km="{{ o.mileage_km if o.mileage_km is not none else '' }}" data-gross="{{ o.price_gross_pln or '' }}" data-net="{{ o.price_net_pln or '' }}"
             data-title="{{ o.title_raw }}" data-loc="{{ o.location or '' }}" data-url="{{ o.url }}" data-mkt="{{ '%.1f'|format(market[o.offer_id].pct) if o.offer_id in market else '' }}"
+            data-seller="{{ seller_labels.get(o.seller_type, '') }}" data-soh="{{ o.soh_pct or '' }}" data-listed="{{ o.listed_at|short_date if o.listed_at else '' }}" data-kwh="{{ o.battery_kwh or '' }}"
             data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ source_names.get(o.source, o.source))|lower }}">
           <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
             <div class="veh">
@@ -280,6 +311,11 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
                 {% if o.offer_id in new_ids %}<span class="badge new">NOWA</span>{% endif %}
                 {% if o.offer_id in drop_ids %}<span class="badge drop">OBNIŻKA</span>{% endif %}
                 <br><small>{{ o.title_raw }}{% if o.location %} · {{ o.location }}{% endif %}</small>
+                {% if o.seller_type or o.soh_pct or o.listed_at %}<br>
+                  {% if o.seller_type %}<span class="badge">{{ seller_labels[o.seller_type] }}</span>{% endif %}
+                  {% if o.soh_pct %}<span class="badge soh" title="Stan zdrowia baterii z opisu ogłoszenia">SOH {{ o.soh_pct }}%</span>{% endif %}
+                  {% if o.listed_at %}<span class="badge" title="Data dodania ogłoszenia">dodano {{ o.listed_at|short_date }}</span>{% endif %}
+                {% endif %}
               </div>
             </div>
           </td>
@@ -293,6 +329,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
           <td><div class="act">
             <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
             <button type="button" class="ico" data-act="hide" title="Ukryj / przywróć" aria-label="Ukryj">✕</button>
+            <button type="button" class="ico" data-act="cmp" title="Dodaj do porównania (maks. 3)" aria-label="Porównaj">⇄</button>
             <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a>
           </div></td>
         </tr>
@@ -301,6 +338,30 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     </table>
   </div>
   <div class="empty" id="no-match" hidden style="margin-top:10px">Brak ofert spełniających kryteria.</div>
+
+  <dialog id="cmp" aria-labelledby="cmp-title">
+    <div class="cmp-head"><h3 id="cmp-title">Porównanie ofert</h3>
+      <button type="button" class="chip" id="cmp-close">Zamknij ✕</button></div>
+    <div id="cmp-body"></div>
+  </dialog>
+
+  <h2>📊 Trend cen modeli</h2>
+  {% if trend and trend|selectattr('change_pct', 'ne', none)|list %}
+  <p class="sub" style="margin:-6px 0 12px">Mediana ceny brutto aktywnych ofert modelu w kolejnych dniach skanu (min. 3 oferty modelu).</p>
+  <div class="tbl-wrap"><table class="trend">
+    <thead><tr><th class="nosort">Model</th><th class="nosort num">Mediana</th><th class="nosort num">Ofert</th>
+      <th class="nosort num">Zmiana</th><th class="nosort">Od</th><th class="nosort">Wykres</th></tr></thead>
+    <tbody>
+    {% for t in trend %}
+      <tr><td><b>{{ t.model }}</b></td><td class="num">{{ t.latest|pln }}</td><td class="num">{{ t.n }}</td>
+        {% if t.change_pct is not none %}
+        <td class="num {{ 'down' if t.change_pct < 0 else 'up' if t.change_pct > 0 else '' }}">{{ '%+.1f'|format(t.change_pct)|replace('-', '−') }}%</td>
+        {% else %}<td class="num muted">—</td>{% endif %}
+        <td>{{ t.since }}</td><td>{{ t.spark or '—' }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}<div class="empty">Trend pojawi się po kolejnych skanach — mediany modeli są zapisywane od {{ trend[0].since if trend else run_date }}.</div>{% endif %}
 
   <h2>⚠️ Do weryfikacji <span class="count">{{ d.uncertain|length }}</span></h2>
   {% if d.uncertain %}
@@ -382,6 +443,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         var set = active[g];
         if (ok && set.length && set.indexOf(tr.dataset[g]) === -1) ok = false;
       });
+      if (ok && !inRanges(tr)) ok = false;
       tr.classList.toggle('hidden', !ok);
       if (ok) shown++;
     });
@@ -420,12 +482,107 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     var b = e.target.closest('button[data-act]');
     if (!b) return;
     var id = b.closest('tr').dataset.id, want = b.dataset.act;
+    if (want === 'cmp') { toggleCompare(id); return; }
     if (marks[id] === want) delete marks[id]; else marks[id] = want;
     save();
     apply();
   });
 
   q.addEventListener('input', apply);
+
+  function numOf(v) { return v === '' || v == null ? NaN : parseFloat(v); }
+  var RANGES = [
+    { id: 'price', step: 5000, mode: 'max', get: function (tr) { var g = numOf(tr.dataset.gross); return isNaN(g) ? numOf(tr.dataset.net) : g; },
+      fmt: function (v) { return v.toLocaleString('pl-PL') + '\u00a0z\u0142'; } },
+    { id: 'km', step: 5000, mode: 'max', get: function (tr) { return numOf(tr.dataset.km); },
+      fmt: function (v) { return v.toLocaleString('pl-PL') + '\u00a0km'; } },
+    { id: 'year', step: 1, mode: 'min', get: function (tr) { return numOf(tr.dataset.year); },
+      fmt: function (v) { return String(v); } }
+  ];
+  RANGES.forEach(function (r) {
+    r.input = document.getElementById('r-' + r.id);
+    r.out = document.getElementById('o-' + r.id);
+    var vals = rows.map(r.get).filter(function (v) { return !isNaN(v); });
+    if (!vals.length) { r.input.parentNode.hidden = true; r.off = true; return; }
+    r.lo = Math.floor(Math.min.apply(null, vals) / r.step) * r.step;
+    r.hi = Math.ceil(Math.max.apply(null, vals) / r.step) * r.step;
+    if (r.lo === r.hi) { r.input.parentNode.hidden = true; r.off = true; return; }
+    r.input.min = r.lo; r.input.max = r.hi; r.input.step = r.step;
+    r.reset = function () { r.input.value = r.mode === 'max' ? r.hi : r.lo; r.out.textContent = r.fmt(parseFloat(r.input.value)); };
+    r.reset();
+    r.input.addEventListener('input', function () { r.out.textContent = r.fmt(parseFloat(r.input.value)); apply(); });
+  });
+  function inRanges(tr) {
+    for (var i = 0; i < RANGES.length; i++) {
+      var r = RANGES[i];
+      if (r.off) continue;
+      var limit = parseFloat(r.input.value);
+      if (r.mode === 'max' ? limit >= r.hi : limit <= r.lo) continue;
+      var v = r.get(tr);
+      if (isNaN(v) || (r.mode === 'max' ? v > limit : v < limit)) return false;
+    }
+    return true;
+  }
+  document.getElementById('reset-ranges').addEventListener('click', function () {
+    RANGES.forEach(function (r) { if (!r.off) r.reset(); });
+    apply();
+  });
+
+  var cmp = [], cmpBtn = document.getElementById('compare-btn'), dlg = document.getElementById('cmp');
+  function toggleCompare(id) {
+    var i = cmp.indexOf(id);
+    if (i !== -1) cmp.splice(i, 1); else { cmp.push(id); if (cmp.length > 3) cmp.shift(); }
+    rows.forEach(function (tr) { tr.querySelector('[data-act=cmp]').classList.toggle('cmp-on', cmp.indexOf(tr.dataset.id) !== -1); });
+    document.getElementById('cmp-count').textContent = cmp.length;
+    cmpBtn.disabled = cmp.length < 2;
+  }
+  var CMP_FIELDS = [
+    ['Model', 'model'], ['Wersja', 'title'], ['Rok', 'year', 'max'],
+    ['Przebieg', 'km', 'min', function (v) { return v.toLocaleString('pl-PL') + ' km'; }],
+    ['Cena brutto', 'gross', 'min', function (v) { return v.toLocaleString('pl-PL') + ' z\u0142'; }],
+    ['Cena netto', 'net', 'min', function (v) { return v.toLocaleString('pl-PL') + ' z\u0142'; }],
+    ['Vs rynek', 'mkt', 'min', function (v) { return (v > 0 ? '+' : '') + Math.round(v) + '%'; }],
+    ['Bateria', 'kwh', 'max', function (v) { return v + ' kWh'; }],
+    ['SOH baterii', 'soh', 'max', function (v) { return v + '%'; }],
+    ['Sprzedawca', 'seller'], ['Dodano', 'listed'], ['Miasto', 'loc'], ['\u0179r\u00f3d\u0142o', 'source']
+  ];
+  function cell(tag, text) { var c = document.createElement(tag); c.textContent = text; return c; }
+  function openCompare() {
+    var picked = cmp.map(function (id) { return rows.filter(function (tr) { return tr.dataset.id === id; })[0]; });
+    var t = document.createElement('table');
+    CMP_FIELDS.forEach(function (f) {
+      var vals = picked.map(function (tr) { return tr.dataset[f[1]]; });
+      if (vals.every(function (v) { return !v; })) return;
+      var nums = vals.map(numOf), best = null;
+      if (f[2] && nums.filter(function (v) { return !isNaN(v); }).length > 1) {
+        var ok = nums.filter(function (v) { return !isNaN(v); });
+        best = f[2] === 'min' ? Math.min.apply(null, ok) : Math.max.apply(null, ok);
+      }
+      var tr = document.createElement('tr');
+      tr.appendChild(cell('th', f[0]));
+      vals.forEach(function (v, i) {
+        var c = cell('td', !v ? '\u2014' : f[3] && !isNaN(nums[i]) ? f[3](nums[i]) : v);
+        if (best !== null && nums[i] === best) c.className = 'best';
+        tr.appendChild(c);
+      });
+      t.appendChild(tr);
+    });
+    var links = document.createElement('tr');
+    links.appendChild(cell('th', 'Link'));
+    picked.forEach(function (p) {
+      var c = document.createElement('td'), a = document.createElement('a');
+      a.textContent = 'Oferta \u2197';
+      if (/^https?:\/\//.test(p.dataset.url)) { a.href = p.dataset.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+      c.appendChild(a); links.appendChild(c);
+    });
+    t.appendChild(links);
+    var body = document.getElementById('cmp-body');
+    body.textContent = '';
+    body.appendChild(t);
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+  cmpBtn.addEventListener('click', openCompare);
+  document.getElementById('cmp-close').addEventListener('click', function () { dlg.close(); });
   Array.prototype.forEach.call(document.querySelectorAll('.chips'), function (box) {
     var group = box.dataset.group;
     active[group] = [];

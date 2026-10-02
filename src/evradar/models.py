@@ -12,6 +12,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from pydantic import BaseModel, Field
 
 PriceBasis = Literal["net", "gross"]
+SellerType = Literal["dealer", "private"]
 
 _TRACKING_PARAM = re.compile(r"^(utm_|fbclid|gclid|_ga)", re.IGNORECASE)
 
@@ -58,6 +59,9 @@ class RawListing(BaseModel):
     drivetrain: str | None = None
     location: str | None = None
     image_url: str | None = None
+    seller_type: SellerType | None = None
+    listed_at: datetime | None = None
+    soh_pct: int | None = None
 
 
 class Offer(BaseModel):
@@ -81,6 +85,9 @@ class Offer(BaseModel):
     drivetrain: str | None = None
     location: str | None = None
     image_url: str | None = None
+    seller_type: SellerType | None = None
+    listed_at: datetime | None = None
+    soh_pct: int | None = None
     first_seen_at: datetime = Field(default_factory=utcnow)
     last_seen_at: datetime = Field(default_factory=utcnow)
     uncertain_powertrain: bool = False
@@ -174,3 +181,7 @@ class ReportData(BaseModel):
     uncertain: list[Offer]
     # offer_id -> [(data ISO, cena)] tylko dla ofert z co najmniej dwiema różnymi cenami
     price_history: dict[str, list[tuple[str, int]]] = Field(default_factory=dict)
+    # "Marka Model" -> [(data ISO, mediana brutto, liczba ofert)]
+    model_trend: dict[str, list[tuple[str, int, int]]] = Field(default_factory=dict)
+    # source_id -> [(data ISO, status, liczba ofert)] z ostatnich przebiegów
+    source_history: dict[str, list[tuple[str, str, int]]] = Field(default_factory=dict)

@@ -13,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
 from evradar.config import Alternatives
+from evradar.health import Run, source_verdict
 from evradar.models import Offer, OfferDiff, ReportData
 from evradar.notify import problem_sources
 
@@ -22,6 +23,7 @@ NBSP = "\u00a0"
 SPARK_W, SPARK_H, SPARK_PAD = 56, 16, 2
 MIN_GROUP_YEAR, MIN_GROUP_MODEL = 4, 5  # minimalna liczba ofert do wyliczenia mediany
 
+SELLER_LABELS = {"dealer": "Firma", "private": "Prywatna"}
 AltRow = tuple[str, list[tuple[str, str]]]  # (etykieta, [(portal, url)])
 
 
@@ -126,6 +128,68 @@ def _sparkline(points: list[tuple[str, int]]) -> Markup:
     )
 
 
+BAR_W, BAR_H, BAR_GAP = 7, 22, 2
+_BAR_CLASS = {"OK": "ok", "ERROR": "err", "STALE": "stale", "SKIPPED": "skip"}
+
+
+class HealthRow(NamedTuple):
+    """Zdrowie jednego źródła: ocena, mediana z poprzednich przebiegów i wykres słupkowy."""
+
+    verdict: str
+    ref: int | None
+    bars: Markup
+
+
+def _health_bars(runs: list[Run]) -> Markup:
+    """Słupki liczby ofert z ostatnich przebiegów (kolor = status)."""
+    top = max((n for _, _, n in runs), default=0) or 1
+    width = len(runs) * (BAR_W + BAR_GAP)
+    parts = []
+    for i, (stamp, status, n) in enumerate(runs):
+        h = max(2, round(n / top * (BAR_H - 2))) if n else 2
+        when = datetime.fromisoformat(stamp).astimezone(LOCAL_TZ)
+        css = _BAR_CLASS.get(status, "skip")
+        parts.append(
+            f'<rect class="{css}" x="{i * (BAR_W + BAR_GAP)}" y="{BAR_H - h}" '
+            f'width="{BAR_W}" height="{h}" rx="1">'
+            f"<title>{when:%d.%m %H:%M}: {n} ofert ({status})</title></rect>"
+        )
+    return Markup(
+        f'<svg class="bars" width="{width}" height="{BAR_H}" viewBox="0 0 {width} {BAR_H}" '
+        f'role="img" aria-label="Liczba ofert w ostatnich przebiegach">{"".join(parts)}</svg>'
+    )
+
+
+def health_rows(data: ReportData) -> dict[str, HealthRow]:
+    rows: dict[str, HealthRow] = {}
+    for source, runs in data.source_history.items():
+        if runs:
+            verdict, ref = source_verdict(runs)
+            rows[source] = HealthRow(verdict, ref, _health_bars(runs))
+    return rows
+
+
+class TrendRow(NamedTuple):
+    model: str
+    latest: int
+    n: int
+    change_pct: float | None
+    since: str
+    spark: Markup
+
+
+def trend_rows(trend: dict[str, list[tuple[str, int, int]]]) -> list[TrendRow]:
+    """Mediana ceny modelu w czasie (jeden punkt na dzień skanu), posortowane po modelu."""
+    rows = []
+    for model, points in sorted(trend.items()):
+        first, last = points[0], points[-1]
+        change = (last[1] - first[1]) / first[1] * 100 if len(points) >= 2 else None
+        since = _short_date(datetime.fromisoformat(first[0]))
+        spark = _sparkline([(t, m) for t, m, _ in points])
+        rows.append(TrendRow(model, last[1], last[2], change, since, spark))
+    return rows
+
+
 def _offer_sort_key(o: Offer) -> tuple[str, str, int]:
     price = o.price_gross_pln if o.price_gross_pln is not None else o.price_net_pln
     return (o.brand, o.model_matched, price if price is not None else 10**9)
@@ -137,11 +201,15 @@ def _chips(
     brands = Counter(o.brand for o in offers)
     models = Counter(f"{o.brand} {o.model_matched}" for o in offers)
     sources = Counter(names.get(o.source, o.source) for o in offers)
-    return [
+    sellers = Counter(SELLER_LABELS[o.seller_type] for o in offers if o.seller_type)
+    groups = [
         ("brand", "Marka", sorted(brands.items())),
         ("model", "Model", sorted(models.items())),
         ("source", "Źródło", sorted(sources.items())),
     ]
+    if sellers:
+        groups.append(("seller", "Sprzedawca", sorted(sellers.items())))
+    return groups
 
 
 def render_report(
@@ -187,6 +255,9 @@ def render_report(
         confirmed=confirmed,
         chip_groups=_chips(confirmed, names),
         market=market_refs(confirmed),
+        health=health_rows(data),
+        seller_labels=SELLER_LABELS,
+        trend=trend_rows(data.model_trend),
         problems=problem_sources(data),
         run_iso=data.run.started_at.isoformat(),
         new_ids={x.offer.offer_id for x in data.new},
