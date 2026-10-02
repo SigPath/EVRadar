@@ -130,8 +130,8 @@ def run(
         bool, typer.Option("--headless/--no-headless", help="Widoczna przeglądarka do debugowania")
     ] = True,
     dry_run: Annotated[bool, typer.Option(help="Bez zapisu do bazy")] = False,
-    no_open: Annotated[
-        bool, typer.Option("--no-open", help="Nie otwieraj raportu w przeglądarce")
+    open_report: Annotated[
+        bool, typer.Option("--open/--no-open", help="Otwórz raport w przeglądarce po skanie")
     ] = False,
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
 ) -> None:
@@ -157,7 +157,7 @@ def run(
     finally:
         storage.close()
     _summary(data)
-    _finish(data, first_run, open_browser=not no_open)
+    _finish(data, first_run, open_browser=open_report)
     if models.notifications.enabled:
         notify_new_offers(models.notifications, data)
         notify_source_problems(models.notifications, data)
@@ -174,7 +174,7 @@ def report(
     last: Annotated[
         bool, typer.Option("--last", help="Przegeneruj raport z ostatniego skanu")
     ] = True,
-    no_open: Annotated[bool, typer.Option("--no-open")] = False,
+    open_report: Annotated[bool, typer.Option("--open/--no-open")] = False,
 ) -> None:
     """Przegenerowuje raport z bazy, bez skanowania."""
     storage = Storage(DB_PATH)
@@ -185,7 +185,7 @@ def report(
     if data is None:
         console.print("[red]Baza jest pusta — najpierw uruchom: evradar run[/]")
         raise typer.Exit(1)
-    _finish(data, first_run=False, open_browser=not no_open)
+    _finish(data, first_run=False, open_browser=open_report)
 
 
 @app.command()
@@ -254,11 +254,11 @@ def health() -> None:
 
 
 @app.command("demo-report")
-def demo_report(no_open: Annotated[bool, typer.Option("--no-open")] = False) -> None:
+def demo_report(open_report: Annotated[bool, typer.Option("--open/--no-open")] = False) -> None:
     """Raport na danych syntetycznych (podgląd wyglądu)."""
     path = _write(synthetic_report_data(), OUT_DIR / "demo")
     console.print(f"Raport demo: {path}")
-    if not no_open:
+    if open_report:
         webbrowser.open(path.resolve().as_uri())
 
 

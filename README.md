@@ -97,7 +97,7 @@ Po kilkunastu sekundach w terminalu pojawi się tabela z wynikami, a raport otwo
 | `uv run evradar run` | skan wszystkich źródeł + raport |
 | `uv run evradar run --source mauto,ayvens` | tylko wybrane źródła |
 | `uv run evradar run --dry-run` | skan bez zapisu do bazy |
-| `uv run evradar run --no-open` | bez otwierania przeglądarki |
+| `uv run evradar run --open` | otwiera raport w przeglądarce po skanie (domyślnie nie otwiera) |
 | `uv run evradar report --last` | przegenerowanie raportu z bazy, bez skanowania |
 | `uv run evradar sources` | lista źródeł i status ostatniego skanu |
 | `uv run evradar health` | zdrowie źródeł: liczba ofert z ostatnich przebiegów i wykryte spadki |
