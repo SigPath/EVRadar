@@ -51,6 +51,7 @@ def test_verdict_detects_drop_and_failures() -> None:
     assert source_verdict([*history, run("ERROR", 0)])[0] == "error"
     assert source_verdict([*history, run("STALE", 0)])[0] == "stale"
     assert source_verdict([run("OK", 5)]) == ("ok", None)
+    assert source_verdict([run("OK", 1), run("OK", 0)]) == ("ok", 1)
 
 
 def test_source_history_keeps_last_runs() -> None:

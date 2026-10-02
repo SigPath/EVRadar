@@ -49,7 +49,7 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 | **Automarket / PKO Leasing** (`automarket`) | `__NUXT_DATA__` | netto (oferty dla firm) lub brutto |
 | **Stellantis &You** (`stellantis`) | publiczny indeks Algolia używany przez stronę | brutto |
 | **Poleasingowe.pl** (`poleasingowe`) | HTML (aukcje) | netto |
-| **Otomoto** (`otomoto`) | SSR: `__NEXT_DATA__` → `advertSearch` (per model, paginacja) | brutto lub netto (flaga `isGross`) |
+| **Otomoto** (`otomoto`) | SSR: `__NEXT_DATA__` → `advertSearch` (per model, paginacja; bez ofert „Uszkodzony: Tak”) | brutto lub netto (flaga `isGross`) |
 | **Autoplac** (`autoplac`) | SSR Angular: `ng-state` → lista ofert (per model, `?p=N`) | brutto + netto (gdy FV) |
 | **FindCar** (`findcar`) | SSR Angular: `ng-state` → TanStack Query (per marka, `/znajdz-samochod/N`) | brutto |
 
@@ -207,12 +207,13 @@ uv run mypy           # typy (strict)
 
 ```text
 src/evradar/
-├── cli.py            # polecenia: run | report | sources | demo-report
+├── cli.py            # polecenia: run | report | sources | health | backup | demo-report
 ├── runner.py         # orkiestracja skanu, wykrywanie zmian struktury stron
 ├── scrapers/         # po jednym adapterze na źródło (wykrywane automatycznie)
 ├── matching.py       # normalizacja nazw, dopasowanie modeli, is_electric()
 ├── parsing.py        # ceny, VAT 23% (netto ⇄ brutto)
-├── storage.py        # SQLite (oferty, historia cen, przebiegi skanów)
+├── storage.py        # SQLite (oferty, historia cen, mediany modeli, przebiegi skanów, kopia bazy)
+├── health.py         # ocena zdrowia źródła z historii liczby ofert
 ├── diff.py           # NEW / PRICE_DROP / PRICE_UP / GONE / BACK
 ├── report.py         # + templates/report.html.j2 — samodzielny raport HTML
 ├── robots.py         # respektowanie robots.txt

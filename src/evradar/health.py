@@ -5,6 +5,7 @@ from __future__ import annotations
 from statistics import median
 
 DROP_RATIO = 0.5  # spadek poniżej połowy zwykłej liczby ofert uznajemy za podejrzany
+MIN_REF = 3  # przy mniejszej typowej liczbie ofert spadki to szum
 REF_WINDOW = 7
 
 Run = tuple[str, str, int]  # (data ISO, status, liczba ofert)
@@ -20,5 +21,5 @@ def source_verdict(runs: list[Run]) -> tuple[str, int | None]:
     ref = round(median(ok_counts)) if ok_counts else None
     status, count = last[1], last[2]
     if status == "OK":
-        return ("drop" if ref and count < ref * DROP_RATIO else "ok"), ref
+        return ("drop" if ref and ref >= MIN_REF and count < ref * DROP_RATIO else "ok"), ref
     return status.lower(), ref
