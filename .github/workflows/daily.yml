@@ -1,22 +1,10 @@
-name: Daily EV Radar
+name: Scan EV Radar (opcjonalny, ręczny)
 
+# Tylko ręczne uruchomienie; raport zostaje artefaktem i NIE trafia na GitHub Pages.
+# Część serwisów (np. VWFS) blokuje IP serwerów GitHuba, więc pełny raport powstaje lokalnie:
+# publish_report.ps1 -Scan (publikacja na gałąź gh-pages).
 on:
-  schedule:
-    # GitHub Actions używa UTC — dwa wpisy pokrywają czas letni i zimowy; krok "Guard" przepuszcza tylko 07:xx w Warszawie
-    - cron: "0 5 * * *"
-    - cron: "0 6 * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "config/**"
-      - "src/**"
-      - "pyproject.toml"
-      - ".github/workflows/daily.yml"
-
-concurrency:
-  group: evradar-daily
-  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -25,77 +13,22 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    outputs:
-      publish: ${{ steps.guard.outputs.run }}
     steps:
-      - name: Guard (07:00 Europe/Warsaw)
-        id: guard
-        run: |
-          hour=$(TZ=Europe/Warsaw date +%H)
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$hour" != "07" ]; then
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - uses: actions/checkout@v4
-        if: steps.guard.outputs.run == 'true'
 
       - uses: astral-sh/setup-uv@v5
-        if: steps.guard.outputs.run == 'true'
 
       - name: Install
-        if: steps.guard.outputs.run == 'true'
         run: uv sync --frozen
 
-      - name: Restore SQLite state
-        if: steps.guard.outputs.run == 'true'
-        uses: actions/cache@v4
-        with:
-          path: data/evradar.db
-          key: evradar-db-${{ github.run_id }}
-          restore-keys: evradar-db-
-
       - name: Scan
-        if: steps.guard.outputs.run == 'true'
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: uv run evradar run --no-open
 
-      - name: Prepare Pages site
-        if: steps.guard.outputs.run == 'true'
-        run: |
-          mkdir -p site
-          cp out/index.html site/index.html
-
-      - name: Upload Pages artifact
-        if: steps.guard.outputs.run == 'true'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
       - name: Upload report
-        if: steps.guard.outputs.run == 'true' && always()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: evradar-report
-          path: |
-            out/*.html
-            debug/*.html
+          path: out/*.html
           if-no-files-found: warn
           retention-days: 30
-
-  deploy:
-    needs: scan
-    if: needs.scan.outputs.publish == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4

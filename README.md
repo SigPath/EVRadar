@@ -136,7 +136,7 @@ Register-ScheduledTask -TaskName "EVRadar Daily Report" -Action $action -Trigger
            -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)
 ```
 
-Workflow [`daily.yml`](.github/workflows/daily.yml) (skan na GitHub Actions, raport jako artefakt) jest opcjonalny; skan z serwerów GitHuba pomija źródła blokujące adresy IP centrów danych. [`ci.yml`](.github/workflows/ci.yml) uruchamia lint, typy i testy przy każdym pushu.
+Workflow [`daily.yml`](.github/workflows/daily.yml) to opcjonalny, ręcznie uruchamiany skan na GitHub Actions (raport tylko jako artefakt, bez publikacji na Pages); skan z serwerów GitHuba pomija źródła blokujące adresy IP centrów danych. [`ci.yml`](.github/workflows/ci.yml) uruchamia lint, typy i testy przy każdym pushu.
 
 **Powiadomienia (opcjonalne):** w `config/models.yaml` ustaw `notifications.enabled: true`, a w środowisku `TELEGRAM_BOT_TOKEN` i `TELEGRAM_CHAT_ID`. Wiadomość wychodzi tylko wtedy, gdy są nowe oferty.
 
