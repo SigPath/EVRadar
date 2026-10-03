@@ -219,6 +219,19 @@ class Storage:
 
     # --- zapis ------------------------------------------------------------------
 
+    def deactivate_untracked(self, tracked: set[tuple[str, str]]) -> int:
+        """Wyłącza oferty modeli usuniętych z configu (bez wpisu w różnicach „znikło”)."""
+        stale = [
+            (r["offer_id"],)
+            for r in self.conn.execute(
+                "SELECT offer_id, brand, model_matched FROM offers WHERE active = 1"
+            )
+            if (r["brand"], r["model_matched"]) not in tracked
+        ]
+        with self.conn:
+            self.conn.executemany("UPDATE offers SET active = 0 WHERE offer_id = ?", stale)
+        return len(stale)
+
     def save_run(
         self,
         started_at: datetime,

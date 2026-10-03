@@ -54,4 +54,4 @@ def test_new_offers_use_the_same_table_rows_as_the_main_list() -> None:
     section = html.split("Nowe oferty")[1].split("<h2>")[0]
     assert '<table class="offers">' in section and "<article" not in html
     assert section.count("<tr data-id=") == len(data.new)
-    assert 'data-act="cmp"' in section and "Vs rynek" in section
+    assert 'data-act="fav"' in section and "Vs rynek" in section

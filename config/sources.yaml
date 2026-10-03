@@ -41,18 +41,12 @@ sources:
         - kia/ev6
         - hyundai/kona
         - hyundai/ioniq-5
-        - hyundai/ioniq-6
         - tesla/model-3
         - tesla/y
-        - tesla/model-s
-        - tesla/model-x
         - volkswagen/id3
         - volkswagen/id4
         - volkswagen/id5
-        - volkswagen/id-7
         - skoda/enyaq
-        - audi/q4
-        - audi/q4-sportback
   autoplac:
     name: "Autoplac"
     url: "https://autoplac.pl"
@@ -67,17 +61,12 @@ sources:
         - kia/ev6
         - hyundai/kona
         - hyundai/ioniq-5
-        - hyundai/ioniq-6
         - tesla/model-3
         - tesla/model-y
-        - tesla/model-s
-        - tesla/model-x
         - volkswagen/id3
         - volkswagen/id4
         - volkswagen/id5
-        - volkswagen/id7
         - skoda/enyaq
-        - audi/q4
   findcar:
     name: "FindCar"
     url: "https://findcar.pl"

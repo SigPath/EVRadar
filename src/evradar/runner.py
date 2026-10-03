@@ -284,6 +284,14 @@ async def run_scan(
         log.info("duplicates_removed", count=removed)
 
     previous = storage.load_offers()
+    tracked = {(t.brand.title(), t.model) for t in models.targets}
+    for prev in previous.values():
+        if (prev.brand, prev.model_matched) not in tracked:
+            prev.active = False
+    if not dry_run:
+        dropped = storage.deactivate_untracked(tracked)
+        if dropped:
+            log.info("untracked_models_deactivated", count=dropped)
     first_run = not previous
     scanned = {r.source for r in results if r.status is SourceStatus.OK}
     current = [o for r in results if r.status is SourceStatus.OK for o in r.offers]

@@ -52,12 +52,14 @@ def test_new_tesla_matches_model_y() -> None:
     assert match is not None and match.model == "Model Y"
 
 
-def test_ioniq_6_is_not_ioniq_5_and_kona_matches() -> None:
+def test_ioniq_6_is_not_matched_as_ioniq_5_and_kona_matches() -> None:
     matcher = ModelMatcher(load_models_config().targets)
     for x in _load():
         m = matcher.match(x)
         if "Ioni" in x.title_raw:
-            expected = "Ioniq 6" if re.search(r"(?i)ioni[qc]\s*6", x.title_raw) else "Ioniq 5"
-            assert m is not None and m.model == expected
+            if re.search(r"(?i)ioni[qc]\s*6", x.title_raw):
+                assert m is None  # Ioniq 6 nie jest sledzony i nie moze przejsc jako Ioniq 5
+            else:
+                assert m is not None and m.model == "Ioniq 5"
         if x.model and x.model.startswith("Kona"):
             assert m is not None and m.model == "Kona Electric"

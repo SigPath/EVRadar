@@ -58,26 +58,27 @@ def test_vw_other_models_rejected(matcher: ModelMatcher) -> None:
 
 @pytest.mark.parametrize(
     "title",
-    ["Audi Q4 e-tron 40", "Audi Q4 Sportback e-tron 35", "AUDI Q4 etron 45 quattro", "Audi Q4 40"],
+    [
+        "Audi Q4 e-tron 40",
+        "Hyundai Ioniq 6 77 kWh",
+        "Volkswagen ID.7 Tourer GTX",
+        "Tesla Model S Plaid",
+        "Tesla Model X Long Range",
+        "Tesla X",
+    ],
 )
-def test_audi_q4_matches(matcher: ModelMatcher, title: str) -> None:
-    m = matcher.match(listing(title, fuel="Elektryczny"))
-    assert m is not None and (m.brand, m.model) == ("Audi", "Q4 e-tron")
-    assert matcher.match(listing("Audi Q5 40 TDI")) is None
+def test_removed_models_are_not_tracked(matcher: ModelMatcher, title: str) -> None:
+    assert matcher.match(listing(title, fuel="Elektryczny")) is None
 
 
 @pytest.mark.parametrize(
     ("title", "brand", "model"),
     [
         ("VW ID.3 Pro", None, "ID.3"),
-        ("Volkswagen ID.7 Tourer GTX", None, "ID.7"),
         ("Skoda Enyaq iV 85", None, "Enyaq"),
         ("Enyaq Coupe", "Škoda", "Enyaq"),
-        ("Hyundai Ioniq 6 77 kWh", None, "Ioniq 6"),
         ("Kia EV6 GT", None, "EV6"),
         ("Kia EV3 Earth", None, "EV3"),
-        ("Tesla Model S Plaid", None, "Model S"),
-        ("Tesla X", "Tesla", "Model X"),
     ],
 )
 def test_added_models_match(

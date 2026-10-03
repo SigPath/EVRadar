@@ -126,15 +126,6 @@ td.srcs a.badge:hover { color: var(--accent); }
 .ranges label { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--muted); }
 .ranges output { color: var(--text); font-weight: 650; min-width: 74px; }
 .ranges input[type=range] { width: 150px; accent-color: var(--accent); }
-.ico.cmp-on { background: var(--accent); border-color: var(--accent); color: #fff; }
-dialog#cmp { border: 0; border-radius: var(--radius); padding: 0; max-width: min(960px, 96vw); width: 100%;
-  background: var(--card); color: var(--text); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
-dialog#cmp::backdrop { background: rgba(0,0,0,.5); }
-.cmp-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
-.cmp-head h3 { margin: 0; font-size: 1.05rem; }
-#cmp-body { overflow-x: auto; padding: 4px 8px 12px; }
-#cmp-body td.best { color: var(--new); font-weight: 700; }
-#cmp-body th { position: static; cursor: default; text-transform: none; }
 table.trend td.up { color: var(--err); } table.trend td.down { color: var(--new); }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
@@ -186,8 +177,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 {% macro offer_row(o, diff=none) %}
 <tr data-id="{{ o.offer_id }}" data-brand="{{ o.brand }}" data-model="{{ o.brand }} {{ o.model_matched }}" data-source="{{ source_names.get(o.source, o.source) }}" data-source-all="{{ offer_sources(o)|join('|') }}"
     data-year="{{ o.year or '' }}" data-km="{{ o.mileage_km if o.mileage_km is not none else '' }}" data-gross="{{ o.price_gross_pln or '' }}" data-net="{{ o.price_net_pln or '' }}"
-    data-title="{{ o.title_raw }}" data-loc="{{ o.location or '' }}" data-url="{{ o.url }}" data-mkt="{{ '%.1f'|format(market[o.offer_id].pct) if o.offer_id in market else '' }}"
-    data-seller="{{ seller_labels.get(o.seller_type, '') }}" data-soh="{{ o.soh_pct or '' }}" data-listed="{{ o.listed_at|short_date if o.listed_at else '' }}" data-kwh="{{ o.battery_kwh or '' }}"
+    data-seller="{{ seller_labels.get(o.seller_type, '') }}"
     data-search="{{ (o.brand ~ ' ' ~ o.model_matched ~ ' ' ~ o.title_raw ~ ' ' ~ (o.location or '') ~ ' ' ~ offer_sources(o)|join(' '))|lower }}">
   <td class="wrap" data-s="{{ o.brand }} {{ o.model_matched }}">
     <div class="veh">
@@ -229,7 +219,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   <td><div class="act">
     <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
     <button type="button" class="ico" data-act="hide" title="Ukryj / przywróć" aria-label="Ukryj">✕</button>
-    <button type="button" class="ico" data-act="cmp" title="Dodaj do porównania (maks. 3)" aria-label="Porównaj">⇄</button>
     <a class="btn" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">Oferta ↗</a>
   </div></td>
 </tr>
@@ -315,7 +304,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     <div class="toggles">
       <button type="button" class="chip" id="only-fav" aria-pressed="false">★ Tylko obserwowane<i id="fav-count">0</i></button>
       <button type="button" class="chip" id="show-dismissed" aria-pressed="false">Pokaż ukryte<i id="dismissed-count">0</i></button>
-      <button type="button" class="chip" id="compare-btn" disabled>⇄ Porównaj<i id="cmp-count">0</i></button>
     </div>
   </div>
   <div class="tbl-wrap">
@@ -327,12 +315,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     </table>
   </div>
   <div class="empty" id="no-match" hidden style="margin-top:10px">Brak ofert spełniających kryteria.</div>
-
-  <dialog id="cmp" aria-labelledby="cmp-title">
-    <div class="cmp-head"><h3 id="cmp-title">Porównanie ofert</h3>
-      <button type="button" class="chip" id="cmp-close">Zamknij ✕</button></div>
-    <div id="cmp-body"></div>
-  </dialog>
 
   <h2>📊 Trend cen modeli</h2>
   {% if trend and trend|selectattr('change_pct', 'ne', none)|list %}
@@ -459,7 +441,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     var b = e.target.closest('table.offers button[data-act]');
     if (!b) return;
     var id = b.closest('tr').dataset.id, want = b.dataset.act;
-    if (want === 'cmp') { toggleCompare(id); return; }
     if (marks[id] === want) delete marks[id]; else marks[id] = want;
     save();
     apply();
@@ -505,61 +486,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     apply();
   });
 
-  var cmp = [], cmpBtn = document.getElementById('compare-btn'), dlg = document.getElementById('cmp');
-  function toggleCompare(id) {
-    var i = cmp.indexOf(id);
-    if (i !== -1) cmp.splice(i, 1); else { cmp.push(id); if (cmp.length > 3) cmp.shift(); }
-    allRows.forEach(function (tr) { tr.querySelector('[data-act=cmp]').classList.toggle('cmp-on', cmp.indexOf(tr.dataset.id) !== -1); });
-    document.getElementById('cmp-count').textContent = cmp.length;
-    cmpBtn.disabled = cmp.length < 2;
-  }
-  var CMP_FIELDS = [
-    ['Model', 'model'], ['Wersja', 'title'], ['Rok', 'year', 'max'],
-    ['Przebieg', 'km', 'min', function (v) { return v.toLocaleString('pl-PL') + ' km'; }],
-    ['Cena brutto', 'gross', 'min', function (v) { return v.toLocaleString('pl-PL') + ' z\u0142'; }],
-    ['Cena netto', 'net', 'min', function (v) { return v.toLocaleString('pl-PL') + ' z\u0142'; }],
-    ['Vs rynek', 'mkt', 'min', function (v) { return (v > 0 ? '+' : '') + Math.round(v) + '%'; }],
-    ['Bateria', 'kwh', 'max', function (v) { return v + ' kWh'; }],
-    ['SOH baterii', 'soh', 'max', function (v) { return v + '%'; }],
-    ['Sprzedawca', 'seller'], ['Dodano', 'listed'], ['Miasto', 'loc'], ['\u0179r\u00f3d\u0142o', 'source']
-  ];
-  function cell(tag, text) { var c = document.createElement(tag); c.textContent = text; return c; }
-  function openCompare() {
-    var picked = cmp.map(function (id) { return allRows.filter(function (tr) { return tr.dataset.id === id; })[0]; });
-    var t = document.createElement('table');
-    CMP_FIELDS.forEach(function (f) {
-      var vals = picked.map(function (tr) { return tr.dataset[f[1]]; });
-      if (vals.every(function (v) { return !v; })) return;
-      var nums = vals.map(numOf), best = null;
-      if (f[2] && nums.filter(function (v) { return !isNaN(v); }).length > 1) {
-        var ok = nums.filter(function (v) { return !isNaN(v); });
-        best = f[2] === 'min' ? Math.min.apply(null, ok) : Math.max.apply(null, ok);
-      }
-      var tr = document.createElement('tr');
-      tr.appendChild(cell('th', f[0]));
-      vals.forEach(function (v, i) {
-        var c = cell('td', !v ? '\u2014' : f[3] && !isNaN(nums[i]) ? f[3](nums[i]) : v);
-        if (best !== null && nums[i] === best) c.className = 'best';
-        tr.appendChild(c);
-      });
-      t.appendChild(tr);
-    });
-    var links = document.createElement('tr');
-    links.appendChild(cell('th', 'Link'));
-    picked.forEach(function (p) {
-      var c = document.createElement('td'), a = document.createElement('a');
-      a.textContent = 'Oferta \u2197';
-      if (/^https?:\/\//.test(p.dataset.url)) { a.href = p.dataset.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; }
-      c.appendChild(a); links.appendChild(c);
-    });
-    t.appendChild(links);
-    var body = document.getElementById('cmp-body');
-    body.textContent = '';
-    body.appendChild(t);
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
-  }
-  cmpBtn.addEventListener('click', openCompare);
-  document.getElementById('cmp-close').addEventListener('click', function () { dlg.close(); });
   Array.prototype.forEach.call(document.querySelectorAll('.chips'), function (box) {
     var group = box.dataset.group;
     active[group] = [];

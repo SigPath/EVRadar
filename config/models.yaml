@@ -9,21 +9,15 @@ targets:
     - { model: "Kona Electric", aliases: ["Kona Elektryczna", "Kona EV", "Kona Electric"] }
     - { model: "Kona Electric", aliases: ["Kona"], require_electric: true }   # odfiltruj HEV/spalinowe
     - { model: "Ioniq 5", aliases: ["IONIQ5", "Ioniq5", "IONIQ 5", "Ionic 5"] }
-    - { model: "Ioniq 6", aliases: ["IONIQ6", "Ioniq6", "IONIQ 6", "Ionic 6"] }
   tesla:
     - { model: "Model 3", aliases: ["Model3", "Tesla 3"] }
     - { model: "Model Y", aliases: ["ModelY", "Tesla Y"] }
-    - { model: "Model S", aliases: ["ModelS"] }
-    - { model: "Model X", aliases: ["ModelX", "Tesla X"] }
   volkswagen:
     - { model: "ID.3", aliases: ["ID3", "ID 3", "ID.3 GTX"] }
     - { model: "ID.4", aliases: ["ID4", "ID 4", "ID.4 GTX"] }
     - { model: "ID.5", aliases: ["ID5", "ID 5", "ID.5 GTX"] }
-    - { model: "ID.7", aliases: ["ID7", "ID 7", "ID.7 Tourer", "ID.7 GTX"] }
   skoda:
     - { model: "Enyaq", aliases: ["Enyaq iV", "Enyaq Coupe", "Enyaq Coupe iV"] }
-  audi:
-    - { model: "Q4 e-tron", aliases: ["Q4 etron", "Q4 Sportback", "Q4 Sportback e-tron", "Q4"] }
 brand_aliases:
   volkswagen: ["VW"]
 filters:
@@ -55,14 +49,9 @@ alternatives:
     - { label: "Kia EV6", olx: "kia/q-ev6" }
     - { label: "Hyundai Kona Electric", olx: "hyundai/q-kona-electric" }
     - { label: "Hyundai Ioniq 5", olx: "hyundai/q-ioniq-5" }
-    - { label: "Hyundai Ioniq 6", olx: "hyundai/q-ioniq-6" }
     - { label: "Tesla Model 3", olx: "tesla/q-model-3" }
     - { label: "Tesla Model Y", olx: "tesla/q-model-y" }
-    - { label: "Tesla Model S", olx: "tesla/q-model-s" }
-    - { label: "Tesla Model X", olx: "tesla/q-model-x" }
     - { label: "Volkswagen ID.3", olx: "volkswagen/q-id3" }
     - { label: "Volkswagen ID.4", olx: "volkswagen/q-id4" }
     - { label: "Volkswagen ID.5", olx: "volkswagen/q-id5" }
-    - { label: "Volkswagen ID.7", olx: "volkswagen/q-id7" }
     - { label: "Skoda Enyaq", olx: "skoda/q-enyaq" }
-    - { label: "Audi Q4 e-tron", olx: "audi/q-q4" }

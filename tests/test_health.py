@@ -142,8 +142,24 @@ def test_report_has_ranges_compare_and_seller_badges() -> None:
         data.sources[0].source: [(T, "OK", 100), ("2026-10-02T10:00:00+00:00", "OK", 10)]
     }
     html = render_report(data)
-    for needle in ('id="r-price"', 'id="compare-btn"', 'data-act="cmp"', 'id="cmp"', "SOH 94%"):
+    for needle in ('id="r-price"', 'data-act="fav"', "SOH 94%"):
         assert needle in html
     assert 'data-value="Prywatna"' in html
     assert 'class="trend"' in html and "−5.0%" in html
     assert 'class="bars"' in html and "Podejrzany spadek" in html
+
+
+def test_offers_of_removed_models_are_deactivated_quietly() -> None:
+    db = Storage(":memory:")
+    db.save_run(utcnow(), 0.1, [], [make_offer(100_000)], [])
+    assert db.deactivate_untracked({("Tesla", "Model 3")}) == 0
+    assert db.deactivate_untracked({("Kia", "EV6")}) == 1
+    (stored,) = db.load_offers().values()
+    assert stored.active is False
+
+
+def test_trend_hides_models_without_active_offers() -> None:
+    data = synthetic_report_data()
+    data.model_trend = {"Tesla Model S": [(T, 100_000, 5), (T3, 95_000, 5)]}
+    assert "Tesla Model S" not in render_report(data)
+

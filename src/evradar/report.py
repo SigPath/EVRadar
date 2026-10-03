@@ -253,6 +253,7 @@ def render_report(
         names.get(s, s) for s in (o.source, *(link.source for link in o.also_on))
     ]
     confirmed = [o for o in data.active if not o.uncertain_powertrain]
+    tracked_models = {f"{o.brand} {o.model_matched}" for o in data.active}
     local = data.run.started_at.astimezone(LOCAL_TZ)
     return env.get_template("report.html.j2").render(
         d=data,
@@ -262,7 +263,9 @@ def render_report(
         market=market_refs(confirmed),
         health=health_rows(data),
         seller_labels=SELLER_LABELS,
-        trend=trend_rows(data.model_trend),
+        trend=trend_rows(
+            {m: pts for m, pts in data.model_trend.items() if m in tracked_models}
+        ),
         problems=problem_sources(data),
         run_iso=data.run.started_at.isoformat(),
         new_ids={x.offer.offer_id for x in data.new},
