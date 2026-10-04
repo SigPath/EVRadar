@@ -12,7 +12,13 @@ import structlog
 
 from evradar.config import ModelsConfig, SourceConfig
 from evradar.diff import compute_diff
-from evradar.matching import ModelMatcher, Powertrain, passes_filters, text_excluded
+from evradar.matching import (
+    ModelMatcher,
+    Powertrain,
+    lookup_range_wltp,
+    passes_filters,
+    text_excluded,
+)
 from evradar.models import (
     DiffKind,
     Offer,
@@ -66,6 +72,14 @@ def build_offers(
                 excluded_text += 1
             continue
         offer_id = make_offer_id(item.source, item.external_id, item.url)
+        range_km = item.range_km_wltp or lookup_range_wltp(
+            models.range_wltp,
+            brand=match.brand,
+            model=match.model,
+            year=item.year,
+            battery_kwh=item.battery_kwh,
+            title=item.title_raw,
+        )
         offers[offer_id] = Offer(
             offer_id=offer_id,
             source=item.source,
@@ -81,13 +95,14 @@ def build_offers(
             installment_basis=item.installment_basis,
             vat_invoice=item.vat_invoice,
             battery_kwh=item.battery_kwh,
-            range_km_wltp=item.range_km_wltp,
+            range_km_wltp=range_km,
             drivetrain=item.drivetrain,
             location=item.location,
             image_url=item.image_url,
             seller_type=item.seller_type,
             listed_at=item.listed_at,
             soh_pct=item.soh_pct,
+            vin=item.vin,
             first_seen_at=now,
             last_seen_at=now,
             uncertain_powertrain=match.powertrain is Powertrain.UNCERTAIN,
@@ -216,7 +231,7 @@ def _dup_key(o: Offer) -> tuple[object, ...] | None:
 
 
 def dedupe_across_sources(results: list[SourceResult], priority: dict[str, int]) -> int:
-    """Usuwa duplikaty tego samego auta (zostaje źródło o najniższym `priority`)."""
+    """Grupuje to samo auto (VIN, a bez niego parametry); zostaje źródło o najniższym `priority`."""
     ranked = sorted(
         (
             (priority.get(r.source, 100), r.source, o.offer_id, r, o)
@@ -226,19 +241,31 @@ def dedupe_across_sources(results: list[SourceResult], priority: dict[str, int])
         ),
         key=lambda x: x[:3],
     )
-    seen: set[tuple[object, ...]] = set()
-    kept_by_key: dict[tuple[object, ...], Offer] = {}
+    by_vin: dict[str, Offer] = {}
+    by_key: dict[tuple[object, ...], Offer] = {}
     dropped: dict[str, int] = {}
     kept: dict[str, list[Offer]] = {r.source: [] for r in results}
     for _, source, _, _, offer in ranked:
         key = _dup_key(offer)
-        if key is not None and key in seen:
+        twin = by_vin.get(offer.vin) if offer.vin else None
+        if twin is None and key is not None:
+            cand = by_key.get(key)
+            # dwa różne VIN-y to dwa różne auta, nawet przy identycznych parametrach
+            if cand is not None and not (cand.vin and offer.vin and cand.vin != offer.vin):
+                twin = cand
+        if twin is not None:
             dropped[source] = dropped.get(source, 0) + 1
-            kept_by_key[key].also_on.append(OfferLink(source=source, url=offer.url))
+            twin.also_on.append(
+                OfferLink(source=source, url=offer.url, price_gross_pln=offer.price_gross_pln)
+            )
+            if offer.vin and not twin.vin:
+                twin.vin = offer.vin
+                by_vin[offer.vin] = twin
             continue
+        if offer.vin:
+            by_vin[offer.vin] = offer
         if key is not None:
-            seen.add(key)
-            kept_by_key[key] = offer
+            by_key.setdefault(key, offer)
         kept[source].append(offer)
     for r in results:
         n = dropped.get(r.source, 0)
@@ -311,4 +338,5 @@ async def run_scan(
     data.price_history = storage.load_price_history()
     data.model_trend = storage.load_model_trend()
     data.source_history = storage.source_history()
+    data.gone_days = storage.load_gone_days()
     return data, first_run

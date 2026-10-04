@@ -16,11 +16,17 @@ PriceBasis = Literal["net", "gross"]
 SellerType = Literal["dealer", "private"]
 
 _TRACKING_PARAM = re.compile(r"^(utm_|fbclid|gclid|_ga)", re.IGNORECASE)
+_VIN = re.compile(r"^(?![0-9]+$)(?![A-Z]+$)[A-HJ-NPR-Z0-9]{17}$")
 
 
 def utcnow() -> datetime:
     """Aktualny czas UTC (aware)."""
     return datetime.now(UTC)
+
+
+def as_utc(value: datetime) -> datetime:
+    """Data bez strefy jest traktowana jako UTC (pozwala odejmować daty ze źródeł)."""
+    return value if value.tzinfo else value.replace(tzinfo=UTC)
 
 
 def canonical_url(url: str) -> str:
@@ -29,6 +35,14 @@ def canonical_url(url: str) -> str:
     query = urlencode([(k, v) for k, v in parse_qsl(parts.query) if not _TRACKING_PARAM.match(k)])
     path = parts.path.rstrip("/") or "/"
     return urlunsplit((parts.scheme, parts.netloc.lower(), path, query, ""))
+
+
+def normalize_vin(value: object) -> str | None:
+    """VIN wielkimi literami; None, gdy to nie jest poprawny 17-znakowy VIN (bez I, O, Q)."""
+    if not isinstance(value, str):
+        return None
+    vin = value.strip().upper()
+    return vin if _VIN.match(vin) else None
 
 
 def make_offer_id(source: str, external_id: str | None, url: str) -> str:
@@ -63,6 +77,12 @@ class RawListing(BaseModel):
     seller_type: SellerType | None = None
     listed_at: datetime | None = None
     soh_pct: int | None = None
+    vin: str | None = None
+
+    @field_validator("vin", mode="before")
+    @classmethod
+    def _clean_vin(cls, value: Any) -> str | None:
+        return normalize_vin(value)
 
 
 class OfferLink(BaseModel):
@@ -70,6 +90,7 @@ class OfferLink(BaseModel):
 
     source: str
     url: str
+    price_gross_pln: int | None = None
 
 
 class Offer(BaseModel):
@@ -96,6 +117,7 @@ class Offer(BaseModel):
     seller_type: SellerType | None = None
     listed_at: datetime | None = None
     soh_pct: int | None = None
+    vin: str | None = None
     first_seen_at: datetime = Field(default_factory=utcnow)
     last_seen_at: datetime = Field(default_factory=utcnow)
     uncertain_powertrain: bool = False
@@ -108,6 +130,7 @@ class Offer(BaseModel):
         if value is None or value == "":
             return []
         return json.loads(value) if isinstance(value, str) else value
+
     @property
     def price_for_diff(self) -> tuple[int, PriceBasis] | None:
         """Cena używana do porównań: brutto, a gdy brak — netto (bez przeliczeń)."""
@@ -201,3 +224,5 @@ class ReportData(BaseModel):
     model_trend: dict[str, list[tuple[str, int, int]]] = Field(default_factory=dict)
     # source_id -> [(data ISO, status, liczba ofert)] z ostatnich przebiegów
     source_history: dict[str, list[tuple[str, str, int]]] = Field(default_factory=dict)
+    # "Marka Model" -> dni od pojawienia się oferty do jej zniknięcia (oferty nieaktywne)
+    gone_days: dict[str, list[int]] = Field(default_factory=dict)

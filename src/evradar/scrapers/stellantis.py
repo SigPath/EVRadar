@@ -62,6 +62,7 @@ def parse_hits(hits: list[dict[str, Any]]) -> list[RawListing]:
                 installment_basis="gross" if rate else None,
                 drivetrain=hit.get("gearbox"),
                 location=hit.get("dealer_city"),
+                vin=hit.get("vin"),
             )
         )
     return listings

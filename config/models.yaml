@@ -34,6 +34,22 @@ notifications:
   enabled: false                # powiadomienie, gdy liczba nowych ofert > 0
   channel: telegram             # telegram | email (dane z zmiennych środowiskowych)
 
+# Zasięg WLTP uzupełniany, gdy ogłoszenie go nie podaje; pierwsza pasująca reguła wygrywa.
+# Warunki: kwh (±0,5 z ogłoszenia), year_from/year_to, title (regex). Wartości orientacyjne —
+# zweryfikuj z kartą katalogową; wariantów bez pewnych danych (np. Tesla) nie zgadujemy.
+range_wltp:
+  - { brand: Hyundai, model: "Kona Electric", kwh: 39, km: 305, year_to: 2022 }
+  - { brand: Hyundai, model: "Kona Electric", kwh: 64, km: 484, year_to: 2022 }
+  - { brand: Hyundai, model: "Kona Electric", kwh: 65.4, km: 514, year_from: 2023 }
+  - { brand: Kia, model: "e-Niro", kwh: 39.2, km: 289, year_to: 2022 }
+  - { brand: Kia, model: "e-Niro", kwh: 64, km: 455, year_to: 2022 }
+  - { brand: Kia, model: "Niro", kwh: 39.2, km: 289, year_to: 2022 }
+  - { brand: Kia, model: "Niro", kwh: 64, km: 455, year_to: 2022 }
+  - { brand: Volkswagen, model: "ID.3", kwh: 45, km: 349 }
+  - { brand: Volkswagen, model: "ID.3", kwh: 58, km: 426 }
+  - { brand: Volkswagen, model: "ID.3", kwh: 77, km: 549 }
+  - { brand: Skoda, model: "Enyaq", kwh: 62, km: 412 }
+
 # Sekcja "Alternatywnie" w raporcie: gotowe wyszukiwania na portalach, których NIE skanujemy (tylko linki).
 # Otomoto jest skanowane (config/sources.yaml); OLX zwraca 403 na robots.txt, więc tylko linki.
 alternatives:

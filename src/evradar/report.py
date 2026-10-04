@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
+from evradar.analysis import Depreciation, Exposure, days_listed, depreciation, exposure
 from evradar.config import Alternatives
 from evradar.health import Run, source_verdict
 from evradar.models import Offer, OfferDiff, ReportData
@@ -190,6 +191,63 @@ def trend_rows(trend: dict[str, list[tuple[str, int, int]]]) -> list[TrendRow]:
     return rows
 
 
+SC_W, SC_H, SC_L, SC_B, SC_PAD = 320, 150, 8, 6, 6
+
+
+class DepView(NamedTuple):
+    """Deprecjacja modelu z wykresem punktowym (cena vs przebieg, kolor = rocznik)."""
+
+    dep: Depreciation
+    colors: dict[int, str]
+    scatter: Markup
+
+
+def _year_colors(years: list[int]) -> dict[int, str]:
+    """Od niebieskiego (najstarszy rocznik) do pomarańczowego (najnowszy)."""
+    ordered = sorted(set(years))
+    last = max(len(ordered) - 1, 1)
+    return {y: f"hsl({215 - 190 * i / last:.0f} 70% 50%)" for i, y in enumerate(ordered)}
+
+
+def _scatter(dep: Depreciation, colors: dict[int, str]) -> Markup:
+    km_max = max(p[0] for p in dep.points) or 1
+    prices = [p[1] for p in dep.points]
+    lo, hi = min(prices), max(prices)
+    w, h = SC_W - SC_L - SC_PAD, SC_H - SC_B - SC_PAD
+    dots = []
+    for km, price, year in sorted(dep.points, key=lambda p: p[2]):
+        x = SC_L + km / km_max * w
+        y = SC_PAD + ((hi - price) / (hi - lo) * h if hi > lo else h / 2)
+        dots.append(
+            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.2" fill="{colors[year]}" fill-opacity=".8">'
+            f"<title>{year}: {_km(km)}, {_pln(price)}</title></circle>"
+        )
+    label = f"Cena od {_pln(lo)} do {_pln(hi)}, przebieg do {_km(km_max)}"
+    return Markup(
+        f'<svg class="scatter" width="{SC_W}" height="{SC_H}" viewBox="0 0 {SC_W} {SC_H}" '
+        f'role="img" aria-label="{label}"><title>{label}</title>'
+        f'<rect x="{SC_L}" y="{SC_PAD}" width="{w}" height="{h}" class="frame"/>'
+        f'{"".join(dots)}</svg>'
+    )
+
+
+def depreciation_views(offers: list[Offer], ref_year: int) -> list[DepView]:
+    views = []
+    for dep in depreciation(offers, ref_year):
+        colors = _year_colors([y.year for y in dep.years])
+        views.append(DepView(dep, colors, _scatter(dep, colors)))
+    return views
+
+
+def exposure_rows(data: ReportData, offers: list[Offer], tracked: set[str]) -> list[Exposure]:
+    now = data.run.started_at
+    return [
+        e
+        for e in exposure(offers, {m: d for m, d in data.gone_days.items() if m in tracked}, now)
+        if e.model in tracked
+    ]
+
+
 def _offer_sort_key(o: Offer) -> tuple[str, str, int]:
     price = o.price_gross_pln if o.price_gross_pln is not None else o.price_net_pln
     return (o.brand, o.model_matched, price if price is not None else 10**9)
@@ -255,6 +313,8 @@ def render_report(
     confirmed = [o for o in data.active if not o.uncertain_powertrain]
     tracked_models = {f"{o.brand} {o.model_matched}" for o in data.active}
     local = data.run.started_at.astimezone(LOCAL_TZ)
+    env.globals["age"] = lambda o: days_listed(o, data.run.started_at)
+    env.globals["age_gone"] = lambda o: days_listed(o, data.run.started_at, o.last_seen_at)
     return env.get_template("report.html.j2").render(
         d=data,
         source_names=names,
@@ -267,6 +327,8 @@ def render_report(
             {m: pts for m, pts in data.model_trend.items() if m in tracked_models}
         ),
         problems=problem_sources(data),
+        deprec=depreciation_views(confirmed, local.year),
+        exposure=exposure_rows(data, confirmed, tracked_models),
         run_iso=data.run.started_at.isoformat(),
         new_ids={x.offer.offer_id for x in data.new},
         drop_ids={x.offer.offer_id for x in data.price_drops},

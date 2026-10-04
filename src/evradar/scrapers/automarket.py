@@ -85,6 +85,7 @@ def parse_listing(html: str) -> tuple[list[RawListing], int]:
                 drivetrain=it.get("wheelDriveType"),
                 location=it.get("locationCity"),
                 image_url=image,
+                vin=it.get("vin"),
             )
         )
     return listings, int(block["pagination"].get("totalCount", len(listings)))

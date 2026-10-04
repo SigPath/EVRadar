@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import html as html_lib
 import json
+import re
 from typing import Any
 
 from selectolax.parser import HTMLParser, Node
@@ -27,6 +28,8 @@ from evradar.parsing import parse_price, parse_year
 from evradar.scrapers.base import BaseScraper
 
 PAGE_SIZE = 200
+# VIN nie jest osobnym polem — jest w ścieżce zdjęcia: .../images/PL/<VIN>/gallery/1.jpg
+_IMAGE_VIN = re.compile(r"/images/[A-Z]{2}/([A-Z0-9]{17})/")
 
 
 def _tracking(tile: Node) -> dict[str, Any]:
@@ -62,6 +65,7 @@ def parse_listing(html: str, base_url: str) -> list[RawListing]:
         pid = tile.parent.attributes.get("data-pid") if tile.parent else None
         href = link.attributes["href"] or ""
         reg_date = info.get("dimension56")
+        vin_match = _IMAGE_VIN.search(image or "")
         listings.append(
             RawListing(
                 source="ayvens",
@@ -76,6 +80,7 @@ def parse_listing(html: str, base_url: str) -> list[RawListing]:
                 price_gross_pln=round(price) if price else None,
                 vat_invoice=None,
                 image_url=image.replace("&amp;", "&") if image else None,
+                vin=vin_match.group(1) if vin_match else None,
             )
         )
     return listings

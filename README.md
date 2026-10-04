@@ -31,6 +31,10 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - **baner awarii** na górze raportu, gdy źródło zwróciło błąd lub 0 ofert, oraz ostrzeżenie, gdy raport jest starszy niż 36 h (zadanie dzienne nie działa),
 - **suwaki** ceny, przebiegu i rocznika nad tabelą (filtrowanie w przeglądarce, bez edycji YAML i ponownego skanu),
 - sekcja **Trend cen modeli**: mediana ceny brutto modelu w kolejnych dniach skanu (zapisywana od pierwszego skanu po wdrożeniu),
+- sekcja **Deprecjacja modeli**: mediany cen po rocznikach, wykres cena vs przebieg (kolor = rocznik) i szacowany spadek ceny za rok wieku oraz za 10 tys. km (regresja, min. 8 ofert modelu; współczynniki o nielogicznym znaku są pomijane),
+- kolumna **W ofercie** (dni od daty dodania ogłoszenia, a gdy jej brak — od pierwszego skanu, z „+”) i sekcja **Czas ekspozycji**: mediana wieku aktywnych ofert oraz czas do zniknięcia ofert, których już nie ma w źródłach,
+- **zasięg WLTP** przy ofercie: z ogłoszenia lub z tabeli `range_wltp` w `config/models.yaml`,
+- **to samo auto z kilku źródeł** jest grupowane po numerze VIN (gdy źródło go podaje), a przy odnośniku do drugiego serwisu widać jego cenę,
 - **zdrowie źródeł**: słupki liczby ofert z ostatnich przebiegów w kafelku źródła i ostrzeżenie przy nagłym spadku (poniżej połowy zwykłej liczby),
 - z Otomoto: typ sprzedawcy (firma/prywatna, też jako filtr), data dodania ogłoszenia i SOH baterii wyciągany z opisu,
 - oferty **nowe, obniżki, powroty i podwyżki** wyglądają tak samo jak główna tabela (te same kolumny, sortowanie, ★ ✕),
@@ -126,16 +130,19 @@ filters:
     - 'przejec\w*\s+(umowy\s+)?leasing'
 notifications:
   enabled: false
+range_wltp:                     # zasięg WLTP, gdy ogłoszenie go nie podaje (pierwsza pasująca reguła)
+  - { brand: Hyundai, model: "Kona Electric", kwh: 64, km: 484, year_to: 2022 }
 ```
 
 - Dopasowanie nazw ignoruje wielkość liter, spacje, myślniki i polskie znaki (`ID3` = `ID.3`); nigdy nie myli różnych cyfr (`ID.3` ≠ `ID.4`).
 - `require_electric: true` — dla modeli występujących także jako hybryda/spalinowe (Niro, Kona). Przy niejednoznacznych danych oferta trafia do **Do weryfikacji**.
 - Filtry ceny działają na cenie brutto, a filtr przebiegu na `max_mileage_km`. Oferty bez ceny, przebiegu lub rocznika nie są odrzucane.
 - `exclude_text_patterns` odrzuca ogłoszenia po treści (tytuł i, gdy serwis go podaje, opis): domyślnie „cesja”, „przejęcie leasingu” i „rata <kwota>”. Dzięki temu tanie, normalne auta nie odpadają przez dolny próg ceny. Opis w skanie jest dostępny z Otomoto; pozostałe źródła dają tylko tytuł.
+- `range_wltp` uzupełnia zasięg WLTP dla ofert, które go nie podają. Reguła ma `brand`, `model`, `km` oraz opcjonalnie `kwh` (±0,5 kWh), `year_from` / `year_to` i `title` (regex); warunek, którego nie da się sprawdzić (np. brak kWh w ogłoszeniu), oznacza brak dopasowania — nic nie jest zgadywane. Wartości w pliku są orientacyjne, zweryfikuj je z kartą katalogową.
 
 **[`config/sources.yaml`](config/sources.yaml)** — adresy, opóźnienia (`delay_min_s` / `delay_max_s`), `max_pages`, `enabled: true/false` (z `reason`) oraz `priority` (przy duplikacie oferty zostaje źródło o niższej wartości; Otomoto ma 200).
 
-**Duplikaty:** to samo auto z kilku źródeł (ten sam model, rocznik, przebieg i cena brutto) trafia do raportu raz, a w kolumnie Źródło widać wszystkie portale z linkami do ogłoszeń (filtr Źródło i wyszukiwarka też je uwzględniają). Dla aut z przebiegiem poniżej 1000 km porównywane jest też miasto, a oferty bez rocznika, przebiegu lub ceny nigdy nie są łączone. Liczbę pominiętych duplikatów widzisz w kafelku źródła.
+**Duplikaty:** to samo auto z kilku źródeł trafia do raportu raz, a w kolumnie Źródło widać wszystkie portale z linkami do ogłoszeń (po najechaniu — także ich cenę); filtr Źródło i wyszukiwarka też je uwzględniają. Auta są łączone po **numerze VIN** (podają go Stellantis, Automarket i Ayvens), nawet gdy cena lub przebieg się różnią. Oferty bez VIN łączone są po modelu, roczniku, przebiegu i cenie brutto, ale dwa różne VIN-y nigdy się nie łączą. Dla aut z przebiegiem poniżej 1000 km porównywane jest też miasto, a oferty bez rocznika, przebiegu lub ceny nigdy nie są łączone. Liczbę pominiętych duplikatów widzisz w kafelku źródła.
 
 Sekcja `alternatives` w `models.yaml` opisuje linki z sekcji **Alternatywnie** w raporcie: szablony adresów portali (`sites`) i wyszukiwania per model (`searches`, np. `{ label: "Volkswagen ID.4", olx: "volkswagen/q-id4" }`). Limit ceny jest dołączany z `filters.max_price_gross_pln`. Ścieżki modeli dla Otomoto (`params.paths`) są w `sources.yaml`.
 
@@ -209,8 +216,9 @@ src/evradar/
 ├── cli.py            # polecenia: run | report | sources | health | backup | demo-report
 ├── runner.py         # orkiestracja skanu, wykrywanie zmian struktury stron
 ├── scrapers/         # po jednym adapterze na źródło (wykrywane automatycznie)
-├── matching.py       # normalizacja nazw, dopasowanie modeli, is_electric()
+├── matching.py       # normalizacja nazw, dopasowanie modeli, is_electric(), zasięg WLTP z configu
 ├── parsing.py        # ceny, VAT 23% (netto ⇄ brutto)
+├── analysis.py       # deprecjacja (regresja cena ~ wiek + przebieg), czas ekspozycji
 ├── storage.py        # SQLite (oferty, historia cen, mediany modeli, przebiegi skanów, kopia bazy)
 ├── health.py         # ocena zdrowia źródła z historii liczby ofert
 ├── diff.py           # NEW / PRICE_DROP / PRICE_UP / GONE / BACK

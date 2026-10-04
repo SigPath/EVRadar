@@ -119,4 +119,54 @@ def test_also_on_survives_database_roundtrip(models: ModelsConfig) -> None:
 
     html = render_report(db.load_report_data() or pytest.fail("brak danych"))
     assert 'data-source-all="direct|agg"' in html
-    assert 'href="https://agg.pl/o/9"' in html and "To samo auto też tutaj" in html
+    assert 'href="https://agg.pl/o/9"' in html and "To samo auto (VIN lub zgodne parametry)" in html
+
+
+VIN_A = "VR7ARHPYERL009323"
+VIN_B = "VR3F45GBTPY605063"
+
+
+def with_vin(raw: RawListing, vin: str | None) -> RawListing:
+    return RawListing.model_validate({**raw.model_dump(), "vin": vin})
+
+
+def test_same_vin_is_grouped_despite_different_price_and_mileage(models: ModelsConfig) -> None:
+    direct = result(
+        models, "direct", [with_vin(listing("direct", "1", 129_000), VIN_A)]
+    )
+    agg = result(
+        models,
+        "agg",
+        [with_vin(listing("agg", "9", 125_000, km=148_500, loc=None), VIN_A.lower())],
+    )
+    assert runner.dedupe_across_sources([agg, direct], {"direct": 100, "agg": 200}) == 1
+    (kept,) = direct.offers
+    assert [(x.source, x.price_gross_pln) for x in kept.also_on] == [("agg", 125_000)]
+    assert not agg.offers
+
+
+def test_different_vins_are_never_merged_even_with_equal_parameters(models: ModelsConfig) -> None:
+    a = result(models, "a", [with_vin(listing("a", "1", 129_000), VIN_A)])
+    b = result(models, "b", [with_vin(listing("b", "2", 129_000), VIN_B)])
+    assert runner.dedupe_across_sources([a, b], {}) == 0
+
+
+def test_offer_without_vin_merges_by_parameters_and_inherits_vin(models: ModelsConfig) -> None:
+    a = result(models, "a", [listing("a", "1", 129_000)])
+    b = result(models, "b", [with_vin(listing("b", "2", 129_000), VIN_A)])
+    assert runner.dedupe_across_sources([a, b], {"a": 1, "b": 2}) == 1
+    assert a.offers[0].vin == VIN_A
+
+
+def test_invalid_vin_is_dropped() -> None:
+    for bad in ("12345678901234567", "ABCDEFGHJKLMNPRST", "short", "VR7ARHPYERL00932O", None):
+        assert RawListing(source="s", url="u", title_raw="t", vin=bad).vin is None
+    assert RawListing(source="s", url="u", title_raw="t", vin=" vr7arhpyerl009323 ").vin == VIN_A
+
+
+def test_vin_survives_database_roundtrip(models: ModelsConfig) -> None:
+    offers = result(models, "direct", [with_vin(listing("direct", "1", 129_000), VIN_A)])
+    db = Storage(":memory:")
+    db.save_run(utcnow(), 0.1, [offers], offers.offers, [])
+    (stored,) = db.load_offers().values()
+    assert stored.vin == VIN_A

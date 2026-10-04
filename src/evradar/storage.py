@@ -18,6 +18,7 @@ from evradar.models import (
     SourceResult,
     SourceStatus,
     StoredOffer,
+    as_utc,
 )
 
 SCHEMA = """
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS offers (
     seller_type TEXT,
     listed_at TEXT,
     soh_pct INTEGER,
+    vin TEXT,
     first_seen_at TEXT NOT NULL,
     last_seen_at TEXT NOT NULL,
     uncertain_powertrain INTEGER NOT NULL DEFAULT 0,
@@ -90,6 +92,7 @@ _ADDED_COLUMNS = {
     "listed_at": "TEXT",
     "soh_pct": "INTEGER",
     "also_on": "TEXT",
+    "vin": "TEXT",
 }
 
 _STATS_SCHEMA = """
@@ -108,7 +111,7 @@ _OFFER_COLUMNS = [
     "offer_id", "source", "url", "brand", "model_matched", "title_raw", "year", "mileage_km",
     "price_gross_pln", "price_net_pln", "monthly_installment_pln", "installment_basis",
     "vat_invoice", "battery_kwh", "range_km_wltp", "drivetrain", "location", "image_url",
-    "seller_type", "listed_at", "soh_pct",
+    "seller_type", "listed_at", "soh_pct", "vin",
     "first_seen_at", "last_seen_at", "uncertain_powertrain", "also_on",
 ]  # fmt: skip
 
@@ -203,6 +206,18 @@ class Storage:
                 int(r["n"]),
             )
         return {m: list(days.values()) for m, days in by_day.items()}
+
+    def load_gone_days(self) -> dict[str, list[int]]:
+        """Dni od pojawienia się (data z ogłoszenia lub pierwszy skan) do ostatniego widzenia."""
+        out: dict[str, list[int]] = {}
+        for r in self.conn.execute(
+            "SELECT brand, model_matched, listed_at, first_seen_at, last_seen_at "
+            "FROM offers WHERE active = 0 AND uncertain_powertrain = 0"
+        ):
+            start = as_utc(datetime.fromisoformat(r["listed_at"] or r["first_seen_at"]))
+            days = (as_utc(datetime.fromisoformat(r["last_seen_at"])) - start).days
+            out.setdefault(f"{r['brand']} {r['model_matched']}", []).append(max(days, 0))
+        return out
 
     def source_history(self, last_n: int = 14) -> dict[str, list[tuple[str, str, int]]]:
         """Ostatnie przebiegi źródła: source -> [(data ISO, status, ofert)], od najstarszych."""
@@ -399,6 +414,7 @@ class Storage:
             price_history=self.load_price_history(),
             model_trend=self.load_model_trend(),
             source_history=self.source_history(),
+            gone_days=self.load_gone_days(),
         )
 
 

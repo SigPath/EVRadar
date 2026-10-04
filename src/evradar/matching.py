@@ -10,7 +10,7 @@ from functools import lru_cache
 
 from rapidfuzz import fuzz
 
-from evradar.config import Filters, ModelTarget
+from evradar.config import Filters, ModelTarget, RangeRule
 from evradar.models import RawListing
 
 FUZZY_THRESHOLD = 90
@@ -192,6 +192,37 @@ def text_excluded(patterns: list[str], text: str) -> bool:
 @lru_cache(maxsize=64)
 def _compiled(pattern: str) -> re.Pattern[str]:
     return re.compile(pattern)
+
+
+KWH_TOLERANCE = 0.5
+
+
+def lookup_range_wltp(
+    rules: list[RangeRule],
+    *,
+    brand: str,
+    model: str,
+    year: int | None,
+    battery_kwh: float | None,
+    title: str,
+) -> int | None:
+    """Zasięg WLTP z tabeli w configu; reguła z niesprawdzalnym warunkiem nie pasuje."""
+    for r in rules:
+        if (r.brand.lower(), r.model.lower()) != (brand.lower(), model.lower()):
+            continue
+        if r.kwh is not None and (battery_kwh is None or abs(battery_kwh - r.kwh) > KWH_TOLERANCE):
+            continue
+        if (r.year_from is not None or r.year_to is not None) and year is None:
+            continue
+        if year is not None and (
+            (r.year_from is not None and year < r.year_from)
+            or (r.year_to is not None and year > r.year_to)
+        ):
+            continue
+        if r.title is not None and not re.search(r.title, title, re.IGNORECASE):
+            continue
+        return r.km
+    return None
 
 
 def passes_filters(

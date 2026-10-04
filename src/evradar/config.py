@@ -49,12 +49,25 @@ class Alternatives(BaseModel):
     searches: list[AltSearch] = Field(default_factory=list)
 
 
+class RangeRule(BaseModel):
+    """Zasięg WLTP dla auta bez tej informacji w ogłoszeniu (pierwsza pasująca reguła)."""
+
+    brand: str
+    model: str
+    km: int
+    kwh: float | None = None  # pojemność baterii z ogłoszenia, tolerancja ±0,5
+    year_from: int | None = None
+    year_to: int | None = None
+    title: str | None = None  # regex (bez wielkości liter) na tytuł ogłoszenia
+
+
 class ModelsConfig(BaseModel):
     targets: list[ModelTarget]
     brand_aliases: dict[str, list[str]] = Field(default_factory=dict)
     filters: Filters = Field(default_factory=Filters)
     notifications: Notifications = Field(default_factory=Notifications)
     alternatives: Alternatives = Field(default_factory=Alternatives)
+    range_wltp: list[RangeRule] = Field(default_factory=list)
 
 
 class SourceConfig(BaseModel):
@@ -98,6 +111,7 @@ def load_models_config(path: Path | None = None) -> ModelsConfig:
         filters=Filters(**(raw.get("filters") or {})),
         notifications=Notifications(**(raw.get("notifications") or {})),
         alternatives=alternatives,
+        range_wltp=[RangeRule(**r) for r in (raw.get("range_wltp") or [])],
     )
 
 

@@ -127,6 +127,16 @@ td.srcs a.badge:hover { color: var(--accent); }
 .ranges output { color: var(--text); font-weight: 650; min-width: 74px; }
 .ranges input[type=range] { width: 150px; accent-color: var(--accent); }
 table.trend td.up { color: var(--err); } table.trend td.down { color: var(--new); }
+.deps { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 640px), 1fr)); gap: 14px; }
+.dep { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 14px; }
+.dep h3 { margin: 0 0 4px; font-size: 1rem; }
+.dep .fit { margin: 0 0 8px; font-size: .88rem; }
+.dep-body { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+.scatter { flex: none; max-width: 100%; }
+.scatter .frame { fill: none; stroke: var(--line); }
+table.yrs { width: auto; font-size: .82rem; }
+table.yrs td.up { color: var(--err); } table.yrs td.down { color: var(--new); }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
 th { position: sticky; top: 0; background: var(--card); cursor: pointer; user-select: none; font-size: .78rem;
   text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 th[aria-sort=ascending]::after { content: " ▲"; } th[aria-sort=descending]::after { content: " ▼"; }
@@ -170,7 +180,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   <th data-type="num" class="num">Przebieg</th><th data-type="num" class="num">Cena</th>
   <th data-type="num" class="num" title="Cena brutto względem mediany porównywalnych ofert">Vs rynek</th>
   <th data-type="text">Źródło</th>
-  <th data-type="text">Widziana od</th><th class="nosort"></th>
+  <th data-type="text">Widziana od</th><th data-type="num" class="num" title="Dni od daty dodania ogłoszenia (a gdy jej brak — od pierwszego skanu)">W ofercie</th><th class="nosort"></th>
 </tr></thead>
 {% endmacro %}
 
@@ -191,7 +201,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
         {% if o.seller_type or o.soh_pct or o.listed_at or o.battery_kwh or o.range_km_wltp %}<br>
           {% if o.seller_type %}<span class="badge">{{ seller_labels[o.seller_type] }}</span>{% endif %}
           {% if o.battery_kwh %}<span class="badge">{{ o.battery_kwh|round(1) }} kWh</span>{% endif %}
-          {% if o.range_km_wltp %}<span class="badge">{{ o.range_km_wltp }} km WLTP</span>{% endif %}
+          {% if o.range_km_wltp %}<span class="badge" title="Zasięg WLTP z ogłoszenia lub z tabeli modeli (config/models.yaml)">{{ o.range_km_wltp }} km WLTP</span>{% endif %}
           {% if o.soh_pct %}<span class="badge soh" title="Stan zdrowia baterii z opisu ogłoszenia">SOH {{ o.soh_pct }}%</span>{% endif %}
           {% if o.listed_at %}<span class="badge" title="Data dodania ogłoszenia">dodano {{ o.listed_at|short_date }}</span>{% endif %}
         {% endif %}
@@ -213,9 +223,11 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   <td class="num" data-s="{{ m.pct|round(1) if m else 999 }}">{% if m %}<span class="mkt {{ 'deal' if m.pct <= -10 else 'pricey' if m.pct >= 10 else '' }}" title="Mediana {{ m.median|pln }} ({{ m.n }} ofert, porównanie: {{ m.scope }})">{{ '%+.0f'|format(m.pct)|replace('-', '−') }}%</span>{% else %}<span class="muted" title="Za mało ofert do porównania">—</span>{% endif %}</td>
   <td data-s="{{ source_names.get(o.source, o.source) }}" class="srcs">
     <a class="badge" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">{{ source_names.get(o.source, o.source) }}</a>
-    {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto też tutaj">{{ source_names.get(l.source, l.source) }}</a>{% endfor %}
+    {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto (VIN lub zgodne parametry){% if l.price_gross_pln %} — {{ l.price_gross_pln|pln }} brutto{% endif %}">{{ source_names.get(l.source, l.source) }}</a>{% endfor %}
   </td>
   <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
+  {% set a = age(o) %}
+  <td class="num" data-s="{{ a[0] }}" title="{{ 'Od daty dodania ogłoszenia' if a[1] else 'Od pierwszego skanu (ogłoszenie mogło być starsze)' }}">{{ a[0] }} d{{ '' if a[1] else '+' }}</td>
   <td><div class="act">
     <button type="button" class="ico star" data-act="fav" title="Obserwuj" aria-label="Obserwuj">★</button>
     <button type="button" class="ico" data-act="hide" title="Ukryj / przywróć" aria-label="Ukryj">✕</button>
@@ -334,6 +346,55 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   </table></div>
   {% else %}<div class="empty">Trend pojawi się po kolejnych skanach — mediany modeli są zapisywane od {{ trend[0].since if trend else run_date }}.</div>{% endif %}
 
+  <h2>🔻 Deprecjacja modeli</h2>
+  {% if deprec %}
+  <p class="sub" style="margin:-6px 0 12px">Mediana ceny brutto po roczniku oraz szacowany spadek ceny za rok wieku i za 10&nbsp;tys.&nbsp;km (regresja na aktywnych ofertach modelu, min. 8 ofert). Wykres: cena vs przebieg, kolor = rocznik.</p>
+  <div class="deps">
+  {% for v in deprec %}{% set dep = v.dep %}
+    <div class="dep">
+      <h3>{{ dep.model }} <span class="count">{{ dep.n }}</span></h3>
+      {% if dep.per_year_pln is not none or dep.per_10k_km_pln is not none %}
+      <p class="fit">
+        {% if dep.per_year_pln is not none %}<b>−{{ dep.per_year_pln|pln }}</b> / rok{% endif %}
+        {% if dep.per_year_pln is not none and dep.per_10k_km_pln is not none %} · {% endif %}
+        {% if dep.per_10k_km_pln is not none %}<b>−{{ dep.per_10k_km_pln|pln }}</b> / 10&nbsp;tys.&nbsp;km{% endif %}
+        <small class="muted">R² {{ '%.2f'|format(dep.r2) }}</small></p>
+      {% else %}<p class="fit muted">Za mało ofert na wiarygodną regresję.</p>{% endif %}
+      <div class="dep-body">
+        {{ v.scatter }}
+        <table class="yrs">
+          <thead><tr><th class="nosort">Rocznik</th><th class="nosort num">Ofert</th><th class="nosort num">Mediana</th><th class="nosort num">Przebieg</th><th class="nosort num">Vs młodszy</th></tr></thead>
+          <tbody>
+          {% for y in dep.years %}
+            <tr><td><i class="dot" style="background:{{ v.colors[y.year] }}"></i>{{ y.year }}</td><td class="num">{{ y.n }}</td><td class="num">{{ y.price|pln }}</td>
+              <td class="num">{{ y.mileage_km|km }}</td>
+              <td class="num {{ 'up' if y.step_pct is not none and y.step_pct > 0 else 'down' if y.step_pct is not none and y.step_pct < 0 else '' }}">{{ ('%+.0f'|format(y.step_pct)|replace('-', '−') ~ '%') if y.step_pct is not none else '—' }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+  {% else %}<div class="empty">Za mało ofert z rocznikiem, przebiegiem i ceną.</div>{% endif %}
+
+  <h2>⏱ Czas ekspozycji</h2>
+  {% if exposure %}
+  <p class="sub" style="margin:-6px 0 12px">Mediana dni, przez które oferta jest widoczna. „Zniknęły” to oferty, których nie ma już w źródłach (sprzedane lub wycofane) — liczone od zapisanych skanów, więc krótko po starcie dane są zaniżone.</p>
+  <div class="tbl-wrap"><table class="trend">
+    <thead><tr><th class="nosort">Model</th><th class="nosort num">Aktywne</th><th class="nosort num">Mediana wieku</th>
+      <th class="nosort num">Zniknęły</th><th class="nosort num">Mediana do zniknięcia</th></tr></thead>
+    <tbody>
+    {% for e in exposure %}
+      <tr><td><b>{{ e.model }}</b></td><td class="num">{{ e.active_n }}</td>
+        <td class="num">{{ (e.active_median_days ~ ' d') if e.active_median_days is not none else '—' }}</td>
+        <td class="num">{{ e.gone_n }}</td>
+        <td class="num">{{ (e.gone_median_days ~ ' d') if e.gone_median_days is not none else '—' }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}<div class="empty">Brak danych.</div>{% endif %}
+
   <h2>⚠️ Do weryfikacji <span class="count">{{ d.uncertain|length }}</span></h2>
   {% if d.uncertain %}
   <p class="sub" style="margin:-6px 0 12px">Nie udało się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego rodzaju paliwa).</p>
@@ -348,11 +409,12 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
     <summary>Pokaż listę ({{ d.gone|length }})</summary>
     {% if d.gone %}
     <div class="tbl-wrap" style="box-shadow:none"><table>
-      <thead><tr><th class="nosort">Pojazd</th><th class="nosort num">Rok</th><th class="nosort num">Ostatnia cena</th><th class="nosort">Źródło</th><th class="nosort"></th></tr></thead>
+      <thead><tr><th class="nosort">Pojazd</th><th class="nosort num">Rok</th><th class="nosort num">Ostatnia cena</th><th class="nosort num" title="Dni od pojawienia się oferty do ostatniego skanu, w którym była widoczna">Była w ofercie</th><th class="nosort">Źródło</th><th class="nosort"></th></tr></thead>
       <tbody>
       {% for x in d.gone %}{% set o = x.offer %}
         <tr><td class="wrap"><b>{{ o.brand }} {{ o.model_matched }}</b><br><small>{{ o.title_raw }}</small></td>
           <td class="num">{{ o.year or '—' }}</td><td class="num">{{ price(o) }}</td>
+          <td class="num">{{ age_gone(o)[0] }} d</td>
           <td>{{ source_names.get(o.source, o.source) }}</td>
           <td><a href="{{ o.url }}" target="_blank" rel="noopener noreferrer">link ↗</a></td></tr>
       {% endfor %}
