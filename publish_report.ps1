@@ -4,6 +4,10 @@ param([switch]$Scan)
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
+# Log z ostatniego uruchomienia (przydatny, gdy zadanie z Harmonogramu kończy się bez publikacji).
+New-Item -ItemType Directory -Path "out" -Force | Out-Null
+Start-Transcript -Path "out\publish.log" | Out-Null
+
 if ($Scan) {
     & ".venv\Scripts\evradar.exe" run --no-open
     if ($LASTEXITCODE -ne 0) { throw "Skan zakonczyl sie bledem." }
