@@ -145,6 +145,24 @@ def test_same_vin_is_grouped_despite_different_price_and_mileage(models: ModelsC
     assert not agg.offers
 
 
+def test_vin_duplicate_is_marked_in_report_but_parameter_match_is_not(
+    models: ModelsConfig,
+) -> None:
+    direct = result(models, "direct", [with_vin(listing("direct", "1", 129_000), VIN_A)])
+    by_vin = result(models, "vin", [with_vin(listing("vin", "2", 125_000, km=148_500), VIN_A)])
+    by_params = result(models, "params", [listing("params", "3", 129_000)])
+    runner.dedupe_across_sources(
+        [direct, by_vin, by_params], {"direct": 100, "vin": 200, "params": 300}
+    )
+    (kept,) = direct.offers
+    assert [(x.source, x.vin_match) for x in kept.also_on] == [("vin", True), ("params", False)]
+
+    db = Storage(":memory:")
+    db.save_run(utcnow(), 0.1, [direct, by_vin, by_params], direct.offers, [])
+    html = render_report(db.load_report_data() or pytest.fail("brak danych"))
+    assert html.count('<small class="dup">Duplikat</small>') == 1
+
+
 def test_different_vins_are_never_merged_even_with_equal_parameters(models: ModelsConfig) -> None:
     a = result(models, "a", [with_vin(listing("a", "1", 129_000), VIN_A)])
     b = result(models, "b", [with_vin(listing("b", "2", 129_000), VIN_B)])

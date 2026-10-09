@@ -91,6 +91,7 @@ class OfferLink(BaseModel):
     source: str
     url: str
     price_gross_pln: int | None = None
+    vin_match: bool = False  # połączone po numerze VIN (a nie po parametrach)
 
 
 class Offer(BaseModel):

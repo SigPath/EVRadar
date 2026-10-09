@@ -119,6 +119,7 @@ tr.dismissed { opacity: .5; }
 td.srcs { white-space: normal; max-width: 200px; }
 td.srcs .badge { display: inline-block; margin: 0 4px 4px 0; color: var(--muted); }
 td.srcs a.badge:hover { color: var(--accent); }
+td.srcs .dup { font-weight: 700; color: var(--drop); margin-left: 2px; }
 .bars rect { fill: var(--new); } .bars rect.err { fill: var(--err); } .bars rect.stale { fill: var(--drop); }
 .bars rect.skip { fill: var(--line); }
 .badge.soh { background: var(--new-bg); color: var(--new); }
@@ -223,7 +224,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
   <td class="num" data-s="{{ m.pct|round(1) if m else 999 }}">{% if m %}<span class="mkt {{ 'deal' if m.pct <= -10 else 'pricey' if m.pct >= 10 else '' }}" title="Mediana {{ m.median|pln }} ({{ m.n }} ofert, porównanie: {{ m.scope }})">{{ '%+.0f'|format(m.pct)|replace('-', '−') }}%</span>{% else %}<span class="muted" title="Za mało ofert do porównania">—</span>{% endif %}</td>
   <td data-s="{{ source_names.get(o.source, o.source) }}" class="srcs">
     <a class="badge" href="{{ o.url }}" target="_blank" rel="noopener noreferrer">{{ source_names.get(o.source, o.source) }}</a>
-    {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto (VIN lub zgodne parametry){% if l.price_gross_pln %} — {{ l.price_gross_pln|pln }} brutto{% endif %}">{{ source_names.get(l.source, l.source) }}</a>{% endfor %}
+    {% for l in o.also_on %}<a class="badge" href="{{ l.url }}" target="_blank" rel="noopener noreferrer" title="To samo auto (VIN lub zgodne parametry){% if l.price_gross_pln %} — {{ l.price_gross_pln|pln }} brutto{% endif %}">{{ source_names.get(l.source, l.source) }}{% if l.vin_match %} <small class="dup">Duplikat</small>{% endif %}</a>{% endfor %}
   </td>
   <td data-s="{{ o.first_seen_at.isoformat() }}">{{ o.first_seen_at|short_date }}</td>
   {% set a = age(o) %}

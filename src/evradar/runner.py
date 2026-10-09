@@ -256,7 +256,12 @@ def dedupe_across_sources(results: list[SourceResult], priority: dict[str, int])
         if twin is not None:
             dropped[source] = dropped.get(source, 0) + 1
             twin.also_on.append(
-                OfferLink(source=source, url=offer.url, price_gross_pln=offer.price_gross_pln)
+                OfferLink(
+                    source=source,
+                    url=offer.url,
+                    price_gross_pln=offer.price_gross_pln,
+                    vin_match=bool(offer.vin) and offer.vin == twin.vin,
+                )
             )
             if offer.vin and not twin.vin:
                 twin.vin = offer.vin

@@ -22,7 +22,7 @@ brand_aliases:
   volkswagen: ["VW"]
 filters:
   max_price_gross_pln: 130000   # null = bez limitu
-  min_price_gross_pln: null     # dolny próg ceny; podejrzanie tanie (cesje) odcina exclude_text_patterns
+  min_price_gross_pln: 80000    # dolny próg ceny brutto (tańsze to raczej wraki); cesje odcina też exclude_text_patterns
   max_mileage_km: 122000
   min_year: 2021
   # treść ogłoszenia (tytuł + opis) bez polskich znaków, regex; trafienie = oferta odrzucona
