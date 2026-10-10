@@ -4,12 +4,12 @@
 # Odpowiednik rejestracji zadania w Harmonogramie zadań Windows.
 #
 # Użycie:
-#   ./install_schedule.sh                      # domyślnie 12:00 i 18:00
+#   ./install_schedule.sh                      # domyślnie 12:00 (jeden skan dziennie)
 #   ./install_schedule.sh 12:00 18:00          # o 12:00 i 18:00  ← ZALECANY format
 #   ./install_schedule.sh 7:15 12:00 18:30     # o 07:15, 12:00 i 18:30
 #   ./install_schedule.sh 9                    # o 09:00 (sama godzina)
-#   ./install_schedule.sh 12 18 21             # o 12:00, 18:00, 21:00 (nieparzysta liczba = same godziny)
-#   ./install_schedule.sh 8 30 12 0            # tryb zgodności: pary godzina/minuta
+#   ./install_schedule.sh 12 18 21             # o 12:00, 18:00, 21:00 (same godziny, nieparzysta liczba)
+#   ./install_schedule.sh 8 30 12 0            # tryb zgodności: pary godzina/minuta (8:30, 12:00)
 #   ./install_schedule.sh --remove             # usuwa zadanie
 #   ./install_schedule.sh --status             # stan zadania + ostatnie wpisy z logu
 #   ./install_schedule.sh --help
@@ -80,7 +80,7 @@ esac
 #   ./install_schedule.sh 9                  -> 09:00
 #   ./install_schedule.sh 8 30 12 0          -> 08:30 i 12:00 (pary, tryb zgodności)
 if [ "$#" -eq 0 ]; then
-    set -- 12:00 18:00
+    set -- 12:00
 fi
 
 SCHEDULE_BLOCK="    <key>StartCalendarInterval</key>
