@@ -11,3 +11,9 @@ debug/
 .playwright-mcp/
 .env
 data/backups/
+
+# Lokalne narzędzia (uv itp.) instalowane w repo na macOS — nigdy do repozytorium.
+.tools/
+
+# macOS
+.DS_Store

@@ -81,9 +81,40 @@ flowchart LR
 
 Awaria jednego źródła nie przerywa skanu — oferty takiego źródła **nie są** wtedy oznaczane jako „zniknęły”.
 
-## Szybki start (Windows)
+## Szybki start
 
-Wymagania: Python 3.12+ i [uv](https://docs.astral.sh/uv/).
+Wymagania: Python 3.12+ i [uv](https://docs.astral.sh/uv/). Działa na **Windows i macOS** —
+kod jest identyczny, różnią się tylko skrypty uruchomieniowe.
+
+### macOS
+
+macOS ma domyślnie Python 3.9, a projekt wymaga 3.12+ (używa `StrEnum` i `datetime.UTC`
+z Pythona 3.11). Nie musisz instalować Pythona ręcznie — `uv` zrobi to sam.
+
+```bash
+# jednorazowo: uv (jeśli nie masz)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# potem otwórz nowy terminal, żeby uv trafił do PATH
+
+cd ~/Desktop/EVRadar
+uv sync                 # pobierze też Pythona 3.12
+uv run evradar run
+```
+
+Raport leży w `out/index.html`, baza ofert w `data/evradar.db`. Zamiast komend:
+
+```bash
+./run_daily.sh                  # skan wszystkich źródeł
+./run_daily.sh --source mauto   # tylko wybrane źródła
+```
+
+Jeśli skrypty zgubią uprawnienia wykonywania (np. po sklonowaniu repo na innym komputerze):
+
+```bash
+chmod +x run_daily.sh publish_report.sh install_schedule.sh
+```
+
+### Windows
 
 ```powershell
 winget install astral-sh.uv        # jednorazowo; potem otwórz terminal ponownie
@@ -155,11 +186,35 @@ Raport z działającej strony budowany jest **lokalnie** i wypychany na gałąź
 .\publish_report.ps1            # publikacja ostatnio wygenerowanego raportu
 ```
 
+Na macOS to samo robi skrypt w bashu:
+
+```bash
+./publish_report.sh --scan      # skan + publikacja
+./publish_report.sh             # publikacja ostatnio wygenerowanego raportu
+```
+
+Oba skrypty robią dokładnie to samo: klonują `gh-pages` do katalogu tymczasowego, podmieniają
+`index.html`, dodają `.nojekyll` i wypychają commit **tylko wtedy, gdy raport faktycznie się
+zmienił**. Log z przebiegu trafia do `out/publish.log`.
+
 Ustawienie jednorazowe: *Settings → Pages → Source: Deploy from a branch → `gh-pages` / root*.
 
-**Dlaczego lokalnie, a nie w GitHub Actions?** Część serwisów (np. VWFS) odrzuca adresy IP centrów danych HTTP 403 już na `robots.txt`. Projekt traktuje to jak zakaz i niczego nie obchodzi — dlatego skan ze zwykłego łącza domowego widzi pełny komplet źródeł.
+**Dlaczego lokalnie, a nie w GitHub Actions?** Część serwisów (np. VWFS) odrzuca adresy IP centrów danych HTTP 403 już na `robots.txt`. Projekt traktuje to jak zakaz i niczego nie obchodzi — dlatego skan ze zwykłego łącza domowego widzi pełny komplet źródeł. Ta sama blokada dotyczy Cloudflare Workers i innych chmur — zmierzone: z adresów Cloudflare `store.vwfs.pl` i `otomoto.pl` zwracają 403, a `poleasingowe.pl` i `automarket.pl` odmawiają połączenia.
 
-**Codzienna automatyzacja (Harmonogram zadań Windows):**
+### macOS — codzienna automatyzacja (launchd)
+
+```bash
+./install_schedule.sh           # codziennie o 12:00
+./install_schedule.sh 8 30      # codziennie o 08:30
+./install_schedule.sh --status  # stan zadania + ostatnie wpisy z logu
+./install_schedule.sh --remove  # usunięcie zadania
+```
+
+Skrypt tworzy `~/Library/LaunchAgents/com.evradar.daily.plist` i ładuje go do `launchd`.
+Dlaczego `launchd`, a nie `cron`: **cron nie odpala zadań, gdy Mac jest uśpiony** — `launchd`
+z `RunAtLoad` wykona zaległy skan po wybudzeniu lub zalogowaniu.
+
+### Windows — codzienna automatyzacja (Harmonogram zadań)
 
 ```powershell
 $action  = New-ScheduledTaskAction -Execute "powershell.exe" -WorkingDirectory "C:\Dev\EVLeaseSentinel" `
@@ -170,6 +225,30 @@ Register-ScheduledTask -TaskName "EVRadar Daily Report" -Action $action -Trigger
 ```
 
 Workflow [`daily.yml`](.github/workflows/daily.yml) to opcjonalny, ręcznie uruchamiany skan na GitHub Actions (raport tylko jako artefakt, bez publikacji na Pages); skan z serwerów GitHuba pomija źródła blokujące adresy IP centrów danych. [`ci.yml`](.github/workflows/ci.yml) uruchamia lint, typy i testy przy każdym pushu.
+
+### Praca na dwóch komputerach — przeczytaj przed pierwszym skanem na Macu
+
+**Baza `data/evradar.db` jest lokalna dla komputera i nie jest w repozytorium.** Skan na
+innym komputerze startuje z pustą bazą — a to baza pamięta, które oferty już widziałeś.
+Skutki przy pierwszym przebiegu na nowej maszynie:
+
+- **wszystkie oferty pokażą się jako „nowe"** (baza nie zna poprzedniego stanu),
+- **żadna nie pokaże się jako „zniknęła"** ani nie dostaniesz obniżek cen — brak historii do porównania,
+- w sekcji **Trend cen modeli** i **Czas ekspozycji** nie będzie jeszcze danych (zbierają się od pierwszego skanu),
+- jeśli masz włączone powiadomienia Telegram, przyjdzie wiadomość o kilkuset „nowych" ofertach.
+
+Po jednym–dwóch skanach historia się uzupełnia i wszystko wraca do normy. Jeśli nie chcesz
+tego jednorazowego zamieszania, **skopiuj bazę** z komputera, który skanował dotąd:
+
+```bash
+# z Windows na Maca (albo odwrotnie) — plik ma zwykle kilkaset kB
+scp windows-pc:"C:/Dev/EVLeaseSentinel/data/evradar.db" ~/Desktop/EVRadar/data/evradar.db
+```
+
+**Zalecenie:** skanuj regularnie z **jednego** komputera, a na drugim używaj
+`uv run evradar report --last` do podejrzenia raportu z bazy — wtedy diffy i historia
+pozostają spójne. Publikacja na `gh-pages` z obu maszyn jest bezpieczna (raport jest
+generowany w całości), ale raport będzie odzwierciedlał stan tej bazy, z której powstał.
 
 **Powiadomienia (opcjonalne):** w `config/models.yaml` ustaw `notifications.enabled: true`, a w środowisku `TELEGRAM_BOT_TOKEN` i `TELEGRAM_CHAT_ID`. Wiadomość o nowych ofertach wychodzi tylko wtedy, gdy są nowe oferty; osobny alert wychodzi, gdy któreś źródło ma status `BŁĄD` lub `DO AKTUALIZACJI` (nie w trybie dry-run).
 
@@ -205,11 +284,15 @@ Projekt służy do osobistego przeglądu publicznie dostępnych ofert. Dane nale
 
 ## Rozwój
 
-```powershell
-uv run pytest         # testy offline (fixture'y w tests\fixtures\)
+```bash
+uv run pytest         # testy offline (fixture'y w tests/fixtures/) — 171 testów
 uv run ruff check .   # lint
 uv run mypy           # typy (strict)
 ```
+
+Te same polecenia działają na Windows i macOS. Pierwsze `uv sync` na macOS pobiera
+Pythona 3.12 automatycznie (systemowy 3.9 nie wystarczy — projekt używa `StrEnum`
+i `datetime.UTC`).
 
 ```text
 src/evradar/

@@ -69,8 +69,16 @@ small, .muted { color: var(--muted); }
 .ttl { font-weight: 650; font-size: 1.02rem; letter-spacing: -.01em; }
 .raw { color: var(--muted); font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .facts { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--muted); font-size: .86rem; }
+/* Cena brutto nad netto — osobne linie, żeby kolumna Cena nie rozpychała tabeli.
+   Netto mniejsze i wyciszone, bo brutto jest ceną decyzyjną.
+   UWAGA: makro `price()` wstawia `.gross`/`.net` wprost do <td class="num">,
+   bez otoczki `.price` — dlatego selektor celuje w `td .net`, a nie `.price .net`. */
 .price { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; }
 .price small { font-size: .72rem; font-weight: 500; }
+.price .gross, td .gross { font-weight: 700; }
+.price .net, td .net { display: block; font-size: .84rem; font-weight: 600;
+  color: var(--muted); margin-top: 1px; white-space: nowrap; }
+.price .net small, td .net small { font-size: .72rem; font-weight: 500; }
 .old { text-decoration: line-through; color: var(--muted); font-size: .95rem; margin-right: 6px; }
 .delta { font-weight: 650; color: var(--drop); background: var(--drop-bg); padding: 1px 8px; border-radius: 99px; font-size: .82rem; }
 .delta.up { color: var(--err); background: var(--err-bg); }
@@ -166,10 +174,10 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; text-align: ce
 <body>
 {% macro price(o) -%}
   {%- if o.price_gross_pln is not none -%}
-    {{ o.price_gross_pln|pln }} <small>brutto</small>
-    {%- if o.price_net_pln is not none %} <small>· {{ o.price_net_pln|pln }} netto</small>{% endif -%}
+    <span class="gross">{{ o.price_gross_pln|pln }}</span> <small>brutto</small>
+    {%- if o.price_net_pln is not none %}<span class="net">{{ o.price_net_pln|pln }} <small>netto</small></span>{% endif -%}
   {%- elif o.price_net_pln is not none -%}
-    {{ o.price_net_pln|pln }} <small>netto</small>
+    <span class="gross">{{ o.price_net_pln|pln }}</span> <small>netto</small>
   {%- else -%}<span class="muted">brak ceny</span>{%- endif -%}
 {%- endmacro %}
 
