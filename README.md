@@ -204,13 +204,20 @@ Ustawienie jednorazowe: *Settings → Pages → Source: Deploy from a branch →
 ### macOS — codzienna automatyzacja (launchd)
 
 ```bash
-./install_schedule.sh           # codziennie o 12:00
-./install_schedule.sh 8 30      # codziennie o 08:30
-./install_schedule.sh --status  # stan zadania + ostatnie wpisy z logu
-./install_schedule.sh --remove  # usunięcie zadania
+./install_schedule.sh             # domyślnie 12:00 i 18:00
+./install_schedule.sh 12:00 18:00 # jawnie: dwie pory dnia
+./install_schedule.sh 7:15 12:00 18:30   # trzy pory
+./install_schedule.sh --status    # stan zadania + ostatnie wpisy z logu
+./install_schedule.sh --remove    # usunięcie zadania
 ```
 
+Zalecany format to **`GODZINA:MINUTA`**, po jednym argumencie na porę dnia — jest jednoznaczny.
+Zapis `./install_schedule.sh 12 18` też zadziała (przy parzystej liczbie argumentów skrypt
+odrzuca go z komunikatem, bo „dwie godziny" i „godzina 12, minuta 18" to to samo wejście;
+użyj `12 18 21` dla samych godzin albo `12:00 18:00` dla pór z minutami).
+
 Skrypt tworzy `~/Library/LaunchAgents/com.evradar.daily.plist` i ładuje go do `launchd`.
+Wszystkie pory trafiają do **jednego** zadania (tablica `StartCalendarInterval`).
 Dlaczego `launchd`, a nie `cron`: **cron nie odpala zadań, gdy Mac jest uśpiony** — `launchd`
 z `RunAtLoad` wykona zaległy skan po wybudzeniu lub zalogowaniu.
 
