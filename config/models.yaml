@@ -2,22 +2,19 @@ targets:
   kia:
     - { model: "e-Niro", aliases: ["e Niro", "eNiro", "Niro EV", "Niro Electric"] }
     - { model: "Niro", aliases: ["Niro"], require_electric: true }   # odfiltruj HEV/PHEV
-    - { model: "EV4", aliases: ["EV 4"] }
     - { model: "EV3", aliases: ["EV 3"] }
     - { model: "EV6", aliases: ["EV 6"] }
   hyundai:
     - { model: "Kona Electric", aliases: ["Kona Elektryczna", "Kona EV", "Kona Electric"] }
     - { model: "Kona Electric", aliases: ["Kona"], require_electric: true }   # odfiltruj HEV/spalinowe
     - { model: "Ioniq 5", aliases: ["IONIQ5", "Ioniq5", "IONIQ 5", "Ionic 5"] }
+    - { model: "Ioniq 6", aliases: ["IONIQ6", "Ioniq6", "IONIQ 6", "Ionic 6"] }
   tesla:
     - { model: "Model 3", aliases: ["Model3", "Tesla 3"] }
     - { model: "Model Y", aliases: ["ModelY", "Tesla Y"] }
   volkswagen:
-    - { model: "ID.3", aliases: ["ID3", "ID 3", "ID.3 GTX"] }
     - { model: "ID.4", aliases: ["ID4", "ID 4", "ID.4 GTX"] }
     - { model: "ID.5", aliases: ["ID5", "ID 5", "ID.5 GTX"] }
-  skoda:
-    - { model: "Enyaq", aliases: ["Enyaq iV", "Enyaq Coupe", "Enyaq Coupe iV"] }
 brand_aliases:
   volkswagen: ["VW"]
 filters:
@@ -45,10 +42,6 @@ range_wltp:
   - { brand: Kia, model: "e-Niro", kwh: 64, km: 455, year_to: 2022 }
   - { brand: Kia, model: "Niro", kwh: 39.2, km: 289, year_to: 2022 }
   - { brand: Kia, model: "Niro", kwh: 64, km: 455, year_to: 2022 }
-  - { brand: Volkswagen, model: "ID.3", kwh: 45, km: 349 }
-  - { brand: Volkswagen, model: "ID.3", kwh: 58, km: 426 }
-  - { brand: Volkswagen, model: "ID.3", kwh: 77, km: 549 }
-  - { brand: Skoda, model: "Enyaq", kwh: 62, km: 412 }
 
 # Sekcja "Alternatywnie" w raporcie: gotowe wyszukiwania na portalach, których NIE skanujemy (tylko linki).
 # Otomoto jest skanowane (config/sources.yaml); OLX zwraca 403 na robots.txt, więc tylko linki.
@@ -60,14 +53,12 @@ alternatives:
       price_param: "search%5Bfilter_float_price%3Ato%5D"   # dodawane, gdy filters.max_price_gross_pln != null
   searches:
     - { label: "Kia Niro EV / e-Niro", olx: "kia/q-niro-ev" }
-    - { label: "Kia EV4", olx: "kia/q-ev4" }
     - { label: "Kia EV3", olx: "kia/q-ev3" }
     - { label: "Kia EV6", olx: "kia/q-ev6" }
     - { label: "Hyundai Kona Electric", olx: "hyundai/q-kona-electric" }
     - { label: "Hyundai Ioniq 5", olx: "hyundai/q-ioniq-5" }
+    - { label: "Hyundai Ioniq 6", olx: "hyundai/q-ioniq-6" }
     - { label: "Tesla Model 3", olx: "tesla/q-model-3" }
     - { label: "Tesla Model Y", olx: "tesla/q-model-y" }
-    - { label: "Volkswagen ID.3", olx: "volkswagen/q-id3" }
     - { label: "Volkswagen ID.4", olx: "volkswagen/q-id4" }
     - { label: "Volkswagen ID.5", olx: "volkswagen/q-id5" }
-    - { label: "Skoda Enyaq", olx: "skoda/q-enyaq" }

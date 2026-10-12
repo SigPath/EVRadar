@@ -60,7 +60,6 @@ def test_vw_other_models_rejected(matcher: ModelMatcher) -> None:
     "title",
     [
         "Audi Q4 e-tron 40",
-        "Hyundai Ioniq 6 77 kWh",
         "Volkswagen ID.7 Tourer GTX",
         "Tesla Model S Plaid",
         "Tesla Model X Long Range",
@@ -74,10 +73,9 @@ def test_removed_models_are_not_tracked(matcher: ModelMatcher, title: str) -> No
 @pytest.mark.parametrize(
     ("title", "brand", "model"),
     [
-        ("VW ID.3 Pro", None, "ID.3"),
-        ("Skoda Enyaq iV 85", None, "Enyaq"),
-        ("Enyaq Coupe", "Škoda", "Enyaq"),
         ("Kia EV6 GT", None, "EV6"),
+        ("Hyundai Ioniq 6 77 kWh", None, "Ioniq 6"),
+        ("IONIQ6 Long Range", "Hyundai", "Ioniq 6"),
         ("Kia EV3 Earth", None, "EV3"),
     ],
 )
@@ -137,8 +135,9 @@ def test_other_brand_or_model_rejected(matcher: ModelMatcher) -> None:
 
 
 def test_ev4_not_matched_inside_longer_token(matcher: ModelMatcher) -> None:
+    """EV4 został usunięty z configu — nie może przejść ani sam, ani jako EV400."""
+    assert matcher.match(listing("Kia EV4 Earth 81 kWh")) is None
     assert matcher.match(listing("Kia EV400 special")) is None
-    assert matcher.match(listing("Kia EV4 Earth 81 kWh")) is not None
 
 
 def test_kona(matcher: ModelMatcher) -> None:

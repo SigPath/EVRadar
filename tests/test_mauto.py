@@ -53,13 +53,24 @@ def test_new_tesla_matches_model_y() -> None:
 
 
 def test_ioniq_6_is_not_matched_as_ioniq_5_and_kona_matches() -> None:
+    """Zabezpieczenie cyfrowe: Ioniq 6 NIE MOŻE przejść jako Ioniq 5.
+
+    Test celowo nie zakłada, czy Ioniq 6 jest śledzony — sprawdza, że dopasowanie
+    jest ZGODNE z tytułem. Dzięki temu działa niezależnie od tego, czy model jest
+    w config/models.yaml, czy nie (wcześniej Ioniq 6 nie był śledzony i oczekiwano None).
+    """
     matcher = ModelMatcher(load_models_config().targets)
+    seen_six = seen_five = False
     for x in _load():
         m = matcher.match(x)
         if "Ioni" in x.title_raw:
             if re.search(r"(?i)ioni[qc]\s*6", x.title_raw):
-                assert m is None  # Ioniq 6 nie jest sledzony i nie moze przejsc jako Ioniq 5
+                seen_six = True
+                # Albo brak dopasowania (model nieśledzony), albo trafienie w Ioniq 6.
+                assert m is None or m.model == "Ioniq 6", f"Ioniq 6 dopasowany jako {m.model}"
             else:
+                seen_five = True
                 assert m is not None and m.model == "Ioniq 5"
         if x.model and x.model.startswith("Kona"):
             assert m is not None and m.model == "Kona Electric"
+    assert seen_six or seen_five  # fixture musi zawierać co najmniej jeden Ioniq
