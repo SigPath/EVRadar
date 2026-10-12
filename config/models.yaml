@@ -2,7 +2,6 @@ targets:
   kia:
     - { model: "e-Niro", aliases: ["e Niro", "eNiro", "Niro EV", "Niro Electric"] }
     - { model: "Niro", aliases: ["Niro"], require_electric: true }   # odfiltruj HEV/PHEV
-    - { model: "EV3", aliases: ["EV 3"] }
     - { model: "EV6", aliases: ["EV 6"] }
   hyundai:
     - { model: "Kona Electric", aliases: ["Kona Elektryczna", "Kona EV", "Kona Electric"] }
@@ -54,7 +53,6 @@ alternatives:
       price_param: "search%5Bfilter_float_price%3Ato%5D"   # dodawane, gdy filters.max_price_gross_pln != null
   searches:
     - { label: "Kia Niro EV / e-Niro", olx: "kia/q-niro-ev" }
-    - { label: "Kia EV3", olx: "kia/q-ev3" }
     - { label: "Kia EV6", olx: "kia/q-ev6" }
     - { label: "Hyundai Kona Electric", olx: "hyundai/q-kona-electric" }
     - { label: "Hyundai Ioniq 5", olx: "hyundai/q-ioniq-5" }

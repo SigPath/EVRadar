@@ -76,7 +76,6 @@ def test_removed_models_are_not_tracked(matcher: ModelMatcher, title: str) -> No
         ("Kia EV6 GT", None, "EV6"),
         ("Hyundai Ioniq 6 77 kWh", None, "Ioniq 6"),
         ("IONIQ6 Long Range", "Hyundai", "Ioniq 6"),
-        ("Kia EV3 Earth", None, "EV3"),
     ],
 )
 def test_added_models_match(
