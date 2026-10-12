@@ -27,6 +27,7 @@ filters:
     - 'cesj'                                        # cesja / cesji leasingu
     - 'przejec\w*\s+(umowy\s+)?leasing'             # przejęcie (umowy) leasingu
     - '\brata\b\s*(miesieczna\s*)?[:=-]?\s*(od\s*)?\d'  # "Rata 1500 zł", "rata miesięczna: 1 450"
+    - '\busa\b'                                     # auta sprowadzone z USA (import amerykański)
 notifications:
   enabled: false                # powiadomienie, gdy liczba nowych ofert > 0
   channel: telegram             # telegram | email (dane z zmiennych środowiskowych)
