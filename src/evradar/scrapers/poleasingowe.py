@@ -2,9 +2,13 @@
 
 Źródło danych: listing `https://poleasingowe.pl/pl/auctions/list/pub/all/vehicles` (formularz GET
 `#topsearchform`). Użyte parametry URL (zweryfikowane na żywo):
-  * `fueltype=216`      — rodzaj paliwa "Elektryczny" (id z `<select name="fueltype">`)
-  * `list_pagesize=50`  — liczba aukcji na stronę (domyślnie 10)
-  * `page=N`            — kolejne strony (gdy strona jest pełna)
+  * `fueltype=216`           — rodzaj paliwa "Elektryczny" (id z `<select name="fueltype">`)
+  * `procsubcat=ecr_cartypess` + `mainprodcat=vehicles` — tylko samochody osobowe
+    (bez tego w wynikach są busy: MAN TGE, Sprinter, Transit, Proace)
+  * `list_pagesize=20`       — liczba aukcji na stronę; **serwis ignoruje większe wartości**
+    (50 i 100 też zwracają 20), dlatego próg "pełnej strony" to 20 — inaczej po pierwszej
+    stronie uznajemy błędnie, że to koniec listy
+  * `page=N`                 — kolejne strony (gdy strona jest pełna)
 Kafelek `div.auction-element` ma `data-auction-id`, tytuł, etykiety `.filter-label` (rok, paliwo,
 przebieg), lokalizację i "Aktualna cena". robots.txt blokuje tylko panel licytującego i pliki.
 
@@ -25,7 +29,13 @@ from evradar.parsing import parse_int, parse_price
 from evradar.scrapers.base import BaseScraper
 
 LIST_URL = "https://poleasingowe.pl/pl/auctions/list/pub/all/vehicles"
-PAGE_SIZE = 50
+# Twardy limit serwisu: `list_pagesize` > 20 jest ignorowane, strona zawsze ma maks. 20 kafelków.
+PAGE_SIZE = 20
+_LIST_FILTERS: dict[str, str] = {
+    "fueltype": "216",  # Elektryczny
+    "procsubcat": "ecr_cartypess",  # samochody osobowe (bez dostawczych)
+    "mainprodcat": "vehicles",
+}
 _BG = re.compile(r"url\(([^)]+)\)")
 _KM = re.compile(r"\bkm\b", re.IGNORECASE)
 _YEAR = re.compile(r"^(19|20)\d{2}$")
@@ -91,7 +101,7 @@ class PoleasingoweScraper(BaseScraper):
     async def fetch(self) -> list[RawListing]:
         results: list[RawListing] = []
         for page in range(1, self.config.max_pages + 1):
-            params: dict[str, str | int] = {"fueltype": "216", "list_pagesize": PAGE_SIZE}
+            params: dict[str, str | int] = {**_LIST_FILTERS, "list_pagesize": PAGE_SIZE}
             if page > 1:
                 params["page"] = page
             listings = parse_listing(await self.get_text(LIST_URL, params))
