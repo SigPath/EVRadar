@@ -6,9 +6,22 @@ from pathlib import Path
 
 import pytest
 
-from evradar.scrapers.autoplac import parse_listing
+from evradar.config import SourceConfig
+from evradar.scrapers.autoplac import AutoplacScraper, parse_listing
 
 FIXTURE = Path(__file__).parent / "fixtures" / "autoplac" / "listing_page.html"
+
+
+def _cfg(paths: list[str]) -> SourceConfig:
+    return SourceConfig(
+        id="autoplac",
+        name="Autoplac",
+        url="https://a.pl",
+        delay_min_s=0,
+        delay_max_s=0,
+        max_pages=1,
+        params={"paths": paths},
+    )
 
 
 def test_parse_autoplac_listing() -> None:
@@ -35,3 +48,31 @@ def test_known_offers() -> None:
 def test_missing_ng_state_raises() -> None:
     with pytest.raises(ValueError, match="ng-state"):
         parse_listing("<html><body>brak danych</body></html>")
+
+
+async def test_one_broken_path_does_not_drop_other_paths(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Nieznany slug jednej ścieżki nie może wyzerować całego źródła (wzorzec z Otomoto)."""
+
+    async def fake_get_text(
+        self: AutoplacScraper, url: str, params: dict[str, object] | None = None
+    ) -> str:
+        if "kia/ev3" in url:
+            raise ValueError("Nieznany model w ścieżce 'kia/ev3' — sprawdź slug")
+        return FIXTURE.read_text(encoding="utf-8")
+
+    monkeypatch.setattr(AutoplacScraper, "get_text", fake_get_text)
+    listings = await AutoplacScraper(_cfg(["tesla/model-3", "kia/ev3"])).fetch()
+    assert len(listings) == 24
+
+
+async def test_all_paths_broken_reports_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    async def fake_get_text(
+        self: AutoplacScraper, url: str, params: dict[str, object] | None = None
+    ) -> str:
+        raise ValueError("Nieznany model w ścieżce — sprawdź slug")
+
+    monkeypatch.setattr(AutoplacScraper, "get_text", fake_get_text)
+    with pytest.raises(ValueError, match="wszystkie ścieżki zawiodły"):
+        await AutoplacScraper(_cfg(["tesla/model-3"])).fetch()

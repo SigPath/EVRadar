@@ -10,7 +10,8 @@ Adresy zapytań (zweryfikowane na żywo): `/oferty/samochody-osobowe/<marka>/<mo
 a kolejne strony to `?p=N` (24 oferty na stronę, `offerCount` = łączna liczba). Poza zakresem strona
 zwraca pierwszą stronę, więc kończymy po `offerCount`. Ścieżki `<marka>/<model>` są w
 `config/sources.yaml` (`params.paths`); nieznany model cicho zwraca całą markę (wykrywamy to po
-`filters.brandModelIds` i zgłaszamy błąd).
+`filters.brandModelIds` i zgłaszamy błąd). Nieudana ścieżka nie przerywa pozostałych — błąd źródła
+dopiero, gdy zawiodą wszystkie (wzorzec z Otomoto).
 
 Ceny: `priceInfo.primary` (`brutto: true` = brutto), `priceInfo.secondary` to cena w drugiej
 postaci tylko jako tekst ("32 439 zł" netto) — czytamy ją z tekstu, nic nie przeliczamy.
@@ -23,10 +24,15 @@ import re
 from typing import Any
 from urllib.parse import quote
 
+import httpx
+import structlog
+
 from evradar.models import RawListing
 from evradar.parsing import parse_kwh
 from evradar.scrapers.base import BaseScraper
 from evradar.scrapers.ngstate import extract_ng_state
+
+log = structlog.get_logger()
 
 BASE_URL = "https://autoplac.pl"
 PAGE_SIZE = 24
@@ -91,22 +97,40 @@ def parse_listing(html: str) -> tuple[list[RawListing], int]:
 class AutoplacScraper(BaseScraper):
     source_id = "autoplac"
 
+    async def _collect(self, base: str, path: str) -> dict[str, RawListing]:
+        """Wszystkie strony jednej ścieżki modelu (limit `max_pages`); wykrywa nieznany slug."""
+        url = f"{base}/oferty/samochody-osobowe/{quote(path, safe='/')}/elektryczny"
+        found: dict[str, RawListing] = {}
+        fetched = 0
+        for page in range(1, self.config.max_pages + 1):
+            html = await self.get_text(url, {"p": page} if page > 1 else None)
+            if page == 1:
+                ids = _search_body(html).get("filters", {}).get("brandModelIds") or []
+                if "/" in path and not any("_" in str(i) for i in ids):
+                    raise ValueError(f"Nieznany model w ścieżce '{path}' — sprawdź slug")
+            listings, total = parse_listing(html)
+            fetched += len(listings)
+            for item in listings:
+                found[item.external_id or item.url] = item
+            if not listings or fetched >= total:
+                break
+        return found
+
     async def fetch(self) -> list[RawListing]:
         base = self.config.url.rstrip("/")
+        paths = list(self.config.params.get("paths", []))
         results: dict[str, RawListing] = {}
-        for path in self.config.params.get("paths", []):
-            url = f"{base}/oferty/samochody-osobowe/{quote(path, safe='/')}/elektryczny"
-            fetched = 0
-            for page in range(1, self.config.max_pages + 1):
-                html = await self.get_text(url, {"p": page} if page > 1 else None)
-                if page == 1:
-                    ids = _search_body(html).get("filters", {}).get("brandModelIds") or []
-                    if "/" in path and not any("_" in str(i) for i in ids):
-                        raise ValueError(f"Nieznany model w ścieżce '{path}' — sprawdź slug")
-                listings, total = parse_listing(html)
-                fetched += len(listings)
-                for item in listings:
-                    results[item.external_id or item.url] = item
-                if not listings or fetched >= total:
-                    break
+        failed: list[str] = []
+        for path in paths:
+            try:
+                results.update(await self._collect(base, path))
+            except (ValueError, httpx.HTTPError) as exc:
+                # jedna ścieżka (nieznany slug, awaria) nie może przewrócić całego źródła
+                failed.append(path)
+                log.warning("autoplac_path_failed", path=path, error=str(exc))
+                continue
+        if failed and not results:
+            raise ValueError(f"wszystkie ścieżki zawiodły: {', '.join(failed)}")
+        if failed:
+            log.warning("autoplac_paths_partial", failed=failed, total=len(paths))
         return list(results.values())

@@ -55,20 +55,21 @@ sources:
     max_pages: 6                      # 24 oferty na stronę
     priority: 150
     params:
-      # ścieżki <marka>/<model> z Autoplac (nieznany model => błąd, a nie cicho cała marka)
+      # ścieżki <marka>/<model> z Autoplac; nieznany slug cicho zwraca całą markę — wykrywamy to
+      # po `filters.brandModelIds` (brak ID z "_" = poziom marki). Zweryfikowane 2026-10-13:
+      # hyundai/ioniq-6 = model 257_2893 (22 oferty), tesla/model-y = 555_5285 (tesla/y daje ten
+      # sam model). Usunięte kia/ev3, kia/ev4, volkswagen/id3, skoda/enyaq — modele nieobecne
+      # w config/models.yaml, więc ich wyniki i tak odpadały na dopasowaniu.
       paths:
         - kia/niro
-        - kia/ev4
-        - kia/ev3
         - kia/ev6
         - hyundai/kona
         - hyundai/ioniq-5
+        - hyundai/ioniq-6
         - tesla/model-3
         - tesla/model-y
-        - volkswagen/id3
         - volkswagen/id4
         - volkswagen/id5
-        - skoda/enyaq
   findcar:
     name: "FindCar"
     url: "https://findcar.pl"
