@@ -27,6 +27,19 @@ USER_AGENT = (
 RETRY_STATUS = {408, 429, 500, 502, 503, 504}  # 408: przekroczenie czasu po stronie serwisu
 
 
+def _retry_after(exc: Exception) -> float | None:
+    """Sekundy z nagłówka `Retry-After` (tylko format liczbowy; datę pomijamy)."""
+    if isinstance(exc, httpx.HTTPStatusError):
+        value = exc.response.headers.get("Retry-After")
+        if value is not None:
+            try:
+                seconds = float(value)
+            except ValueError:
+                return None
+            return seconds if seconds >= 0 else None
+    return None
+
+
 class BaseScraper(ABC):
     """Adapter jednego źródła. Podklasa implementuje `fetch()` i czystą funkcję `parse()`."""
 
@@ -77,8 +90,10 @@ class BaseScraper(ABC):
     @asynccontextmanager
     async def polite(self, url: str) -> AsyncIterator[None]:
         """Sprawdza robots.txt, ogranicza współbieżność i wstawia losowe opóźnienie."""
-        assert self._robots is not None
-        await self._robots.ensure_allowed(url)
+        robots = self._robots
+        if robots is None:
+            raise RuntimeError("Użyj `async with scraper:`")
+        await robots.ensure_allowed(url)
         async with self._sem:
             if self._requests:
                 await asyncio.sleep(
@@ -118,11 +133,15 @@ class BaseScraper(ABC):
             except (httpx.TransportError, httpx.HTTPStatusError) as exc:
                 last_exc = exc
                 wait = 2**attempt
+                hint = _retry_after(exc)
+                if hint is not None:
+                    wait = max(wait, hint)
                 log.warning(
                     "request_retry",
                     source=self.source_id,
                     url=url,
                     attempt=attempt + 1,
+                    wait_s=round(wait, 1),
                     error=str(exc),
                 )
                 if attempt + 1 < self.config.retries:
