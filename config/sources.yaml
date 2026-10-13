@@ -29,24 +29,26 @@ sources:
   otomoto:
     name: "Otomoto"
     url: "https://www.otomoto.pl"
-    max_pages: 6                      # 32 oferty na stronę, limit na jedną ścieżkę modelu
+    max_pages: 8                      # 32 oferty na stronę, limit na jedną ścieżkę modelu
     priority: 200                     # agregator: przy duplikacie wygrywa źródło bezpośrednie
     params:
-      # ścieżki <marka>/<model> z Otomoto (nieznany slug zwraca całą markę, np. Tesla Model Y = tesla/y)
+      # Ścieżki <marka>/<model> z Otomoto. UWAGA: nieistniejący slug NIE zwraca błędu — cicho
+      # zwraca całą markę (zweryfikowane 2026-10-12: `kia/e-niro` i `hyundai/kona-electric`
+      # zwracają całą markę, poprawnie jest `kia/niro` i `hyundai/kona`; `tesla/model-3`,
+      # `tesla/y`, `volkswagen/id4`, `volkswagen/id5`, `hyundai/ioniq-5`, `hyundai/ioniq-6`,
+      # `kia/ev6` trafiają we właściwy model). Ścieżki muszą pokrywać modele z config/models.yaml
+      # — oferta spoza `targets` jest odrzucana, więc martwa ścieżka to tylko zmarnowane żądania.
       exclude_damaged: true             # wytnij oferty z "Uszkodzony: Tak" (dodatkowe zapytanie na ścieżkę)
       paths:
-        - kia/niro
-        - kia/ev4
-        - kia/ev3
+        - kia/niro                      # pokrywa też e-Niro (Otomoto klasyfikuje je jako "Niro")
         - kia/ev6
-        - hyundai/kona
+        - hyundai/kona                  # pokrywa Kona Electric
         - hyundai/ioniq-5
+        - hyundai/ioniq-6
         - tesla/model-3
         - tesla/y
-        - volkswagen/id3
         - volkswagen/id4
         - volkswagen/id5
-        - skoda/enyaq
   autoplac:
     name: "Autoplac"
     url: "https://autoplac.pl"

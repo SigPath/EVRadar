@@ -20,15 +20,24 @@ Uszkodzone ("Uszkodzony: Tak"): pole nie występuje w liście wyników, więc dl
 pobieramy dodatkowo wyniki z `search[filter_enum_damaged]=1` i wycinamy te ID (oferty bez
 deklaracji zostają).
 Wyłączenie: `params.exclude_damaged: false` w `config/sources.yaml`.
+
+Odporność: Otomoto renderuje listingi po stronie serwera, ale jego własne zapytanie
+`listingScreen` potrafi przekroczyć limit czasu i wtedy strona wraca z HTTP 200 **bez wyników**
+(w `urqlState` jest wtedy `error.networkError`, np. `OptimusTimeoutError: [HTTP408] Timeout
+after 10000ms`). Taka odpowiedź to `ListingUnavailable` — ponawiamy stronę (`_SSR_RETRIES`),
+a nieudana ścieżka nie przerywa pozostałych: źródło zgłasza błąd dopiero, gdy zawiodą
+wszystkie ścieżki.
 """
 
 from __future__ import annotations
 
+import asyncio
 import json
 from datetime import datetime
 from typing import Any
 from urllib.parse import quote
 
+import httpx
 import structlog
 from selectolax.parser import HTMLParser
 
@@ -42,6 +51,11 @@ _PRICE_PARAM = "search[filter_float_price:to]"
 _FUEL_PARAM = "search[filter_enum_fuel_type]"
 _DAMAGED_PARAM = "search[filter_enum_damaged]"
 _SELLER_TYPES: dict[str, SellerType] = {"ProfessionalSeller": "dealer", "PrivateSeller": "private"}
+_SSR_RETRIES = 2  # dodatkowe próby strony, gdy SSR wróci bez wyników (timeout/eksperyment serwisu)
+
+
+class ListingUnavailable(Exception):
+    """SSR bez wyników wyszukiwania (timeout serwisu, zmiana struktury) — stan przejściowy."""
 
 
 def _created_at(value: object) -> datetime | None:
@@ -49,6 +63,16 @@ def _created_at(value: object) -> datetime | None:
         return datetime.fromisoformat(str(value)) if value else None
     except ValueError:
         return None
+
+
+def _ssr_reason(state: dict[str, Any]) -> str:
+    """Powód braku wyników: błąd zapytania `listingScreen` (np. timeout) albo zmiana struktury."""
+    for entry in state.values():
+        error = entry.get("error") or {}
+        detail = error.get("networkError") or error.get("message")
+        if detail:
+            return f"SSR bez wyników — {str(detail)[:200]}"
+    return "Brak advertSearch w urqlState — zmieniła się struktura strony"
 
 
 def _search_node(html: str) -> dict[str, Any]:
@@ -63,7 +87,7 @@ def _search_node(html: str) -> dict[str, Any]:
         if isinstance(data, dict) and "advertSearch" in data:
             search: dict[str, Any] = data["advertSearch"]
             return search
-    raise ValueError("Brak advertSearch w urqlState — zmieniła się struktura strony")
+    raise ListingUnavailable(_ssr_reason(state))
 
 
 def parse_listing(html: str) -> tuple[list[RawListing], int]:
@@ -108,16 +132,35 @@ def parse_listing(html: str) -> tuple[list[RawListing], int]:
 class OtomotoScraper(BaseScraper):
     source_id = "otomoto"
 
-    async def _collect(
-        self, base: str, path: str, params: dict[str, str]
-    ) -> dict[str, RawListing]:
+    async def _page(
+        self, url: str, params: dict[str, str], page: int, path: str
+    ) -> tuple[list[RawListing], int]:
+        """Jedna strona wyników; `ListingUnavailable` ponawiamy (timeout bywa jednostkowy)."""
+        last: ListingUnavailable | None = None
+        for attempt in range(_SSR_RETRIES + 1):
+            html = await self.get_text(url, {**params, "page": page})
+            try:
+                return parse_listing(html)
+            except ListingUnavailable as exc:
+                last = exc
+                if attempt < _SSR_RETRIES:
+                    log.warning(
+                        "otomoto_ssr_retry",
+                        path=path,
+                        page=page,
+                        attempt=attempt + 1,
+                        error=str(exc),
+                    )
+                    await asyncio.sleep((2**attempt) if self.config.delay_max_s > 0 else 0)
+        assert last is not None
+        raise last
+
+    async def _collect(self, base: str, path: str, params: dict[str, str]) -> dict[str, RawListing]:
         """Wszystkie strony wyników jednej ścieżki modelu (limit `max_pages`)."""
         found: dict[str, RawListing] = {}
+        url = f"{base}/osobowe/{quote(path, safe='/')}"
         for page in range(1, self.config.max_pages + 1):
-            html = await self.get_text(
-                f"{base}/osobowe/{quote(path, safe='/')}", {**params, "page": page}
-            )
-            listings, total = parse_listing(html)
+            listings, total = await self._page(url, params, page, path)
             for item in listings:
                 found[item.external_id or item.url] = item
             if not listings or len(found) >= total:
@@ -130,18 +173,35 @@ class OtomotoScraper(BaseScraper):
         if self.max_price_gross_pln is not None:
             params[_PRICE_PARAM] = str(self.max_price_gross_pln)
         exclude_damaged = bool(self.config.params.get("exclude_damaged", True))
+        paths: list[str] = list(self.config.params.get("paths", []))
         results: dict[str, RawListing] = {}
         damaged: set[str] = set()
-        for path in self.config.params.get("paths", []):
-            found = await self._collect(base, path, params)
+        failed: list[str] = []
+        for path in paths:
+            try:
+                found = await self._collect(base, path, params)
+            except (ListingUnavailable, httpx.HTTPError) as exc:
+                # jedna ścieżka nie może przewrócić całego źródła (oferty pozostałych są cenne)
+                failed.append(path)
+                log.warning("otomoto_path_failed", path=path, error=str(exc))
+                continue
             results.update(found)
-            if exclude_damaged and found:
+            if not (exclude_damaged and found):
+                continue
+            try:
                 marked = await self._collect(base, path, {**params, _DAMAGED_PARAM: "1"})
-                if len(marked) >= len(found):
-                    # filtr zignorowany (zmiana serwisu) — nie wycinamy wszystkiego
-                    log.warning("otomoto_damaged_filter_ignored", path=path)
-                else:
-                    damaged.update(marked)
+            except (ListingUnavailable, httpx.HTTPError) as exc:
+                log.warning("otomoto_path_failed", path=path, damaged=True, error=str(exc))
+                continue
+            if len(marked) >= len(found):
+                # filtr zignorowany (zmiana serwisu) — nie wycinamy wszystkiego
+                log.warning("otomoto_damaged_filter_ignored", path=path)
+            else:
+                damaged.update(marked)
+        if failed and not results:
+            raise ListingUnavailable(f"wszystkie ścieżki zawiodły: {', '.join(failed)}")
+        if failed:
+            log.warning("otomoto_paths_partial", failed=failed, total=len(paths))
         if damaged:
             log.info("excluded_damaged", count=len(damaged & results.keys()))
         return [item for key, item in results.items() if key not in damaged]

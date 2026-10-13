@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -9,7 +10,7 @@ import pytest
 from evradar.config import SourceConfig
 from evradar.models import RawListing
 from evradar.scrapers import otomoto
-from evradar.scrapers.otomoto import OtomotoScraper, parse_listing
+from evradar.scrapers.otomoto import ListingUnavailable, OtomotoScraper, parse_listing
 
 FIXTURE = Path(__file__).parent / "fixtures" / "otomoto" / "listing_page.html"
 
@@ -46,6 +47,120 @@ def test_company_offer_is_net_and_not_converted() -> None:
 def test_missing_next_data_raises() -> None:
     with pytest.raises(ValueError, match="__NEXT_DATA__"):
         parse_listing("<html><body>brak danych</body></html>")
+
+
+def _ssr_page(state: dict[str, object]) -> str:
+    payload = {"props": {"pageProps": {"urqlState": state}}}
+    return (
+        '<html><head><script id="__NEXT_DATA__" type="application/json">'
+        f"{json.dumps(payload)}</script></head></html>"
+    )
+
+
+def test_ssr_timeout_is_retryable_not_structure_change() -> None:
+    """Przypadek z 13.10.2026: HTTP 200, ale zapytanie `listingScreen` padło na timeout."""
+    state = {
+        "1": {"data": '{"__typename":"Query","filters":[]}', "hasNext": True},
+        "2": {
+            "data": None,
+            "hasNext": False,
+            "error": {
+                "networkError": "OptimusTimeoutError: [HTTP408] Timeout after 10000ms for the "
+                "request url: GET:https://www.otomoto.pl/graphql?operationName=listingScreen"
+            },
+        },
+    }
+    with pytest.raises(ListingUnavailable, match="HTTP408"):
+        parse_listing(_ssr_page(state))
+
+
+async def test_ssr_retry_recovers_after_timeout(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Pierwsza odpowiedź bez wyników, druga poprawna — strona ma być doliczona."""
+    calls = {"n": 0}
+
+    async def fake_get_text(
+        self: OtomotoScraper, url: str, query: dict[str, object] | None = None
+    ) -> str:
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return _ssr_page(
+                {"2": {"data": None, "error": {"networkError": "OptimusTimeoutError: [HTTP408]"}}}
+            )
+        return "ALL"
+
+    def fake_parse(html: str) -> tuple[list[RawListing], int]:
+        if html == "ALL":
+            item = RawListing(
+                source="otomoto", external_id="1", url="https://o.pl/1", title_raw="t"
+            )
+            return [item], 1
+        return parse_listing(html)
+
+    monkeypatch.setattr(OtomotoScraper, "get_text", fake_get_text)
+    monkeypatch.setattr(otomoto, "parse_listing", fake_parse)
+    scraper = OtomotoScraper(
+        SourceConfig(
+            id="otomoto",
+            name="Otomoto",
+            url="https://o.pl",
+            delay_min_s=0,
+            delay_max_s=0,
+            max_pages=1,
+            params={"paths": ["tesla/y"], "exclude_damaged": False},
+        )
+    )
+    assert [x.external_id for x in await scraper.fetch()] == ["1"]
+    assert calls["n"] == 2
+
+
+async def test_one_broken_path_does_not_drop_other_paths(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Ścieżka z timeoutem nie może wyzerować całego źródła (błąd z 13.10.2026)."""
+
+    async def fake_get_text(
+        self: OtomotoScraper, url: str, query: dict[str, object] | None = None
+    ) -> str:
+        if "ioniq-6" in url:
+            raise ListingUnavailable("SSR bez wyników — OptimusTimeoutError: [HTTP408]")
+        return "ALL"
+
+    def fake_parse(html: str) -> tuple[list[RawListing], int]:
+        items = [RawListing(source="otomoto", external_id="1", url="https://o.pl/1", title_raw="t")]
+        return items, len(items)
+
+    monkeypatch.setattr(OtomotoScraper, "get_text", fake_get_text)
+    monkeypatch.setattr(otomoto, "parse_listing", fake_parse)
+    cfg = SourceConfig(
+        id="otomoto",
+        name="Otomoto",
+        url="https://o.pl",
+        delay_min_s=0,
+        delay_max_s=0,
+        max_pages=1,
+        params={"paths": ["tesla/y", "hyundai/ioniq-6"], "exclude_damaged": False},
+    )
+    assert [x.external_id for x in await OtomotoScraper(cfg).fetch()] == ["1"]
+
+
+async def test_all_paths_broken_reports_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    async def fake_get_text(
+        self: OtomotoScraper, url: str, query: dict[str, object] | None = None
+    ) -> str:
+        raise ListingUnavailable("SSR bez wyników — OptimusTimeoutError: [HTTP408]")
+
+    monkeypatch.setattr(OtomotoScraper, "get_text", fake_get_text)
+    cfg = SourceConfig(
+        id="otomoto",
+        name="Otomoto",
+        url="https://o.pl",
+        delay_min_s=0,
+        delay_max_s=0,
+        max_pages=1,
+        params={"paths": ["tesla/y", "hyundai/ioniq-6"], "exclude_damaged": False},
+    )
+    with pytest.raises(ListingUnavailable, match="wszystkie ścieżki zawiodły"):
+        await OtomotoScraper(cfg).fetch()
 
 
 def _scraper(
