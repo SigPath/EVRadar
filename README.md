@@ -40,7 +40,7 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 - oferty **nowe, obniżki, powroty i podwyżki** wyglądają tak samo jak główna tabela (te same kolumny, sortowanie, ★ ✕),
 - z Otomoto są wycinane oferty oznaczone „Uszkodzony: Tak” (wyłączenie: `exclude_damaged: false` w `config/sources.yaml`).
 
-**Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV3 / EV4 / EV6, Hyundai Kona Electric / Ioniq 5, Tesla Model 3 / Model Y, Volkswagen ID.3 / ID.4 / ID.5, Skoda Enyaq.
+**Śledzone modele** (konfigurowalne w [`config/models.yaml`](config/models.yaml)): Kia e-Niro / Niro EV / EV6, Hyundai Kona Electric / Ioniq 5 / Ioniq 6, Tesla Model 3 / Model Y, Volkswagen ID.4 / ID.5.
 
 ## Źródła danych
 
@@ -118,7 +118,7 @@ chmod +x run_daily.sh publish_report.sh install_schedule.sh
 
 ```powershell
 winget install astral-sh.uv        # jednorazowo; potem otwórz terminal ponownie
-cd C:\Dev\EVLeaseSentinel
+cd C:\Dev\EVRadar
 uv sync
 uv run evradar run
 ```
@@ -152,8 +152,8 @@ targets:
 brand_aliases:
   volkswagen: ["VW"]
 filters:
-  max_price_gross_pln: 130000   # null = bez limitu
-  min_price_gross_pln: null     # opcjonalny dolny próg ceny
+  max_price_gross_pln: 145000   # null = bez limitu
+  min_price_gross_pln: 80000    # opcjonalny dolny próg ceny
   max_mileage_km: 122000
   min_year: 2021
   exclude_text_patterns:        # regexy na tytuł + opis (bez polskich znaków)
@@ -223,8 +223,8 @@ z `RunAtLoad` wykona zaległy skan po wybudzeniu lub zalogowaniu.
 ### Windows — codzienna automatyzacja (Harmonogram zadań)
 
 ```powershell
-$action  = New-ScheduledTaskAction -Execute "powershell.exe" -WorkingDirectory "C:\Dev\EVLeaseSentinel" `
-           -Argument '-NoProfile -ExecutionPolicy Bypass -File "C:\Dev\EVLeaseSentinel\publish_report.ps1" -Scan'
+$action  = New-ScheduledTaskAction -Execute "powershell.exe" -WorkingDirectory "C:\Dev\EVRadar" `
+           -Argument '-NoProfile -ExecutionPolicy Bypass -File "C:\Dev\EVRadar\publish_report.ps1" -Scan'
 $trigger = New-ScheduledTaskTrigger -Daily -At 12:00
 Register-ScheduledTask -TaskName "EVRadar Daily Report" -Action $action -Trigger $trigger `
            -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)
@@ -248,7 +248,7 @@ tego jednorazowego zamieszania, **skopiuj bazę** z komputera, który skanował 
 
 ```bash
 # z Windows na Maca (albo odwrotnie) — plik ma zwykle kilkaset kB
-scp windows-pc:"C:/Dev/EVLeaseSentinel/data/evradar.db" ~/Desktop/EVRadar/data/evradar.db
+scp windows-pc:"C:/Dev/EVRadar/data/evradar.db" ~/Desktop/EVRadar/data/evradar.db
 ```
 
 **Zalecenie:** skanuj regularnie z **jednego** komputera, a na drugim używaj
@@ -291,7 +291,7 @@ Projekt służy do osobistego przeglądu publicznie dostępnych ofert. Dane nale
 ## Rozwój
 
 ```bash
-uv run pytest         # testy offline (fixture'y w tests/fixtures/) — 171 testów
+uv run pytest         # testy offline (fixture'y w tests/fixtures/) — 183 testy
 uv run ruff check .   # lint
 uv run mypy           # typy (strict)
 ```
