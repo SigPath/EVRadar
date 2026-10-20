@@ -1,21 +1,23 @@
 # AGENTS.md — EVRadar
 
-> Dokument dla agentów AI i nowych osób w projekcie. Stan na **13.10.2026, po przebiegu 25 i wieczornych porządkach**.
+> Dokument dla agentów AI i nowych osób w projekcie. Stan na **20.10.2026, po dodaniu 4 źródeł
+> (Arval, EFL, Car Arena, Dawro)**.
 > Wszystkie liczby i ścieżki w tym pliku zostały zweryfikowane w kodzie i bazie, nie przepisane z README
 > (README w kilku miejscach jest nieaktualny — patrz sekcja 8).
 
 ## 1. Czym jest ten projekt
 
-EV Radar to agregator ofert **leasingowych i poleasingowych aut elektrycznych** z 9 polskich serwisów
+EV Radar to agregator ofert **leasingowych i poleasingowych aut elektrycznych** z 13 polskich serwisów
 (Otomoto, Autoplac, FindCar, mAuto, Automarket, VW Financial Services, Ayvens, Stellantis &You,
-Poleasingowe.pl). Codziennie pobiera oferty, dopasowuje je do wąskiej listy śledzonych modeli, porównuje
+Poleasingowe.pl, Arval AutoSelect, Aukcje EFL, Car Arena, Dawro). Codziennie pobiera oferty, dopasowuje
+je do wąskiej listy śledzonych modeli, porównuje
 wynik z poprzednim skanem i generuje **jeden samodzielny plik HTML** z raportem. Powstał dla jednej osoby
-szukającej EV w budżecie ~80–145 tys. zł, żeby nie przeklikiwać ręcznie dziewięciu portali i nie przegapić
+szukającej EV w budżecie ~80–145 tys. zł, żeby nie przeklikiwać ręcznie trzynastu portali i nie przegapić
 obniżek.
 
 **Status: MVP w codziennym użyciu, nie produkt.** Skan i publikację uruchamia się ręcznie
 (`./publish_report.sh --scan`); zadanie launchd (12:00) jest zainstalowane, ale **blokuje je TCC macOS**
-(patrz sekcja 7). W bazie jest 25 przebiegów i 232 aktywne oferty, testy: 183. Brak serwera, kont
+(patrz sekcja 7). W bazie jest 25 przebiegów i 232 aktywne oferty, testy: 205. Brak serwera, kont
 użytkowników i jakiejkolwiek wielodostępności — baza `data/evradar.db` jest lokalna dla komputera i nie
 podlega synchronizacji.
 
@@ -85,10 +87,14 @@ EVRadar/
 │       ├── otomoto.py        # Next.js SSR → `advertSearch`; per model, wycina „Uszkodzony: Tak"
 │       ├── autoplac.py       # Angular SSR `ng-state`; per model (`?p=N`)
 │       ├── findcar.py        # Angular SSR `ng-state` → TanStack Query; per marka
+│       ├── arval.py          # Arval AutoSelect — publiczne API JSON (energies=Electric), tylko sprzedaż
+│       ├── efl.py            # Aukcje EFL — HTML SSR, parametry z pagera (fc=10), limit 8/stronę, ceny netto
+│       ├── cararena.py       # Car Arena (Santander Leasing) — HTML SSR, ?field-fuel=electric, bez widgetu
+│       ├── dawro.py          # Dawro (Santander Consumer Multirent) — HTML SSR, brak paliwa → napęd z tytułu
 │       ├── ngstate.py        # pomocnik: parsowanie `<script id="ng-state">`
 │       └── nuxt.py           # dekoder formatu `devalue` z `__NUXT_DATA__` (Nuxt 3)
-├── tests/                    # 25 plików testów, 183 testy, wszystkie offline
-│   ├── fixtures/<źródło>/    # realne, przycięte odpowiedzi serwisów (9 katalogów) — selektorów nie wymyślamy
+├── tests/                    # 29 plików testów, 205 testów, wszystkie offline
+│   ├── fixtures/<źródło>/    # realne, przycięte odpowiedzi serwisów (13 katalogów) — selektorów nie wymyślamy
 │   └── test_*.py             # parser + przypadki brzegowe per źródło, plus testy runnera, diffów, raportu
 ├── data/
 │   ├── evradar.db            # baza stanu (NIE w repo, .gitignore)
@@ -278,7 +284,7 @@ przez stronę (nie sekret), ale przy rotacji trzeba go odświeżyć z `pl.sandy-
 
 ### ✅ Zrobione i działające
 
-- 9 adapterów źródeł z fixture'ami i testami; auto-discovery scraperów.
+- 13 adapterów źródeł z fixture'ami i testami; auto-discovery scraperów.
 - Raport HTML: nowe/obniżki/podwyżki/powroty/zniknięcia, „Do weryfikacji", filtry i suwaki, miniatury,
   wykresy ceny, Vs rynek, deprecjacja, trend cen modeli, czas ekspozycji, kafelki zdrowia źródeł,
   grupowanie po VIN, sekcja „Alternatywnie" (OLX).
@@ -286,7 +292,25 @@ przez stronę (nie sekret), ale przy rotacji trzeba go odświeżyć z `pl.sandy-
 - Automatyzacja: publikacja ręczna `./publish_report.sh --scan` + log `out/publish.log`; zadanie
   `launchd` (12:00) zainstalowane, ale **zablokowane przez TCC** (bash z launchd nie czyta `~/Desktop`) —
   do rozstrzygnięcia: Full Disk Access dla `/bin/bash` albo przeniesienie repo poza Desktop.
-- CI: `ruff` + `mypy` + `pytest` (183 testy) przy każdym pushu.
+- CI: `ruff` + `mypy` + `pytest` (205 testów) przy każdym pushu.
+- **Nowe źródła z 20.10.2026 (4 adaptery, 22 testy, wszystkie zweryfikowane skanem `--dry-run` na żywo):**
+  - **Arval AutoSelect** (`arval`): publiczne API JSON `portalapi-prod.autoselect.cloud/api/Announcements/17`
+    z `energies=Electric` (kod ze słownika `Filters/17`; polska nazwa z URL-a frontu nie działa w API).
+    robots frontu zabrania URL-i z parametrami, więc adapter chodzi wyłącznie przez API (host bez robots —
+    wzorzec mAuto). **Bug backendu:** `purchaseOption` w żądaniu po cichu kasuje filtr paliwa, dlatego oferty
+    najmu (`release`, cena 0) odrzuca adapter. Stan 20.10: **0 EV na sprzedaż** (32 EV = przedłużony najem).
+  - **Aukcje EFL** (`efl`): HTML SSR; paginacja działa tylko z parametrami z własnego pagera serwisu
+    (`category=12&sort=Title-asc&fc=10&page=N`, numeracja od 0) — kanoniczny `/AuctionList/Pojazdy/Osobowe`
+    ignoruje `page`. Twardy limit 8 ofert/stronę (`perPage` ignorowany). Ceny **netto** („Aktualna cena
+    (bez VAT)"). Paliwo filtrowane po stronie klienta („Napęd elektryczny" → „Elektryczny").
+  - **Car Arena** (`cararena`, Santander Leasing): HTML SSR, `?field-fuel=electric` działa serwerowo;
+    kafelki `.offers-item` są też w widgecie „top aukcje" (ignoruje filtr, ma ukryte ceny) — parser bierze
+    tylko `#auction_items_list`. Ceny brutto, bez paginacji.
+  - **Dawro** (`dawro`, Santander Consumer Multirent): HTML SSR z parametrami w ścieżce
+    (`sprzedawca,santander_scm,typ,10,ilosc,100`); strona poza zakresem zwraca stronę 1 (pętla kończy się
+    na powtórzonym ID). **Brak paliwa w serwisie** — napęd ocenia matching po tytule. Ceny **brutto**
+    (regulamin: „oferta = cena brutto"); zapisujemy najwyższą ofertę, a bez ofert — cenę wywoławczą.
+    Pierwszy skan: 19 aukcji → 2 oferty (Tesla Model Y 2023 96 100 zł, Tesla Model 3 LR 2023 95 500 zł).
 - **Naprawy z 13.10.2026 (commit `041d712`, `117d7d3`):**
   - Otomoto: odporność na `OptimusTimeoutError [HTTP408]` — `ListingUnavailable`, ponowienie strony,
     izolacja ścieżek (wcześniej jedna nieudana ścieżka zerowała całe źródło); dodana brakująca ścieżka
@@ -336,6 +360,15 @@ przez stronę (nie sekret), ale przy rotacji trzeba go odświeżyć z `pl.sandy-
 ## 8. Znane problemy i ograniczenia
 
 **Zbieranie danych (audyt lejka wszystkich 9 źródeł, 13.10.2026 wieczór — surowe → dopasowane → filtry):**
+
+- **Arval: 0 śledzonych ofert — strukturalnie, nie błąd adaptera.** Cała flota EV (32 szt.: Model Y×7,
+  Model 3×6, EQC×3, EV6×2, Enyaq×2, Mach-e×2, Leaf×2, Zoe, ID.4, Q4 e-tron, Megane, Kangoo, i3, Mini)
+  jest wystawiona wyłącznie jako **przedłużony najem** (`purchaseOption=release`, `salePrice=0`),
+  a filtr „tylko sprzedaż" w API nie działa (bug parametrów). Adapter wróci oferty, gdy Arval wystawi
+  EV na sprzedaż — to kwestia czasu, flota EV jest duża.
+- **Dawro: brak danych o paliwie w całym serwisie** — oferty śledzonych marek spalinowych (np. Niro
+  hybrydowe) trafiłyby do „Do weryfikacji" zamiast zostać odrzucone; obecnie przechodzą tylko tytuły
+  jednoznacznie elektryczne (Tesla) lub z „elektryczn*" w nazwie.
 
 - **Stellantis: ~202 surowe → 0 ofert i nie może być inaczej.** Parser działa poprawnie (marka/model
   z Algolii są poprawne), ale cały inwentarz to marki Grupy Stellantis (Peugeot 2008/308/5008,

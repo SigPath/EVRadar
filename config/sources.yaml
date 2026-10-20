@@ -75,3 +75,29 @@ sources:
     url: "https://findcar.pl"
     max_pages: 10                     # 15 ofert na stronę; zapytania po markach z config/models.yaml
     priority: 150
+  arval:
+    name: "Arval AutoSelect"
+    url: "https://autoselect.arval.pl"
+    max_pages: 2                      # pageSize=50 z API; 32 EV w całym portalu = 1 strona
+    # robots.txt frontu zabrania URL-i z parametrami (?energies=...) — adapter chodzi wyłącznie
+    # przez publiczne API portalapi-prod.autoselect.cloud (host bez robots.txt, wzorzec mAuto).
+    # Bug backendu: `purchaseOption` w żądaniu kasuje filtr `energies` (zweryfikowane 2026-10-20),
+    # więc filtr paliwa działa tylko bez niego, a oferty najmu (salePrice=0) odrzuca adapter.
+    # Stan na 2026-10-20: 0 EV na sprzedaż (32 EV = przedłużony najem) — źródło gotowe na wzrost.
+    params: {}
+  efl:
+    name: "Aukcje EFL"
+    url: "https://aukcje.efl.com.pl"
+    max_pages: 5                      # twardy limit 8 ofert/stronę; dziś 4 strony osobowych
+    params: {}
+  cararena:
+    name: "Car Arena"
+    url: "https://cararena.pl"        # aukcje Santander Leasing; bez paginacji przy filtrze EV
+    params: {}
+  dawro:
+    name: "Dawro"
+    url: "https://www.dawro.pl"       # aukcje Santander Consumer Multirent (sprzedawca=santander_scm)
+    max_pages: 3                      # ilosc,100 na stronę; dziś 19 aukcji osobowych = 1 strona
+    # Serwis nie podaje paliwa (ani w kafelku, ani w szczegółach) — napęd ocenia matching po tytule,
+    # więc część ofert może trafić do „Do weryfikacji". Ceny brutto (regulamin: „oferta = cena brutto").
+    params: {}

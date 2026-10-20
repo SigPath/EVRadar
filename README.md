@@ -17,7 +17,7 @@
 
 ## Co robi
 
-EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/poleasingowymi i ogłoszeniami (w tym Otomoto, Autoplac, FindCar), wyłuskuje wyłącznie **wybrane modele elektryczne** i porównuje wynik z poprzednim skanem. Efektem jest jeden plik `index.html` (bez serwera i zależności), który otwierasz dwuklikiem albo publikujesz na GitHub Pages.
+EV Radar codziennie odpytuje **13 polskich serwisów** z autami leasingowymi/poleasingowymi i ogłoszeniami (w tym Otomoto, Autoplac, FindCar), wyłuskuje wyłącznie **wybrane modele elektryczne** i porównuje wynik z poprzednim skanem. Efektem jest jeden plik `index.html` (bez serwera i zależności), który otwierasz dwuklikiem albo publikujesz na GitHub Pages.
 
 - 🆕 **Nowe oferty**, 📉 **obniżki cen**, ↩️ **wróciły**, ❌ **zniknęły** — od ostatniego skanu,
 - ⚠️ **Do weryfikacji** — oferty, przy których nie da się jednoznacznie stwierdzić, że to auto elektryczne (np. Kia Niro bez podanego paliwa); nic nie jest po cichu odrzucane,
@@ -55,6 +55,10 @@ EV Radar codziennie odpytuje **9 polskich serwisów** z autami leasingowymi/pole
 | **Otomoto** (`otomoto`) | SSR: `__NEXT_DATA__` → `advertSearch` (per model, paginacja; bez ofert „Uszkodzony: Tak”) | brutto lub netto (flaga `isGross`) |
 | **Autoplac** (`autoplac`) | SSR Angular: `ng-state` → lista ofert (per model, `?p=N`) | brutto + netto (gdy FV) |
 | **FindCar** (`findcar`) | SSR Angular: `ng-state` → TanStack Query (per marka, `/znajdz-samochod/N`) | brutto |
+| **Arval AutoSelect** (`arval`) | publiczne API JSON (`portalapi-prod.autoselect.cloud`, filtr `energies=Electric`; tylko oferty sprzedaży) | brutto + netto |
+| **Aukcje EFL** (`efl`) | HTML (aukcje; parametry z pagera serwisu, limit 8/stronę) | netto („bez VAT”) |
+| **Car Arena / Santander Leasing** (`cararena`) | HTML (aukcje; `?field-fuel=electric`, tylko główna lista) | brutto |
+| **Dawro / Santander Consumer Multirent** (`dawro`) | HTML (aukcje; brak paliwa w serwisie — napęd z tytułu) | brutto |
 
 **Nieskanowane:** OLX zwraca 403 już na `robots.txt`, a Allegro blokuje boty (403 na kategoriach) — traktujemy to jak zakaz i niczego nie omijamy. OLX mamy jako linki w sekcji **Alternatywnie**; część ogłoszeń z OLX jest i tak widoczna na Otomoto.
 
@@ -291,7 +295,7 @@ Projekt służy do osobistego przeglądu publicznie dostępnych ofert. Dane nale
 ## Rozwój
 
 ```bash
-uv run pytest         # testy offline (fixture'y w tests/fixtures/) — 183 testy
+uv run pytest         # testy offline (fixture'y w tests/fixtures/) — 205 testów
 uv run ruff check .   # lint
 uv run mypy           # typy (strict)
 ```
