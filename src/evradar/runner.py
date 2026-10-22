@@ -41,6 +41,10 @@ from evradar.storage import Storage
 log = structlog.get_logger()
 
 SOURCE_TIMEOUT_S = 600
+# Poniżej tej liczby ogłoszeń zero wyników to normalny stan (aukcje się kończą), nie alarm —
+# inaczej źródła typu EFL/Car Arena z 1-2 aukcjami wpadałyby w STALE po zakończeniu każdej z nich
+# (analogia do MIN_REF w health.py).
+STALE_MIN_RAW = 5
 
 
 def build_offers(
@@ -154,7 +158,7 @@ async def scan_source(
         async with scraper, asyncio.timeout(SOURCE_TIMEOUT_S):
             raw = await scraper.fetch()
         result.raw_count = len(raw)
-        if not raw and prev_raw_count > 0:
+        if not raw and prev_raw_count >= STALE_MIN_RAW:
             path = _save_debug(cfg.id, scraper.last_html, debug_dir)
             result.status = SourceStatus.STALE
             result.note = f"parser zwrócił 0 ogłoszeń (wcześniej {prev_raw_count})" + (

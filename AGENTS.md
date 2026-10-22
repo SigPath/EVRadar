@@ -416,6 +416,10 @@ przez stronę (nie sekret), ale przy rotacji trzeba go odświeżyć z `pl.sandy-
   niedziałającym zadaniu dziennym.
 - Baner „⚠ Problem ze źródłami" **nie oznacza**, że źródło nie działa — oferty takiego źródła pochodzą
   z poprzedniego skanu (dokładnie to zdarzyło się 13.10.2026 o 20:17, gdy Otomoto miało timeout).
+  Status STALE („brak ofert”) odpala się tylko, gdy źródło z co najmniej 5 ogłoszeniami nagle zwróci
+  0 (`STALE_MIN_RAW` w runner.py) — u serwisów aukcyjnych (EFL, Car Arena, Poleasingowe) zero ogłoszeń
+  po zakończeniu aukcji to stan normalny: źródło dostaje OK, a jego oferta uczciwie znika jako
+  „zniknięcie” (naprawa fałszywych alarmów z 22.10.2026).
 
 ## 9. Następne kroki
 

@@ -111,7 +111,8 @@ async def test_failure_is_isolated(
 async def test_stale_detection_saves_debug_html(
     monkeypatch: pytest.MonkeyPatch, models: ModelsConfig, tmp_path: Path
 ) -> None:
-    calls = iter([[make_listing("s", 100_000)], []])
+    five = [make_listing("s", 100_000 + i, str(i + 1)) for i in range(5)]
+    calls = iter([five, []])
     patch_scrapers(monkeypatch, {"s": lambda: next(calls)})
     db = Storage(":memory:")
     first, _ = await runner.run_scan([cfg("s")], models, db, debug_dir=tmp_path)
@@ -122,7 +123,27 @@ async def test_stale_detection_saves_debug_html(
     assert res.status is SourceStatus.STALE
     assert list(tmp_path.glob("s-*.html"))
     assert second.gone == []  # STALE nie oznacza zniknięcia ofert
-    assert len(second.active) == 1
+    assert len(second.active) == 5
+
+
+async def test_stale_ignored_for_tiny_sources(
+    monkeypatch: pytest.MonkeyPatch, models: ModelsConfig, tmp_path: Path
+) -> None:
+    """Źródło aukcyjne z 1-2 ogłoszeniami: zero to norma, nie STALE (błąd z 22.10.2026)."""
+    calls = iter([[make_listing("efl", 100_000)], []])
+    patch_scrapers(monkeypatch, {"efl": lambda: next(calls)})
+    db = Storage(":memory:")
+    await runner.run_scan([cfg("efl")], models, db, debug_dir=tmp_path)
+
+    second, _ = await runner.run_scan([cfg("efl")], models, db, debug_dir=tmp_path)
+    res = second.sources[0]
+    assert res.status is SourceStatus.OK
+    assert res.note is None
+    assert not list(tmp_path.glob("efl-*.html"))  # bez zrzutu debug
+    # OK z zerem ofert = źródło zdrowe, aukcja się skończyła -> uczciwe „zniknęło",
+    # a nie zamrożenie oferty „z poprzedniego skanu"
+    assert len(second.gone) == 1
+    assert len(second.active) == 0
 
 
 async def test_new_drop_gone_cycle(
